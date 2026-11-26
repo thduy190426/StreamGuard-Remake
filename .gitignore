@@ -1,0 +1,25 @@
+# Build & IDE outputs
+bin/
+obj/
+tests/bin/
+tests/obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.pdb
+*.log
+
+# Installers & local runtime caches
+installers/
+Captions/Runtime/
+*.zip.tmp
+
+# Secrets & certificates
+.env
+.env.*
+*.pfx
+*.key
+*.pem
+*.snk

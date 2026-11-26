@@ -1,0 +1,44 @@
+DRIVER BOOSTER — RESERVED RIGHTS NOTICE
+THÔNG BÁO BẢO LƯU QUYỀN
+
+English
+-------
+For the original material lawfully owned by the copyright holder identified in
+COPYRIGHT.md, all rights are reserved. This notice does not grant permission to
+copy, modify, publish, distribute, sublicense or commercially exploit that
+material. Obtain permission from the relevant rights holder unless another
+valid license or applicable law permits the intended use.
+
+This notice applies only to rights that the identified holder actually owns.
+It does not claim ownership of third-party code, libraries, pre-existing
+materials, names or trademarks. It does not override upstream licenses or
+withdraw permissions already validly granted under them.
+
+Third-party components remain subject to their own licenses, copyright notices
+and conditions. See THIRD-PARTY-NOTICES.txt, distributed with this application.
+Where a third-party license grants a permission, this notice does not restrict
+that permission for the third-party component.
+
+This is a rights notice, not a certificate of copyright or trademark
+registration, an assignment of rights, or a digital-signing certificate.
+
+Tiếng Việt
+----------
+Đối với phần nội dung nguyên gốc mà chủ sở hữu được ghi trong COPYRIGHT.md
+có quyền sở hữu hợp pháp, mọi quyền được bảo lưu. Thông báo này không cấp quyền
+sao chép, sửa đổi, công bố, phân phối, cấp lại quyền hoặc khai thác thương mại
+phần nội dung đó. Cần được chủ thể có quyền cho phép, trừ trường hợp một giấy
+phép hợp lệ khác hoặc pháp luật áp dụng đã cho phép việc sử dụng dự kiến.
+
+Thông báo chỉ áp dụng đối với các quyền mà chủ sở hữu thực sự có. Thông báo
+không tuyên bố sở hữu mã nguồn, thư viện, nội dung có sẵn, tên gọi hoặc nhãn hiệu
+của bên thứ ba; không thay thế giấy phép gốc hoặc thu hồi quyền đã được cấp
+hợp lệ theo giấy phép đó.
+
+Các thành phần bên thứ ba tiếp tục tuân theo giấy phép, thông báo bản quyền và
+điều kiện riêng. Xem THIRD-PARTY-NOTICES.txt đi kèm ứng dụng. Thông báo này không
+hạn chế các quyền mà giấy phép của một thành phần bên thứ ba đã cấp đối với
+chính thành phần đó.
+
+Đây là thông báo quyền, không phải giấy chứng nhận đăng ký quyền tác giả hoặc
+nhãn hiệu, văn bản chuyển giao quyền hay chứng thư ký số.

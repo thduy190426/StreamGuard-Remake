@@ -1,0 +1,2362 @@
+[
+  {
+    "Key": "Sidebar.ResizeHint",
+    "English": "Drag to resize the sidebar. Arrow keys: resize; Home: icons only; End: expand.",
+    "Vietnamese": "Kéo để đổi độ rộng thanh bên. Phím mũi tên: điều chỉnh; Home: chỉ hiện icon; End: mở rộng."
+  },
+  {
+    "Key": "UI.002",
+    "English": "Virtual Desktop Cloak",
+    "Vietnamese": "Ẩn bằng desktop ảo",
+    "Source": "Virtual Desktop Cloak"
+  },
+  {
+    "Key": "UI.003",
+    "English": "Shield Dashboard (Active Protected Apps)",
+    "Vietnamese": "Bảng bảo vệ (Ứng dụng được bảo vệ)",
+    "Source": "Shield Dashboard (Active Protected Apps)"
+  },
+  {
+    "Key": "UI.004",
+    "English": "Shield Dashboard",
+    "Vietnamese": "Bảng bảo vệ",
+    "Source": "Shield Dashboard"
+  },
+  {
+    "Key": "UI.005",
+    "English": "Running Explorer (Open Windows & Processes)",
+    "Vietnamese": "Ứng dụng đang chạy (Cửa sổ và tiến trình)",
+    "Source": "Running Explorer (Open Windows & Processes)"
+  },
+  {
+    "Key": "UI.006",
+    "English": "Running Explorer",
+    "Vietnamese": "Ứng dụng đang chạy",
+    "Source": "Running Explorer"
+  },
+  {
+    "Key": "UI.007",
+    "English": "Privacy & Security (Network & Device Isolation)",
+    "Vietnamese": "Riêng tư & Bảo mật (Cô lập mạng và thiết bị)",
+    "Source": "Privacy & Security (Network & Device Isolation)"
+  },
+  {
+    "Key": "UI.008",
+    "English": "Privacy & Security",
+    "Vietnamese": "Riêng tư & Bảo mật",
+    "Source": "Privacy & Security"
+  },
+  {
+    "Key": "UI.009",
+    "English": "Hotkeys & Technical Reference",
+    "Vietnamese": "Phím tắt & Tài liệu kỹ thuật",
+    "Source": "Hotkeys & Technical Reference"
+  },
+  {
+    "Key": "UI.010",
+    "English": "Hotkeys & Reference",
+    "Vietnamese": "Phím tắt & Hướng dẫn",
+    "Source": "Hotkeys & Reference"
+  },
+  {
+    "Key": "UI.011",
+    "English": "Ctrl+Shift+Alt+H — Immediately restore all protected windows to main desktop",
+    "Vietnamese": "Ctrl+Shift+Alt+H — Khôi phục ngay mọi cửa sổ được bảo vệ về desktop chính",
+    "Source": "Ctrl+Shift+Alt+H — Immediately restore all protected windows to main desktop"
+  },
+  {
+    "Key": "UI.012",
+    "English": "Panic: Restore All",
+    "Vietnamese": "Khôi phục tất cả",
+    "Source": "Panic: Restore All"
+  },
+  {
+    "Key": "UI.014",
+    "English": "Toggle Sidebar width",
+    "Vietnamese": "Thu gọn / mở rộng thanh bên",
+    "Source": "Toggle Sidebar width"
+  },
+  {
+    "Key": "UI.015",
+    "English": "OBS/Capture Cloaked",
+    "Vietnamese": "Ẩn khỏi OBS/Ghi hình",
+    "Source": "OBS/Capture Cloaked"
+  },
+  {
+    "Key": "UI.016",
+    "English": "Minimize",
+    "Vietnamese": "Thu nhỏ",
+    "Source": "Minimize"
+  },
+  {
+    "Key": "UI.017",
+    "English": "Maximize",
+    "Vietnamese": "Phóng to",
+    "Source": "Maximize"
+  },
+  {
+    "Key": "UI.018",
+    "English": "Close to Tray",
+    "Vietnamese": "Đóng xuống khay hệ thống",
+    "Source": "Close to Tray"
+  },
+  {
+    "Key": "UI.019",
+    "English": "Standby — click Start Protecting to activate shield",
+    "Vietnamese": "Sẵn sàng — bấm Bắt đầu bảo vệ để kích hoạt",
+    "Source": "Standby — click Start Protecting to activate shield"
+  },
+  {
+    "Key": "UI.020",
+    "English": "Virtual Desktop Cloaking",
+    "Vietnamese": "Ẩn bằng desktop ảo",
+    "Source": "Virtual Desktop Cloaking"
+  },
+  {
+    "Key": "UI.022",
+    "English": "Start Protecting",
+    "Vietnamese": "Bắt đầu bảo vệ",
+    "Source": "Start Protecting"
+  },
+  {
+    "Key": "UI.023",
+    "English": "Stop",
+    "Vietnamese": "Dừng",
+    "Source": "Stop"
+  },
+  {
+    "Key": "UI.024",
+    "English": "ACTIVE SHIELD LIST",
+    "Vietnamese": "DANH SÁCH BẢO VỆ",
+    "Source": "ACTIVE SHIELD LIST"
+  },
+  {
+    "Key": "UI.025",
+    "English": " (Drag & drop .exe here)",
+    "Vietnamese": " (Kéo thả tệp .exe vào đây)",
+    "Source": " (Drag & drop .exe here)"
+  },
+  {
+    "Key": "UI.026",
+    "English": "Add Running App",
+    "Vietnamese": "Thêm ứng dụng đang chạy",
+    "Source": "Add Running App"
+  },
+  {
+    "Key": "UI.027",
+    "English": "No Protected Apps Yet",
+    "Vietnamese": "Chưa có ứng dụng được bảo vệ",
+    "Source": "No Protected Apps Yet"
+  },
+  {
+    "Key": "UI.028",
+    "English": "Drag and drop an .exe here, or click below to pick from currently running windows.",
+    "Vietnamese": "Kéo thả tệp .exe vào đây hoặc bấm bên dưới để chọn cửa sổ đang chạy.",
+    "Source": "Drag and drop an .exe here, or click below to pick from currently running windows."
+  },
+  {
+    "Key": "UI.029",
+    "English": "Explore Running Windows",
+    "Vietnamese": "Xem cửa sổ đang mở",
+    "Source": "Explore Running Windows"
+  },
+  {
+    "Key": "UI.030",
+    "English": "Global hotkey to show / hide this app (click to change the hotkey)",
+    "Vietnamese": "Phím tắt toàn cục để Hiện / Ẩn nhanh ứng dụng này (Nhấp chuột để đổi phím tắt)",
+    "Source": "Phím tắt toàn cục để Hiện / Ẩn nhanh ứng dụng này (Nhấp chuột để đổi phím tắt)"
+  },
+  {
+    "Key": "UI.031",
+    "English": "Click here and press a key combination (e.g. Ctrl+Alt+1, Esc to cancel, Del to disable)",
+    "Vietnamese": "Nhấp chuột vào đây rồi bấm tổ hợp phím (ví dụ Ctrl+Alt+1, Esc để hủy, Del để tắt phím tắt)",
+    "Source": "Nhấp chuột vào đây rồi bấm tổ hợp phím (ví dụ Ctrl+Alt+1, Esc để hủy, Del để tắt phím tắt)"
+  },
+  {
+    "Key": "UI.032",
+    "English": "Toggle protection on/off",
+    "Vietnamese": "Bật / tắt bảo vệ",
+    "Source": "Toggle protection on/off"
+  },
+  {
+    "Key": "UI.033",
+    "English": "Secure",
+    "Vietnamese": "Mở an toàn",
+    "Source": "Secure"
+  },
+  {
+    "Key": "UI.034",
+    "English": "Stealth Launch or Focus",
+    "Vietnamese": "Khởi chạy ẩn hoặc chuyển đến ứng dụng",
+    "Source": "Stealth Launch or Focus"
+  },
+  {
+    "Key": "UI.035",
+    "English": "Control",
+    "Vietnamese": "Điều khiển",
+    "Source": "Control"
+  },
+  {
+    "Key": "UI.036",
+    "English": "Temporarily bring window forward",
+    "Vietnamese": "Tạm thời đưa cửa sổ ra phía trước",
+    "Source": "Temporarily bring window forward"
+  },
+  {
+    "Key": "UI.037",
+    "English": "Remove from protection list",
+    "Vietnamese": "Xóa khỏi danh sách bảo vệ",
+    "Source": "Remove from protection list"
+  },
+  {
+    "Key": "UI.038",
+    "English": "Search windows, processes, or exe files...",
+    "Vietnamese": "Tìm kiếm cửa sổ, tiến trình hoặc tệp exe...",
+    "Source": "Tìm kiếm cửa sổ, tiến trình hoặc tệp exe..."
+  },
+  {
+    "Key": "UI.039",
+    "English": "Refresh",
+    "Vietnamese": "Làm mới",
+    "Source": "Refresh"
+  },
+  {
+    "Key": "UI.040",
+    "English": "Add Selected",
+    "Vietnamese": "Thêm mục đã chọn",
+    "Source": "Add Selected"
+  },
+  {
+    "Key": "UI.041",
+    "English": "OPEN WINDOWS & ACTIVE PROCESSES (Click + Add or Double-click)",
+    "Vietnamese": "CỬA SỔ VÀ TIẾN TRÌNH ĐANG CHẠY (Bấm Thêm hoặc nhấp đúp)",
+    "Source": "OPEN WINDOWS & ACTIVE PROCESSES (Click + Add or Double-click)"
+  },
+  {
+    "Key": "UI.042",
+    "English": "No matching applications",
+    "Vietnamese": "Không tìm thấy ứng dụng phù hợp",
+    "Source": "Không tìm thấy ứng dụng phù hợp"
+  },
+  {
+    "Key": "UI.043",
+    "English": "Try another search term or click Clear Search.",
+    "Vietnamese": "Thử tìm kiếm với từ khóa khác hoặc bấm Xóa tìm kiếm.",
+    "Source": "Thử tìm kiếm với từ khóa khác hoặc bấm Xóa tìm kiếm."
+  },
+  {
+    "Key": "UI.044",
+    "English": "Clear Search",
+    "Vietnamese": "Xóa tìm kiếm",
+    "Source": "Xóa tìm kiếm"
+  },
+  {
+    "Key": "UI.045",
+    "English": "Add this application to Shield List",
+    "Vietnamese": "Thêm ứng dụng này vào danh sách bảo vệ",
+    "Source": "Add this application to Shield List"
+  },
+  {
+    "Key": "UI.046",
+    "English": "Add",
+    "Vietnamese": "Thêm",
+    "Source": "Add"
+  },
+  {
+    "Key": "UI.047",
+    "English": "RAIA containment idle",
+    "Vietnamese": "Cô lập RAIA chưa bật",
+    "Source": "RAIA containment idle"
+  },
+  {
+    "Key": "UI.048",
+    "English": "Click Contain RAIA to isolate telemetry and outbound monitors.",
+    "Vietnamese": "Bấm Cô lập RAIA để chặn đo lường và giám sát kết nối ra ngoài.",
+    "Source": "Click Contain RAIA to isolate telemetry and outbound monitors."
+  },
+  {
+    "Key": "UI.049",
+    "English": "Contain RAIA",
+    "Vietnamese": "Cô lập RAIA",
+    "Source": "Contain RAIA"
+  },
+  {
+    "Key": "UI.050",
+    "English": "NETWORK & HOST ISOLATION",
+    "Vietnamese": "CÔ LẬP MẠNG VÀ HOSTS",
+    "Source": "NETWORK & HOST ISOLATION"
+  },
+  {
+    "Key": "UI.051",
+    "English": "Block raia.edu.vn via system hosts",
+    "Vietnamese": "Chặn raia.edu.vn qua tệp hosts hệ thống",
+    "Source": "Block raia.edu.vn via system hosts"
+  },
+  {
+    "Key": "UI.052",
+    "English": "Isolate connection to raia.edu.vn",
+    "Vietnamese": "Cô lập kết nối đến raia.edu.vn",
+    "Source": "Isolate connection to raia.edu.vn"
+  },
+  {
+    "Key": "UI.053",
+    "English": "Block portal.rikkei.edu.vn via system hosts",
+    "Vietnamese": "Chặn portal.rikkei.edu.vn qua tệp hosts hệ thống",
+    "Source": "Block portal.rikkei.edu.vn via system hosts"
+  },
+  {
+    "Key": "UI.054",
+    "English": "Isolate connection to portal.rikkei.edu.vn",
+    "Vietnamese": "Cô lập kết nối đến portal.rikkei.edu.vn",
+    "Source": "Isolate connection to portal.rikkei.edu.vn"
+  },
+  {
+    "Key": "UI.055",
+    "English": "HARDWARE DEVICE PRIVACY GUARDS",
+    "Vietnamese": "BẢO VỆ QUYỀN RIÊNG TƯ THIẾT BỊ",
+    "Source": "HARDWARE DEVICE PRIVACY GUARDS"
+  },
+  {
+    "Key": "UI.056",
+    "English": "Block Windows camera access during stream",
+    "Vietnamese": "Chặn truy cập camera Windows khi phát trực tiếp",
+    "Source": "Block Windows camera access during stream"
+  },
+  {
+    "Key": "UI.057",
+    "English": "Disables system camera access for privacy",
+    "Vietnamese": "Tắt quyền truy cập camera hệ thống để bảo vệ riêng tư",
+    "Source": "Disables system camera access for privacy"
+  },
+  {
+    "Key": "UI.058",
+    "English": "Block Windows microphone access",
+    "Vietnamese": "Chặn truy cập micrô Windows",
+    "Source": "Block Windows microphone access"
+  },
+  {
+    "Key": "UI.059",
+    "English": "Disables microphone access for privacy",
+    "Vietnamese": "Tắt quyền truy cập micrô để bảo vệ riêng tư",
+    "Source": "Disables microphone access for privacy"
+  },
+  {
+    "Key": "UI.060",
+    "English": "ACTIVE WINDOW & FOCUS PRESERVATION",
+    "Vietnamese": "GIỮ CỬA SỔ HOẠT ĐỘNG VÀ TIÊU ĐIỂM",
+    "Source": "ACTIVE WINDOW & FOCUS PRESERVATION"
+  },
+  {
+    "Key": "UI.061",
+    "English": "ZERO DEACTIVATION",
+    "Vietnamese": "GIỮ NGUYÊN TIÊU ĐIỂM",
+    "Source": "ZERO DEACTIVATION"
+  },
+  {
+    "Key": "UI.062",
+    "English": "Enable Passive Focus Mode",
+    "Vietnamese": "Bật chế độ thao tác không cướp Focus (Passive Focus Mode)",
+    "Source": "Bật chế độ thao tác không cướp Focus (Passive Focus Mode)"
+  },
+  {
+    "Key": "UI.063",
+    "English": "Use Driver Booster without taking focus from Chrome or a full-screen application.",
+    "Vietnamese": "Thao tác trên Driver Booster mà không làm mất focus/active của Chrome hoặc ứng dụng toàn màn hình.",
+    "Source": "Thao tác trên Driver Booster mà không làm mất focus/active của Chrome hoặc ứng dụng toàn màn hình."
+  },
+  {
+    "Key": "UI.064",
+    "English": "When enabled, clicking, switching views, and browsing lists in Driver Booster will not activate its window. The application underneath keeps keyboard focus.",
+    "Vietnamese": "Khi bật, việc click chuột, đổi tab, xem danh sách trên Driver Booster sẽ không cướp Active Window của Windows. Cửa sổ Chrome toàn màn hình bên dưới vẫn giữ nguyên 100% Focus.",
+    "Source": "Khi bật, việc click chuột, đổi tab, xem danh sách trên Driver Booster sẽ không cướp Active Window của Windows. Cửa sổ Chrome toàn màn hình bên dưới vẫn giữ nguyên 100% Focus."
+  },
+  {
+    "Key": "UI.065",
+    "English": "BROWSER ANTI-BLUR & FOCUS LOCK (CHROME / EDGE)",
+    "Vietnamese": "GIỮ TIÊU ĐIỂM TRÌNH DUYỆT (CHROME / EDGE)",
+    "Source": "BROWSER ANTI-BLUR & FOCUS LOCK (CHROME / EDGE)"
+  },
+  {
+    "Key": "UI.066",
+    "English": "ANTI-TAB SWITCH DETECTION",
+    "Vietnamese": "CHẶN PHÁT HIỆN ĐỔI TAB",
+    "Source": "ANTI-TAB SWITCH DETECTION"
+  },
+  {
+    "Key": "UI.067",
+    "English": "Keep the current web page focused in Chrome. Blocks page events used to detect tab changes or leaving the page.",
+    "Vietnamese": "Khóa cứng trạng thái Focus cho trang web trên Chrome. Ngăn chặn phát hiện chuyển tab hoặc rời màn hình khi làm bài thi trực tuyến, test code hoặc xem nội dung toàn màn hình.",
+    "Source": "Khóa cứng trạng thái Focus cho trang web trên Chrome. Ngăn chặn phát hiện chuyển tab hoặc rời màn hình khi làm bài thi trực tuyến, test code hoặc xem nội dung toàn màn hình."
+  },
+  {
+    "Key": "UI.068",
+    "English": "Copy F12 Console Script",
+    "Vietnamese": "Sao chép mã F12 Console",
+    "Source": "📋 Sao chép mã F12 Console"
+  },
+  {
+    "Key": "UI.069",
+    "English": "Copy the anti-blur JavaScript to paste into the Chrome Console (F12)",
+    "Vietnamese": "Sao chép đoạn mã JavaScript chặn blur để dán vào tab Console (F12) trên Chrome",
+    "Source": "Sao chép đoạn mã JavaScript chặn blur để dán vào tab Console (F12) trên Chrome"
+  },
+  {
+    "Key": "UI.070",
+    "English": "Copy Bookmarklet (1-Click)",
+    "Vietnamese": "Sao chép Bookmarklet (1-Click)",
+    "Source": "⭐ Sao chép Bookmarklet (1-Click)"
+  },
+  {
+    "Key": "UI.071",
+    "English": "Copy the bookmarklet URL to create a one-click Chrome bookmark",
+    "Vietnamese": "Sao chép liên kết Bookmarklet để tạo dấu trang 1-click trên Chrome",
+    "Source": "Sao chép liên kết Bookmarklet để tạo dấu trang 1-click trên Chrome"
+  },
+  {
+    "Key": "UI.072",
+    "English": "💡 CHROME BUILT-IN OPTION (NO CODE NEEDED):",
+    "Vietnamese": "💡 HƯỚNG DẪN DÙNG CHROME GỐC (KHÔNG CẦN CODE):",
+    "Source": "💡 HƯỚNG DẪN DÙNG CHROME GỐC (KHÔNG CẦN CODE):"
+  },
+  {
+    "Key": "UI.073",
+    "English": "1. On the Chrome tab, press F12 (DevTools) → press Ctrl + Shift + P.",
+    "Vietnamese": "1. Trên tab Chrome, nhấn F12 (DevTools) → Nhấn Ctrl + Shift + P.",
+    "Source": "1. Trên tab Chrome, nhấn F12 (DevTools) → Nhấn Ctrl + Shift + P."
+  },
+  {
+    "Key": "UI.074",
+    "English": "2. Type 'Emulate a focused page' and press Enter.",
+    "Vietnamese": "2. Gõ 'Emulate a focused page' rồi nhấn Enter.",
+    "Source": "2. Gõ 'Emulate a focused page' rồi nhấn Enter."
+  },
+  {
+    "Key": "UI.075",
+    "English": "3. Chrome emulates a focused page. Support depends on the browser and the page.",
+    "Vietnamese": "3. Chrome sẽ khóa cứng trạng thái Focused 100%, trang web sẽ không bao giờ phát hiện mất focus!",
+    "Source": "3. Chrome sẽ khóa cứng trạng thái Focused 100%, trang web sẽ không bao giờ phát hiện mất focus!"
+  },
+  {
+    "Key": "UI.076",
+    "English": "GLOBAL HOTKEYS CHEAT SHEET",
+    "Vietnamese": "HƯỚNG DẪN PHÍM TẮT TOÀN CỤC",
+    "Source": "GLOBAL HOTKEYS CHEAT SHEET"
+  },
+  {
+    "Key": "UI.077",
+    "English": "Show / Hide Driver Booster window",
+    "Vietnamese": "Hiện / ẩn cửa sổ Driver Booster",
+    "Source": "Show / Hide Driver Booster window"
+  },
+  {
+    "Key": "UI.079",
+    "English": "Panic: Restore all protected windows to main screen",
+    "Vietnamese": "Khôi phục khẩn cấp mọi cửa sổ về màn hình chính",
+    "Source": "Panic: Restore all protected windows to main screen"
+  },
+  {
+    "Key": "UI.081",
+    "English": "Add active foreground window to Shield",
+    "Vietnamese": "Thêm cửa sổ đang thao tác vào danh sách bảo vệ",
+    "Source": "Add active foreground window to Shield"
+  },
+  {
+    "Key": "UI.083",
+    "English": "Toggle Black Privacy Curtain fallback",
+    "Vietnamese": "Bật / tắt màn che riêng tư màu đen",
+    "Source": "Toggle Black Privacy Curtain fallback"
+  },
+  {
+    "Key": "UI.085",
+    "English": "Emergency Close Driver Booster & managed apps",
+    "Vietnamese": "Đóng khẩn cấp Driver Booster và ứng dụng được quản lý",
+    "Source": "Emergency Close Driver Booster & managed apps"
+  },
+  {
+    "Key": "UI.087",
+    "English": "Launch / Bring forward individual protected app",
+    "Vietnamese": "Mở / đưa từng ứng dụng được bảo vệ ra phía trước",
+    "Source": "Launch / Bring forward individual protected app"
+  },
+  {
+    "Key": "UI.089",
+    "English": "STEALTH & SECURITY SPECIFICATION",
+    "Vietnamese": "THÔNG TIN BẢO VỆ VÀ QUYỀN RIÊNG TƯ",
+    "Source": "STEALTH & SECURITY SPECIFICATION"
+  },
+  {
+    "Key": "UI.090",
+    "English": "• Screen Capture Cloaking: SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) helps exclude the Driver Booster window from capture tools supported by Windows.",
+    "Vietnamese": "• Ẩn khỏi ghi hình: SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) giúp ẩn cửa sổ Driver Booster khỏi các công cụ ghi hình được Windows hỗ trợ.",
+    "Source": "• Screen Capture Cloaking: SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE) ensures Driver Booster itself is never recorded by OBS, Discord, Teams, or Screen Share."
+  },
+  {
+    "Key": "UI.091",
+    "English": "• Virtual Desktop Isolation: Apps in the active shield are relocated to Virtual Desktop 2 (hidden from the streaming desktop). Switch manually anytime via Win + Ctrl + Right Arrow.",
+    "Vietnamese": "• Cô lập bằng desktop ảo: Các ứng dụng được bảo vệ được chuyển sang Desktop 2. Chuyển thủ công bằng Win + Ctrl + Mũi tên phải.",
+    "Source": "• Virtual Desktop Isolation: Apps in the active shield are relocated to Virtual Desktop 2 (hidden from the streaming desktop). Switch manually anytime via Win + Ctrl + Right Arrow."
+  },
+  {
+    "Key": "UI.092",
+    "English": "• Window Wrapper Protection: A wrapper window helps protect process privacy.",
+    "Vietnamese": "• Bảo vệ bằng cửa sổ bao: Cửa sổ bao hỗ trợ bảo vệ quyền riêng tư của tiến trình.",
+    "Source": "• Window Wrapper Protection: High-integrity wrapper intercepts capture hooks to maintain process privacy."
+  },
+  {
+    "Key": "Settings.Language",
+    "English": "Language / Ngôn ngữ",
+    "Vietnamese": "Ngôn ngữ / Language"
+  },
+  {
+    "Key": "Settings.LanguageHint",
+    "English": "Changes apply immediately and are remembered for the next launch.",
+    "Vietnamese": "Áp dụng ngay và ghi nhớ cho lần khởi động tiếp theo."
+  },
+  {
+    "Key": "Message.000",
+    "English": "Click Contain RAIA when you want to apply blocks",
+    "Vietnamese": "Bấm Cô lập RAIA khi muốn áp dụng các biện pháp chặn"
+  },
+  {
+    "Key": "Message.001",
+    "English": "VD off - hide fallback ready",
+    "Vietnamese": "Desktop ảo không khả dụng — sẵn sàng ẩn dự phòng"
+  },
+  {
+    "Key": "Message.002",
+    "English": "VD ready + hide fallback",
+    "Vietnamese": "Desktop ảo và chế độ ẩn dự phòng đã sẵn sàng"
+  },
+  {
+    "Key": "Message.003",
+    "English": "Show / Hide",
+    "Vietnamese": "Hiện / Ẩn"
+  },
+  {
+    "Key": "Message.004",
+    "English": "Privacy Curtain",
+    "Vietnamese": "Màn che riêng tư"
+  },
+  {
+    "Key": "Message.005",
+    "English": "Panic — Show All",
+    "Vietnamese": "Khẩn cấp — Hiện tất cả"
+  },
+  {
+    "Key": "Message.006",
+    "English": "Exit",
+    "Vietnamese": "Thoát"
+  },
+  {
+    "Key": "Message.007",
+    "English": "Queued: visible",
+    "Vietnamese": "Đang chờ: hiển thị"
+  },
+  {
+    "Key": "Message.008",
+    "English": "Queued: secure launch ready",
+    "Vietnamese": "Đang chờ: sẵn sàng mở an toàn"
+  },
+  {
+    "Key": "Message.009",
+    "English": "Secure hotkey disabled",
+    "Vietnamese": "Đã tắt phím tắt bảo vệ"
+  },
+  {
+    "Key": "Message.010",
+    "English": "Invalid hotkey: {0}",
+    "Vietnamese": "Phím tắt không hợp lệ: {0}",
+    "TranslateArguments": [
+      0
+    ]
+  },
+  {
+    "Key": "Message.011",
+    "English": "Duplicate hotkey: {0}",
+    "Vietnamese": "Phím tắt bị trùng: {0}"
+  },
+  {
+    "Key": "Message.012",
+    "English": "Hotkey unavailable: {0}",
+    "Vietnamese": "Không thể đăng ký phím tắt: {0}"
+  },
+  {
+    "Key": "Message.013",
+    "English": "Secure hotkey ready: {0}",
+    "Vietnamese": "Phím tắt bảo vệ sẵn sàng: {0}"
+  },
+  {
+    "Key": "Message.014",
+    "English": "use a modifier, e.g. Ctrl+Alt+1",
+    "Vietnamese": "dùng phím bổ trợ, ví dụ Ctrl+Alt+1"
+  },
+  {
+    "Key": "Message.015",
+    "English": "only one non-modifier key is allowed",
+    "Vietnamese": "chỉ được dùng một phím chính"
+  },
+  {
+    "Key": "Message.016",
+    "English": "add Ctrl, Alt, or Shift",
+    "Vietnamese": "thêm Ctrl, Alt hoặc Shift"
+  },
+  {
+    "Key": "Message.017",
+    "English": "supported keys are A-Z, 0-9, and F1-F12",
+    "Vietnamese": "các phím được hỗ trợ: A-Z, 0-9 và F1-F12"
+  },
+  {
+    "Key": "Message.018",
+    "English": "Scanning",
+    "Vietnamese": "Đang quét"
+  },
+  {
+    "Key": "Message.019",
+    "English": "Could not scan open apps: {0}",
+    "Vietnamese": "Không thể quét ứng dụng đang mở: {0}"
+  },
+  {
+    "Key": "Message.020",
+    "English": "Ready to protect {0}",
+    "Vietnamese": "Sẵn sàng bảo vệ {0}"
+  },
+  {
+    "Key": "Message.021",
+    "English": "No app found to add. Open or select an app first.",
+    "Vietnamese": "Không có ứng dụng để thêm. Hãy mở hoặc chọn ứng dụng trước."
+  },
+  {
+    "Key": "Message.022",
+    "English": "Added {0} to protected apps",
+    "Vietnamese": "Đã thêm {0} vào danh sách bảo vệ"
+  },
+  {
+    "Key": "Message.023",
+    "English": "Available apps refreshed: {0}",
+    "Vietnamese": "Đã làm mới danh sách: {0} ứng dụng"
+  },
+  {
+    "Key": "Message.024",
+    "English": "Select an app in Available Apps, then click Add Selected",
+    "Vietnamese": "Chọn ứng dụng trong danh sách đang chạy, rồi bấm Thêm mục đã chọn"
+  },
+  {
+    "Key": "Message.025",
+    "English": "Driver Booster is already self-protected",
+    "Vietnamese": "Driver Booster đã được tự bảo vệ"
+  },
+  {
+    "Key": "Message.026",
+    "English": "Secure focus: {0} stays protected",
+    "Vietnamese": "Chuyển đến {0} an toàn, vẫn duy trì bảo vệ"
+  },
+  {
+    "Key": "Message.027",
+    "English": "Switched view to {0} on Desktop 2. Press hotkey or toggle again to return.",
+    "Vietnamese": "Đã chuyển đến {0} trên Desktop 2. Bấm phím tắt hoặc chuyển lại để quay về."
+  },
+  {
+    "Key": "Message.028",
+    "English": "No active window found for {0}",
+    "Vietnamese": "Không tìm thấy cửa sổ đang hoạt động của {0}"
+  },
+  {
+    "Key": "Message.029",
+    "English": "Visible for control at {0} - press Start Protecting again when done",
+    "Vietnamese": "Hiển thị để điều khiển lúc {0} — bấm Bắt đầu bảo vệ khi xong"
+  },
+  {
+    "Key": "Message.030",
+    "English": "Focused at {0}",
+    "Vietnamese": "Đã chuyển đến ứng dụng lúc {0}"
+  },
+  {
+    "Key": "Message.031",
+    "English": "Restored {0} for interaction. Press Start Protecting again when done.",
+    "Vietnamese": "Đã khôi phục {0} để thao tác. Bấm Bắt đầu bảo vệ khi xong."
+  },
+  {
+    "Key": "Message.032",
+    "English": "Focused {0}",
+    "Vietnamese": "Đã chuyển đến {0}"
+  },
+  {
+    "Key": "Message.033",
+    "English": "Hidden at {0} — hotkey to show again",
+    "Vietnamese": "Đã ẩn lúc {0} — bấm phím tắt để hiện lại"
+  },
+  {
+    "Key": "Message.034",
+    "English": "Hidden: {0} (press hotkey again to show)",
+    "Vietnamese": "Đã ẩn: {0} (bấm lại phím tắt để hiện)"
+  },
+  {
+    "Key": "Message.035",
+    "English": "Toggled desktop view for {0} on Desktop 2",
+    "Vietnamese": "Đã chuyển desktop cho {0} trên Desktop 2"
+  },
+  {
+    "Key": "Message.036",
+    "English": "Visible for interaction at {0}",
+    "Vietnamese": "Hiển thị để thao tác lúc {0}"
+  },
+  {
+    "Key": "Message.037",
+    "English": "Restored {0} to visible state. Press hotkey again to protect.",
+    "Vietnamese": "Đã hiện lại {0}. Bấm lại phím tắt để bảo vệ."
+  },
+  {
+    "Key": "Message.038",
+    "English": "Waiting: no visible window for secure hotkey",
+    "Vietnamese": "Đang chờ: không có cửa sổ hiển thị để dùng phím tắt bảo vệ"
+  },
+  {
+    "Key": "Message.039",
+    "English": "No visible window found for {0}",
+    "Vietnamese": "Không tìm thấy cửa sổ hiển thị của {0}"
+  },
+  {
+    "Key": "Message.040",
+    "English": "Secure hotkey protected {0}: windows={1}",
+    "Vietnamese": "Đã bảo vệ {0} bằng phím tắt: số cửa sổ={1}"
+  },
+  {
+    "Key": "Message.041",
+    "English": "Launching under protection...",
+    "Vietnamese": "Đang khởi chạy có bảo vệ..."
+  },
+  {
+    "Key": "Message.042",
+    "English": "Launch failed: {0}",
+    "Vietnamese": "Khởi chạy thất bại: {0}"
+  },
+  {
+    "Key": "Message.043",
+    "English": "Could not launch {0}: {1}",
+    "Vietnamese": "Không thể khởi chạy {0}: {1}"
+  },
+  {
+    "Key": "Message.044",
+    "English": "Secure focus at {0} - still protected",
+    "Vietnamese": "Chuyển đến ứng dụng an toàn lúc {0} — vẫn được bảo vệ"
+  },
+  {
+    "Key": "Message.045",
+    "English": "Failed: {0} window(s) could not be protected",
+    "Vietnamese": "Thất bại: không thể bảo vệ {0} cửa sổ"
+  },
+  {
+    "Key": "Message.046",
+    "English": "Failed: no protectable window found",
+    "Vietnamese": "Thất bại: không tìm thấy cửa sổ có thể bảo vệ"
+  },
+  {
+    "Key": "Message.047",
+    "English": "Protected: {0} window(s), wrap={1}, desktop={2}, hide={3}",
+    "Vietnamese": "Đã bảo vệ: {0} cửa sổ, bao={1}, desktop={2}, ẩn={3}"
+  },
+  {
+    "Key": "Message.048",
+    "English": "Protected: {0} window(s), desktop={1}, hide={2}",
+    "Vietnamese": "Đã bảo vệ: {0} cửa sổ, desktop={1}, ẩn={2}"
+  },
+  {
+    "Key": "Message.049",
+    "English": "Secure Desktop is experimental and disabled in this stable build. Use Start Protecting for the current protection flow.",
+    "Vietnamese": "Desktop bảo mật đang thử nghiệm và bị tắt trong bản ổn định này. Hãy dùng Bắt đầu bảo vệ."
+  },
+  {
+    "Key": "Message.050",
+    "English": "Shield Active",
+    "Vietnamese": "Đang bảo vệ"
+  },
+  {
+    "Key": "Message.051",
+    "English": "Choose a process first, then Start Protecting",
+    "Vietnamese": "Chọn tiến trình trước, rồi bấm Bắt đầu bảo vệ"
+  },
+  {
+    "Key": "Message.052",
+    "English": "Protected: {0} window(s), already active",
+    "Vietnamese": "Đã bảo vệ: {0} cửa sổ, đang hoạt động"
+  },
+  {
+    "Key": "Message.053",
+    "English": "Protected: already active",
+    "Vietnamese": "Đã bảo vệ: đang hoạt động"
+  },
+  {
+    "Key": "Message.054",
+    "English": "Waiting: no visible window for this process",
+    "Vietnamese": "Đang chờ: tiến trình chưa có cửa sổ hiển thị"
+  },
+  {
+    "Key": "Message.055",
+    "English": "Protection failed for {0} app(s). Try a normal visible window.",
+    "Vietnamese": "Không thể bảo vệ {0} ứng dụng. Hãy thử cửa sổ hiển thị thông thường."
+  },
+  {
+    "Key": "Message.056",
+    "English": "No matching visible app window found",
+    "Vietnamese": "Không tìm thấy cửa sổ hiển thị phù hợp"
+  },
+  {
+    "Key": "Message.057",
+    "English": "Protection active: {0} app(s), windows={1}, wrap={2}, desktop={3}, hide={4}, self=on",
+    "Vietnamese": "Đang bảo vệ: {0} ứng dụng, cửa sổ={1}, bao={2}, desktop={3}, ẩn={4}, tự bảo vệ=bật"
+  },
+  {
+    "Key": "Message.058",
+    "English": "Protection active: {0} app(s), windows={1}, desktop={2}, hide={3}, self=on",
+    "Vietnamese": "Đang bảo vệ: {0} ứng dụng, cửa sổ={1}, desktop={2}, ẩn={3}, tự bảo vệ=bật"
+  },
+  {
+    "Key": "Message.059",
+    "English": "No app protection active. Self-protection and RAIA shield are still on.",
+    "Vietnamese": "Không có ứng dụng đang được bảo vệ. Tự bảo vệ và trạng thái lá chắn RAIA được giữ nguyên."
+  },
+  {
+    "Key": "Message.060",
+    "English": "App protection stopped: windows restored. Self-protection and RAIA shield stay on.",
+    "Vietnamese": "Đã dừng bảo vệ và khôi phục cửa sổ. Tự bảo vệ và trạng thái lá chắn RAIA được giữ nguyên."
+  },
+  {
+    "Key": "Message.061",
+    "English": "Visible",
+    "Vietnamese": "Đang hiển thị"
+  },
+  {
+    "Key": "Message.062",
+    "English": "Passive Focus Mode enabled: Driver Booster clicks will not deactivate Chrome",
+    "Vietnamese": "Đã bật chế độ giữ tiêu điểm: thao tác Driver Booster không làm Chrome mất kích hoạt"
+  },
+  {
+    "Key": "Message.063",
+    "English": "Passive Focus Mode disabled: Standard window activation restored",
+    "Vietnamese": "Đã tắt chế độ giữ tiêu điểm: khôi phục kích hoạt cửa sổ thông thường"
+  },
+  {
+    "Key": "Message.064",
+    "English": "Applying website block...",
+    "Vietnamese": "Đang áp dụng chặn trang web..."
+  },
+  {
+    "Key": "Message.065",
+    "English": "Removing website block...",
+    "Vietnamese": "Đang gỡ chặn trang web..."
+  },
+  {
+    "Key": "Message.066",
+    "English": "Website block enabled: {0}",
+    "Vietnamese": "Đã bật chặn trang web: {0}"
+  },
+  {
+    "Key": "Message.067",
+    "English": "Website block disabled: {0}",
+    "Vietnamese": "Đã tắt chặn trang web: {0}"
+  },
+  {
+    "Key": "Message.068",
+    "English": "Applying camera and microphone preferences...",
+    "Vietnamese": "Đang áp dụng tùy chọn camera và micrô..."
+  },
+  {
+    "Key": "Message.069",
+    "English": "Camera blocked, microphone blocked",
+    "Vietnamese": "Camera bị chặn, micrô bị chặn"
+  },
+  {
+    "Key": "Message.070",
+    "English": "Camera blocked, microphone allowed",
+    "Vietnamese": "Camera bị chặn, micrô được phép"
+  },
+  {
+    "Key": "Message.071",
+    "English": "Camera allowed, microphone blocked",
+    "Vietnamese": "Camera được phép, micrô bị chặn"
+  },
+  {
+    "Key": "Message.072",
+    "English": "Camera allowed, microphone allowed",
+    "Vietnamese": "Camera được phép, micrô được phép"
+  },
+  {
+    "Key": "Message.073",
+    "English": "⚡ PANIC: All applications restored to main screen immediately!",
+    "Vietnamese": "⚡ KHẨN CẤP: Đã khôi phục ngay mọi ứng dụng về màn hình chính!"
+  },
+  {
+    "Key": "Message.074",
+    "English": "⚡ PANIC: All applications restored to main screen!",
+    "Vietnamese": "⚡ KHẨN CẤP: Đã khôi phục mọi ứng dụng về màn hình chính!"
+  },
+  {
+    "Key": "Message.075",
+    "English": "Driver Booster Panic",
+    "Vietnamese": "Driver Booster — Khôi phục khẩn cấp"
+  },
+  {
+    "Key": "Message.076",
+    "English": "All applications restored to main screen.",
+    "Vietnamese": "Đã khôi phục mọi ứng dụng về màn hình chính."
+  },
+  {
+    "Key": "Message.077",
+    "English": "Protected: {0} window(s)",
+    "Vietnamese": "Đã bảo vệ: {0} cửa sổ"
+  },
+  {
+    "Key": "Message.078",
+    "English": "Added {0} to shield list",
+    "Vietnamese": "Đã thêm {0} vào danh sách bảo vệ"
+  },
+  {
+    "Key": "Message.079",
+    "English": "No application windows yet",
+    "Vietnamese": "Chưa có cửa sổ ứng dụng nào",
+    "Source": "Chưa có cửa sổ ứng dụng nào"
+  },
+  {
+    "Key": "Message.080",
+    "English": "Open the application you want to protect, then click Refresh to scan again.",
+    "Vietnamese": "Mở ứng dụng bạn muốn bảo vệ rồi bấm Làm mới để quét lại.",
+    "Source": "Mở ứng dụng bạn muốn bảo vệ rồi bấm Refresh để quét lại."
+  },
+  {
+    "Key": "Message.081",
+    "English": "RAIA contained",
+    "Vietnamese": "Đã cô lập RAIA"
+  },
+  {
+    "Key": "Message.082",
+    "English": "RAIA containment active",
+    "Vietnamese": "Đang cô lập RAIA"
+  },
+  {
+    "Key": "Message.083",
+    "English": "Restore Down",
+    "Vietnamese": "Khôi phục kích thước"
+  },
+  {
+    "Key": "Message.084",
+    "English": "Press keys...",
+    "Vietnamese": "Nhấn phím...",
+    "Source": "Nhấn phím..."
+  },
+  {
+    "Key": "Message.085",
+    "English": "Hotkey disabled for {0}",
+    "Vietnamese": "Đã tắt phím tắt cho {0}",
+    "Source": "Đã tắt phím tắt cho {0}"
+  },
+  {
+    "Key": "Message.086",
+    "English": "Invalid hotkey for {0}: {1}",
+    "Vietnamese": "Phím tắt không hợp lệ cho {0}: {1}",
+    "Source": "Phím tắt không hợp lệ cho {0}: {1}",
+    "TranslateArguments": [
+      1
+    ]
+  },
+  {
+    "Key": "Message.087",
+    "English": "Hotkey conflicts with {0}",
+    "Vietnamese": "Trùng phím tắt với {0}",
+    "Source": "Trùng phím tắt với {0}"
+  },
+  {
+    "Key": "Message.088",
+    "English": "Hotkey {0} is already assigned to {1}! Please choose another hotkey.",
+    "Vietnamese": "Phím tắt {0} đã được gán cho {1}! Vui lòng chọn phím tắt khác.",
+    "Source": "Phím tắt {0} đã được gán cho {1}! Vui lòng chọn phím tắt khác."
+  },
+  {
+    "Key": "Message.089",
+    "English": "Assigned hotkey {0} to {1}",
+    "Vietnamese": "Đã gán phím tắt {0} cho {1} thành công",
+    "Source": "Đã gán phím tắt {0} cho {1} thành công"
+  },
+  {
+    "Key": "Message.090",
+    "English": "Recording hotkey for {0}: press a key combination (e.g. Ctrl+Alt+1), Esc to cancel, Del to clear",
+    "Vietnamese": "Đang ghi nhận phím tắt cho {0}: Bấm tổ hợp phím (ví dụ Ctrl+Alt+1), Esc để hủy, Del để xóa phím tắt",
+    "Source": "Đang ghi nhận phím tắt cho {0}: Bấm tổ hợp phím (ví dụ Ctrl+Alt+1), Esc để hủy, Del để xóa phím tắt"
+  },
+  {
+    "Key": "Message.091",
+    "English": "Cancelled hotkey change for {0}",
+    "Vietnamese": "Đã hủy đổi phím tắt cho {0}",
+    "Source": "Đã hủy đổi phím tắt cho {0}"
+  },
+  {
+    "Key": "Message.092",
+    "English": "A hotkey needs at least one modifier: Ctrl, Alt, or Shift (e.g. Ctrl+Alt+1)",
+    "Vietnamese": "Phím tắt cần ít nhất một phím bổ trợ: Ctrl, Alt hoặc Shift (ví dụ: Ctrl+Alt+1)",
+    "Source": "Phím tắt cần ít nhất một phím bổ trợ: Ctrl, Alt hoặc Shift (ví dụ: Ctrl+Alt+1)"
+  },
+  {
+    "Key": "Message.093",
+    "English": "Hotkey {0} is reserved for Driver Booster. Choose another combination (e.g. Ctrl+Alt+1..9)",
+    "Vietnamese": "Tổ hợp phím {0} đã dành riêng cho chức năng hệ thống Driver Booster. Hãy chọn phím khác (ví dụ: Ctrl+Alt+1..9)",
+    "Source": "Tổ hợp phím {0} đã dành riêng cho chức năng hệ thống Driver Booster. Hãy chọn phím khác (ví dụ: Ctrl+Alt+1..9)"
+  },
+  {
+    "Key": "Message.094",
+    "English": "Anti-Blur script copied! Open F12 → Console → paste (Ctrl+V), then press Enter.",
+    "Vietnamese": "Đã sao chép mã Anti-Blur! Mở F12 -> Console -> Dán (Ctrl+V) rồi Enter để khóa Focus trên Chrome.",
+    "Source": "Đã sao chép mã Anti-Blur! Mở F12 -> Console -> Dán (Ctrl+V) rồi Enter để khóa Focus trên Chrome."
+  },
+  {
+    "Key": "Message.095",
+    "English": "Could not copy to Clipboard: {0}",
+    "Vietnamese": "Không thể sao chép vào Clipboard: {0}",
+    "Source": "Không thể sao chép vào Clipboard: {0}"
+  },
+  {
+    "Key": "Message.096",
+    "English": "Bookmarklet copied! Create a new Chrome bookmark and paste into the URL field for one-click use.",
+    "Vietnamese": "Đã sao chép Bookmarklet! Tạo Dấu trang (Bookmark) mới trên Chrome và dán vào ô URL để dùng 1-Click.",
+    "Source": "Đã sao chép Bookmarklet! Tạo Dấu trang (Bookmark) mới trên Chrome và dán vào ô URL để dùng 1-Click."
+  },
+  {
+    "Key": "Message.097",
+    "English": "Secure hotkey: not set",
+    "Vietnamese": "Phím tắt bảo vệ: chưa đặt"
+  },
+  {
+    "Key": "Message.098",
+    "English": "Secure hotkey: {0}",
+    "Vietnamese": "Phím tắt bảo vệ: {0}"
+  },
+  {
+    "Key": "Detail.Total",
+    "English": "{0}. Total contained: {1}",
+    "Vietnamese": "{0}. Tổng đã cô lập: {1}",
+    "TranslateArguments": [
+      0
+    ]
+  },
+  {
+    "Key": "Service.000",
+    "English": "RAIA shield paused",
+    "Vietnamese": "Đã tạm dừng lá chắn RAIA"
+  },
+  {
+    "Key": "Service.001",
+    "English": "website block failed - run Driver Booster as Administrator",
+    "Vietnamese": "Chặn trang web thất bại — hãy chạy Driver Booster bằng quyền Quản trị viên"
+  },
+  {
+    "Key": "Service.002",
+    "English": "website unblock failed - run Driver Booster as Administrator",
+    "Vietnamese": "Gỡ chặn trang web thất bại — hãy chạy Driver Booster bằng quyền Quản trị viên"
+  },
+  {
+    "Key": "Service.003",
+    "English": "Website block applied: {0}",
+    "Vietnamese": "Đã áp dụng chặn trang web: {0}"
+  },
+  {
+    "Key": "Service.004",
+    "English": "RAIA websites unblocked in hosts",
+    "Vietnamese": "Đã gỡ chặn các trang RAIA trong hosts"
+  },
+  {
+    "Key": "Service.005",
+    "English": "Website block already set: {0}",
+    "Vietnamese": "Chặn trang web đã được thiết lập: {0}"
+  },
+  {
+    "Key": "Service.006",
+    "English": "RAIA websites block already off",
+    "Vietnamese": "Chặn trang RAIA đã tắt từ trước"
+  },
+  {
+    "Key": "Service.007",
+    "English": "camera denied, microphone denied",
+    "Vietnamese": "camera bị chặn, micrô bị chặn"
+  },
+  {
+    "Key": "Service.008",
+    "English": "camera denied, microphone allowed",
+    "Vietnamese": "camera bị chặn, micrô được phép"
+  },
+  {
+    "Key": "Service.009",
+    "English": "camera allowed, microphone denied",
+    "Vietnamese": "camera được phép, micrô bị chặn"
+  },
+  {
+    "Key": "Service.010",
+    "English": "camera allowed, microphone allowed",
+    "Vietnamese": "camera được phép, micrô được phép"
+  },
+  {
+    "Key": "Service.011",
+    "English": "updated {0} per-app RAIA privacy rule(s)",
+    "Vietnamese": "đã cập nhật {0} quy tắc riêng tư cho ứng dụng RAIA"
+  },
+  {
+    "Key": "Service.012",
+    "English": "camera devices re-enabled if Windows had disabled them",
+    "Vietnamese": "đã bật lại thiết bị camera nếu bị Windows tắt"
+  },
+  {
+    "Key": "Service.013",
+    "English": "WMI process-start watcher armed",
+    "Vietnamese": "đã bật theo dõi khởi chạy tiến trình WMI"
+  },
+  {
+    "Key": "Service.014",
+    "English": "record watcher armed",
+    "Vietnamese": "đã bật theo dõi bản ghi"
+  },
+  {
+    "Key": "Service.015",
+    "English": "detected {0} running RAIA process(es)",
+    "Vietnamese": "phát hiện {0} tiến trình RAIA đang chạy"
+  },
+  {
+    "Key": "Service.016",
+    "English": "RAIA containment active - no RAIA process found",
+    "Vietnamese": "Đang cô lập RAIA — không phát hiện tiến trình RAIA"
+  },
+  {
+    "Key": "Service.017",
+    "English": "record watcher saw RAIA executable artifact: {0}",
+    "Vietnamese": "bộ theo dõi phát hiện tệp thực thi RAIA: {0}"
+  },
+  {
+    "Key": "Service.018",
+    "English": "record watcher removed {0} new RAIA record item(s)",
+    "Vietnamese": "bộ theo dõi đã xóa {0} mục ghi RAIA mới"
+  },
+  {
+    "Key": "Service.019",
+    "English": "cleaned {0} RAIA record item(s)",
+    "Vietnamese": "đã dọn {0} mục ghi RAIA"
+  },
+  {
+    "Key": "Service.020",
+    "English": "locked RAIA ScreenRecords",
+    "Vietnamese": "đã khóa ScreenRecords của RAIA"
+  },
+  {
+    "Key": "Service.021",
+    "English": "cleared {0} RAIA WebView storage item(s)",
+    "Vietnamese": "đã dọn {0} mục lưu trữ WebView của RAIA"
+  },
+  {
+    "Key": "Service.022",
+    "English": "locked RAIA WebView storage",
+    "Vietnamese": "đã khóa lưu trữ WebView của RAIA"
+  },
+  {
+    "Key": "Service.023",
+    "English": "isolated {0} RAIA session file(s)",
+    "Vietnamese": "đã cô lập {0} tệp phiên RAIA"
+  },
+  {
+    "Key": "Service.024",
+    "English": "denied graphics capture for current user",
+    "Vietnamese": "đã chặn ghi hình cho người dùng hiện tại"
+  },
+  {
+    "Key": "Service.025",
+    "English": "applied {0} per-app RAIA privacy deny rule(s)",
+    "Vietnamese": "đã áp dụng {0} quy tắc chặn riêng tư cho ứng dụng RAIA"
+  },
+  {
+    "Key": "Service.026",
+    "English": "network lock skipped - run Driver Booster as Administrator",
+    "Vietnamese": "bỏ qua khóa mạng — hãy chạy Driver Booster bằng quyền Quản trị viên"
+  },
+  {
+    "Key": "Service.027",
+    "English": "RAIA allow firewall rules removed if present",
+    "Vietnamese": "đã gỡ các quy tắc tường lửa cho phép RAIA nếu có"
+  },
+  {
+    "Key": "Service.028",
+    "English": "ensured firewall block for {0} RAIA executable(s)",
+    "Vietnamese": "đã thiết lập chặn tường lửa cho {0} tệp thực thi RAIA"
+  },
+  {
+    "Key": "Service.029",
+    "English": "website block applied: {0}",
+    "Vietnamese": "đã áp dụng chặn trang web: {0}"
+  },
+  {
+    "Key": "Service.030",
+    "English": "RAIA websites block failed",
+    "Vietnamese": "Chặn các trang RAIA thất bại"
+  },
+  {
+    "Key": "Service.031",
+    "English": "Driver Booster Secure Desktop",
+    "Vietnamese": "Driver Booster — Desktop bảo mật"
+  },
+  {
+    "Key": "Service.032",
+    "English": "Return to normal desktop",
+    "Vietnamese": "Quay về desktop thông thường"
+  },
+  {
+    "Key": "Service.033",
+    "English": "Focus lock enabled on this page!",
+    "Vietnamese": "Đã bật khóa tiêu điểm trên trang này!"
+  },
+  {
+    "Key": "Detail.Device",
+    "English": "Device privacy unchanged: {0}",
+    "Vietnamese": "Quyền riêng tư thiết bị không thay đổi: {0}",
+    "TranslateArguments": [
+      0
+    ]
+  },
+  {
+    "Key": "Error.Startup",
+    "English": "Driver Booster startup failed:\n{0}\n\nLog: {1}",
+    "Vietnamese": "Không thể khởi động Driver Booster:\n{0}\n\nNhật ký: {1}"
+  },
+  {
+    "Key": "Error.Runtime",
+    "English": "Driver Booster hit an error and kept running:\n{0}\n\nLog: {1}",
+    "Vietnamese": "Driver Booster gặp lỗi và vẫn tiếp tục chạy:\n{0}\n\nNhật ký: {1}"
+  },
+  {
+    "Key": "Service.Return",
+    "English": "Secure Desktop is active.\r\nClose your protected app or click Return.",
+    "Vietnamese": "Desktop bảo mật đang hoạt động.\r\nĐóng ứng dụng được bảo vệ hoặc bấm Quay về."
+  },
+  {
+    "Key": "Settings.SaveFailed",
+    "English": "Language changed for this session, but could not be saved. Check configuration file permissions.",
+    "Vietnamese": "Đã đổi ngôn ngữ cho phiên này nhưng không lưu được. Hãy kiểm tra quyền ghi tệp cấu hình."
+  },
+  {
+    "Key": "Service.ProcessStart",
+    "English": "process-start watcher saw {0}",
+    "Vietnamese": "bộ theo dõi khởi chạy phát hiện {0}"
+  },
+  {
+    "Key": "Service.Artifact",
+    "English": "record watcher saw RAIA executable artifact",
+    "Vietnamese": "bộ theo dõi phát hiện tệp thực thi RAIA"
+  },
+  {
+    "Key": "Service.FileActivity",
+    "English": "record watcher saw RAIA file activity",
+    "Vietnamese": "bộ theo dõi phát hiện hoạt động tệp RAIA"
+  },
+  {
+    "Key": "Service.ProtectedTitle",
+    "English": "Driver Booster Protected - {0}",
+    "Vietnamese": "Driver Booster Bảo vệ - {0}"
+  },
+  {
+    "Key": "Clipboard.Title",
+    "English": "COPY & PASTE — CURRENT PAGE",
+    "Vietnamese": "SAO CHÉP & DÁN — TRANG HIỆN TẠI"
+  },
+  {
+    "Key": "Clipboard.Description",
+    "English": "Restore text selection, Copy, Cut, Paste and the context menu when a page blocks them using JavaScript or CSS.",
+    "Vietnamese": "Khôi phục chọn văn bản, Sao chép, Cắt, Dán và menu chuột phải khi trang chặn bằng JavaScript hoặc CSS."
+  },
+  {
+    "Key": "Clipboard.ConsoleButton",
+    "English": "Copy unlock script",
+    "Vietnamese": "Sao chép script mở khóa"
+  },
+  {
+    "Key": "Clipboard.BookmarkButton",
+    "English": "Copy Bookmarklet",
+    "Vietnamese": "Sao chép Bookmarklet"
+  },
+  {
+    "Key": "Clipboard.DisableButton",
+    "English": "Copy disable command",
+    "Vietnamese": "Sao chép lệnh tắt"
+  },
+  {
+    "Key": "Clipboard.ConsoleHint",
+    "English": "Copy JavaScript to run in the Console (F12) of the page you want to unlock.",
+    "Vietnamese": "Sao chép JavaScript để chạy trong Console (F12) của trang cần mở khóa."
+  },
+  {
+    "Key": "Clipboard.BookmarkHint",
+    "English": "Create a browser bookmark and paste this into its URL. Click the bookmark on the page to unlock.",
+    "Vietnamese": "Tạo dấu trang trình duyệt rồi dán vào ô URL. Bấm dấu trang khi đang ở trang cần mở khóa."
+  },
+  {
+    "Key": "Clipboard.DisableHint",
+    "English": "Run this command in the same page to restore the original behavior, or reload the page.",
+    "Vietnamese": "Chạy lệnh này trong cùng trang để khôi phục hành vi ban đầu, hoặc tải lại trang."
+  },
+  {
+    "Key": "Clipboard.Instructions",
+    "English": "1. Copy the script. 2. Open the target tab → F12 → Console. 3. Run it, then use Ctrl+C / Ctrl+V (Cmd on macOS). For a Bookmarklet, save it as a bookmark URL first.",
+    "Vietnamese": "1. Sao chép script. 2. Mở tab cần dùng → F12 → Console. 3. Chạy script rồi dùng Ctrl+C / Ctrl+V (Cmd trên macOS). Với Bookmarklet, lưu vào URL của dấu trang trước."
+  },
+  {
+    "Key": "Clipboard.Limits",
+    "English": "Applies only to this page/frame until reload. It does not change read-only/disabled fields or browser clipboard permissions. For an embedded frame, select its Console context. Complex web editors may require their own paste command.",
+    "Vietnamese": "Chỉ áp dụng cho trang/khung hiện tại đến khi tải lại. Không thay đổi ô chỉ đọc/bị vô hiệu hóa hoặc quyền clipboard của trình duyệt. Với khung nhúng, chọn đúng ngữ cảnh Console. Một số trình soạn thảo phức tạp có thể cần lệnh dán riêng."
+  },
+  {
+    "Key": "Clipboard.CopiedConsole",
+    "English": "Unlock script copied. Run it in the target tab's F12 → Console, then try Ctrl+C / Ctrl+V.",
+    "Vietnamese": "Đã sao chép script mở khóa. Chạy trong F12 → Console của tab cần dùng rồi thử Ctrl+C / Ctrl+V."
+  },
+  {
+    "Key": "Clipboard.CopiedBookmarklet",
+    "English": "Bookmarklet copied. Paste it into a bookmark's URL, then click the bookmark on the target page.",
+    "Vietnamese": "Đã sao chép Bookmarklet. Dán vào URL của dấu trang rồi bấm dấu trang trên trang cần dùng."
+  },
+  {
+    "Key": "Clipboard.CopiedDisable",
+    "English": "Disable command copied. Run it in the same page's Console, or reload the page to restore its behavior.",
+    "Vietnamese": "Đã sao chép lệnh tắt. Chạy trong Console của cùng trang, hoặc tải lại trang để khôi phục."
+  },
+  {
+    "Key": "Clipboard.ScriptEnabled",
+    "English": "Copy/paste unlock enabled for this page. Use normal copy/paste shortcuts. Reload or run window.__streamGuardClipboardUnlock.disable() to undo.",
+    "Vietnamese": "Đã mở khóa sao chép/dán cho trang này. Dùng phím tắt bình thường. Tải lại trang hoặc chạy window.__streamGuardClipboardUnlock.disable() để hoàn nguyên."
+  },
+  {
+    "Key": "Clipboard.ScriptDisabled",
+    "English": "Copy/paste unlock disabled; original page behavior restored.",
+    "Vietnamese": "Đã tắt mở khóa sao chép/dán; khôi phục hành vi ban đầu của trang."
+  },
+  {
+    "Key": "Clipboard.ScriptAlreadyEnabled",
+    "English": "Copy/paste unlock is already enabled on this page.",
+    "Vietnamese": "Trang này đã được bật mở khóa sao chép/dán."
+  },
+  {
+    "Key": "Capture.Title",
+    "English": "SCREEN CAPTURE PROTECTION",
+    "Vietnamese": "BẢO VỆ KHỎI GHI HÌNH"
+  },
+  {
+    "Key": "Capture.BadgeVerified",
+    "English": "Capture exclusion active",
+    "Vietnamese": "Đã bật ẩn ghi hình"
+  },
+  {
+    "Key": "Capture.BadgeLimited",
+    "English": "Capture: limited",
+    "Vietnamese": "Ẩn ghi hình: giới hạn"
+  },
+  {
+    "Key": "Capture.BadgeUnverified",
+    "English": "Capture not verified",
+    "Vietnamese": "Chưa xác minh bảo vệ"
+  },
+  {
+    "Key": "Capture.AffinityScope",
+    "English": "Windows capture exclusion is checked for Driver Booster's own window. This is not proof that all recording methods are blocked.",
+    "Vietnamese": "Đã kiểm tra cơ chế loại trừ ghi hình cho cửa sổ Driver Booster. Điều này không chứng minh mọi cách quay đều bị chặn."
+  },
+  {
+    "Key": "Capture.AffinityVerified",
+    "English": "Windows confirms capture exclusion on the Driver Booster window.",
+    "Vietnamese": "Windows đã xác nhận cờ loại trừ ghi hình trên cửa sổ Driver Booster."
+  },
+  {
+    "Key": "Capture.AffinityLimited",
+    "English": "Only legacy monitor-only protection was verified. Supported captures may show black rather than omit the window.",
+    "Vietnamese": "Chỉ xác minh được chế độ bảo vệ cũ: bản chụp được hỗ trợ có thể hiện màu đen thay vì loại bỏ cửa sổ."
+  },
+  {
+    "Key": "Capture.AffinityUnverified",
+    "English": "Capture exclusion has not been verified. Do not assume this window is hidden from recording.",
+    "Vietnamese": "Chưa xác minh cơ chế loại trừ ghi hình. Không nên mặc định cửa sổ này đã được ẩn khỏi bản ghi."
+  },
+  {
+    "Key": "Capture.NotScanned",
+    "English": "Capture-tool scan has not run yet.",
+    "Vietnamese": "Chưa quét công cụ quay/chia sẻ màn hình."
+  },
+  {
+    "Key": "Capture.ScanIncomplete",
+    "English": "Capture-tool scan is incomplete. Some processes could not be checked.",
+    "Vietnamese": "Chưa kiểm tra đầy đủ công cụ ghi hình. Một số tiến trình không thể được đọc."
+  },
+  {
+    "Key": "Capture.NoKnownTools",
+    "English": "No recognized capture tools found. Unknown tools, browser sharing and hardware capture may still be present.",
+    "Vietnamese": "Không thấy công cụ ghi hình đã nhận diện. Vẫn có thể có công cụ lạ, chia sẻ trong trình duyệt hoặc thiết bị ghi hình."
+  },
+  {
+    "Key": "Capture.DetectionScope",
+    "English": "Detects known process names, not recording activity. Includes OBS/Streamlabs, Bandicam/Camtasia/Snagit, ShareX/Snipping Tool, GPU overlays, meetings, remote access and browsers. Renamed or unknown tools can be missed.",
+    "Vietnamese": "Nhận diện tên tiến trình, không xác nhận đang quay. Gồm OBS/Streamlabs, Bandicam/Camtasia/Snagit, ShareX/Snipping Tool, lớp phủ GPU, ứng dụng họp, điều khiển từ xa và trình duyệt. Có thể bỏ sót công cụ lạ hoặc bị đổi tên."
+  },
+  {
+    "Key": "Capture.EnableGuard",
+    "English": "Auto-cover screens on capture tool detection",
+    "Vietnamese": "Tự động che màn hình khi có công cụ ghi hình"
+  },
+  {
+    "Key": "Capture.IncludeMultiPurpose",
+    "English": "Trigger for meetings, remote access and browsers",
+    "Vietnamese": "Kích hoạt với ứng dụng họp, điều khiển từ xa, trình duyệt"
+  },
+  {
+    "Key": "Capture.GuardOff",
+    "English": "Automatic capture curtain is off. Windows window exclusion remains independent.",
+    "Vietnamese": "Đang tắt màn che tự động theo công cụ ghi hình. Cơ chế loại trừ cửa sổ của Windows hoạt động riêng."
+  },
+  {
+    "Key": "Capture.GuardIdle",
+    "English": "Guard is enabled but idle until Start Protecting is active.",
+    "Vietnamese": "Đã bật chế độ che, sẽ hoạt động sau khi Bắt đầu bảo vệ."
+  },
+  {
+    "Key": "Capture.GuardPaused",
+    "English": "Automatic curtain paused for this protection session. Resume it here or restart protection.",
+    "Vietnamese": "Đã tạm dừng màn che tự động trong phiên bảo vệ này. Bấm Tiếp tục che hoặc khởi động lại bảo vệ."
+  },
+  {
+    "Key": "Capture.CurtainFailed",
+    "English": "Unable to cover every target screen. Do not rely on the curtain to hide sensitive content.",
+    "Vietnamese": "Không thể che đủ các màn hình. Không nên dựa vào màn che để giấu nội dung nhạy cảm."
+  },
+  {
+    "Key": "Capture.CurtainActive",
+    "English": "Desktop curtain active. It hides the visible desktop; direct window/GPU capture may bypass it.",
+    "Vietnamese": "Đang che màn hình. Màn che giấu nội dung hiển thị trên desktop; ghi trực tiếp cửa sổ/GPU vẫn có thể vượt qua."
+  },
+  {
+    "Key": "Capture.GuardWatching",
+    "English": "Watching for recognized tools every 3 seconds; no matching trigger is currently visible.",
+    "Vietnamese": "Đang kiểm tra công cụ đã nhận diện mỗi 3 giây; hiện chưa thấy điều kiện kích hoạt."
+  },
+  {
+    "Key": "Capture.ScanButton",
+    "English": "Scan capture tools",
+    "Vietnamese": "Quét công cụ ghi hình"
+  },
+  {
+    "Key": "Capture.ManualCurtain",
+    "English": "Toggle desktop curtain",
+    "Vietnamese": "Bật/tắt màn che"
+  },
+  {
+    "Key": "Capture.ResumeButton",
+    "English": "Resume auto curtain",
+    "Vietnamese": "Tiếp tục che tự động"
+  },
+  {
+    "Key": "Capture.Recovery",
+    "English": "Ctrl+Shift+Alt+C: remove and pause the automatic curtain. Ctrl+Shift+Alt+H: stop protection and restore app windows. Automatic covering is enabled by default and activates during a running protection session when a known recorder/screenshot tool is present.",
+    "Vietnamese": "Ctrl+Shift+Alt+C: gỡ và tạm dừng màn che tự động. Ctrl+Shift+Alt+H: dừng bảo vệ và khôi phục cửa sổ ứng dụng. Chế độ che mặc định được bật và tự kích hoạt khi đang bảo vệ ứng dụng, có công cụ quay/chụp đã nhận diện đang chạy."
+  },
+  {
+    "Key": "Capture.Limits",
+    "English": "A desktop curtain does not block direct window capture, browser tab/DOM capture, game/GPU hooks, capture drivers, HDMI recorders or cameras. A process being open is not evidence of recording. Stop sharing/recording or hide sensitive content for those paths.",
+    "Vietnamese": "Màn che desktop không chặn ghi trực tiếp cửa sổ, ghi tab/DOM trình duyệt, hook trò chơi/GPU, driver ghi hình, thiết bị HDMI hoặc máy quay. Tiến trình đang mở không chứng minh đang quay. Với các cách đó, cần dừng chia sẻ/ghi hình hoặc ẩn nội dung nhạy cảm."
+  },
+  {
+    "Key": "Capture.ToolList",
+    "English": "Recognized capture-capable tools present: {0}",
+    "Vietnamese": "Công cụ có khả năng ghi/chia sẻ đang chạy: {0}"
+  },
+  {
+    "Key": "Capture.NativeError",
+    "English": "Capture protection could not be verified (Windows error {0}).",
+    "Vietnamese": "Không xác minh được bảo vệ ghi hình (lỗi Windows {0})."
+  },
+  {
+    "Key": "Capture.SaveFailed",
+    "English": "Capture settings changed for this session but could not be saved. Check configuration file permissions.",
+    "Vietnamese": "Đã đổi thiết lập ghi hình cho phiên này nhưng không lưu được. Hãy kiểm tra quyền ghi tệp cấu hình."
+  },
+  {
+    "Key": "Capture.RecoveryUnavailable",
+    "English": "Automatic curtain unavailable: Ctrl+Shift+Alt+C could not be registered. Resolve the hotkey conflict before enabling screen covering.",
+    "Vietnamese": "Không bật màn che tự động: không đăng ký được Ctrl+Shift+Alt+C. Hãy xử lý xung đột phím tắt trước khi dùng màn che."
+  },
+  {
+    "Key": "Capture.InAppCursorCloak",
+    "English": "In-App Cursor Cloak",
+    "Vietnamese": "Tàng hình chuột trên ứng dụng"
+  },
+  {
+    "Key": "Capture.InAppCursorCloakTip",
+    "English": "Hide cursor from video captures when interacting with Driver Booster and live captions",
+    "Vietnamese": "Ẩn con trỏ chuột khỏi bản quay khi thao tác trên Driver Booster và cửa sổ phụ đề"
+  },
+  {
+    "Key": "Capture.GlobalCursorCloak",
+    "English": "Global Cursor Cloak (Ctrl+Shift+M)",
+    "Vietnamese": "Tàng hình chuột toàn màn hình (Ctrl+Shift+M)"
+  },
+  {
+    "Key": "Capture.GlobalCursorCloakTip",
+    "English": "Completely hide mouse cursor across all of Windows in OBS, Zoom, Teams screen recordings",
+    "Vietnamese": "Ẩn hoàn toàn con trỏ chuột trên toàn bộ Windows trong các bản quay màn hình của OBS/Zoom/Teams"
+  },
+  {
+    "Key": "Capture.GlobalCursorCloakOff",
+    "English": "Global cursor cloak: Inactive",
+    "Vietnamese": "Tàng hình chuột toàn màn hình: Đang tắt"
+  },
+  {
+    "Key": "Capture.GlobalCursorCloakOn",
+    "English": "Global cursor cloak: Active (Ctrl+Shift+M to toggle)",
+    "Vietnamese": "Tàng hình chuột toàn màn hình: Đang bật (Ctrl+Shift+M để tắt)"
+  },
+  {
+    "Key": "Capture.CursorCloakEnabledToast",
+    "English": "Global stealth cursor cloak enabled (Ctrl+Shift+M to toggle)",
+    "Vietnamese": "Đã kích hoạt tàng hình con trỏ chuột toàn màn hình (Ctrl+Shift+M để tắt)"
+  },
+  {
+    "Key": "Capture.CursorCloakDisabledToast",
+    "English": "Default Windows system cursor restored",
+    "Vietnamese": "Đã khôi phục con trỏ chuột hệ thống của Windows"
+  },
+  {
+    "Key": "Safety.Blocked",
+    "English": "System or unverified processes cannot be managed.",
+    "Vietnamese": "Không được thao tác với tiến trình hệ thống hoặc tiến trình chưa xác minh được."
+  },
+  {
+    "Key": "Safety.RestoreIncomplete",
+    "English": "App protection stopped. Some windows could not be verified and were left unchanged.",
+    "Vietnamese": "Đã dừng bảo vệ. Một số cửa sổ chưa xác minh được nên được giữ nguyên, không thao tác."
+  },
+  {
+    "Key": "Audit.ReservedHotkey",
+    "English": "This shortcut is reserved for application recovery.",
+    "Vietnamese": "Phím tắt này dành riêng cho chức năng khôi phục của ứng dụng."
+  },
+  {
+    "Key": "Audit.RestoreFailed",
+    "English": "Some windows could not be restored. Recovery information has been retained.",
+    "Vietnamese": "Không thể khôi phục một số cửa sổ. Thông tin khôi phục vẫn được giữ lại."
+  },
+  {
+    "Key": "Audit.OpenFailed",
+    "English": "Could not open application: {0}",
+    "Vietnamese": "Không thể mở ứng dụng: {0}"
+  },
+  {
+    "Key": "Audit.StartFailed",
+    "English": "Could not start protection: {0}",
+    "Vietnamese": "Không thể bắt đầu bảo vệ: {0}"
+  },
+  {
+    "Key": "Audit.ConfigRecovered",
+    "English": "Configuration restored from backup. Review your application list and preferences.",
+    "Vietnamese": "Đã khôi phục cấu hình từ bản dự phòng. Hãy kiểm tra danh sách ứng dụng và các tùy chọn."
+  },
+  {
+    "Key": "Audit.ConfigUnreadable",
+    "English": "Configuration could not be read. The original file has been retained; review preferences before applying changes.",
+    "Vietnamese": "Không thể đọc cấu hình. File gốc vẫn được giữ lại; hãy kiểm tra tùy chọn trước khi áp dụng thay đổi."
+  },
+  {
+    "Key": "Audit.PreferenceFailed",
+    "English": "Could not apply preferences: {0}",
+    "Vietnamese": "Không thể áp dụng tùy chọn: {0}"
+  },
+  {
+    "Key": "Recovery.Title",
+    "English": "Recovery Center",
+    "Vietnamese": "Trung tâm khôi phục"
+  },
+  {
+    "Key": "Recovery.Description",
+    "English": "Review managed windows and unfinished recovery from earlier sessions. A window is restored only when its original identity can be verified.",
+    "Vietnamese": "Xem các cửa sổ đang được quản lý và mục chưa khôi phục từ phiên trước. Chỉ khôi phục khi xác minh được đúng cửa sổ gốc."
+  },
+  {
+    "Key": "Recovery.RestoreAll",
+    "English": "Restore pending windows",
+    "Vietnamese": "Khôi phục các cửa sổ chờ"
+  },
+  {
+    "Key": "Recovery.Refresh",
+    "English": "Check again",
+    "Vietnamese": "Kiểm tra lại"
+  },
+  {
+    "Key": "Recovery.Retry",
+    "English": "Try recovery again",
+    "Vietnamese": "Thử khôi phục lại"
+  },
+  {
+    "Key": "Recovery.ClearFinished",
+    "English": "Clear finished sessions",
+    "Vietnamese": "Xóa các mục đã kết thúc"
+  },
+  {
+    "Key": "Recovery.ClearFinishedTooltip",
+    "English": "Remove all closed and recovered window sessions from the recovery list",
+    "Vietnamese": "Xóa toàn bộ các phiên cửa sổ đã đóng hoặc đã khôi phục khỏi danh sách"
+  },
+  {
+    "Key": "Recovery.DeleteRecord",
+    "English": "Delete",
+    "Vietnamese": "Xóa"
+  },
+  {
+    "Key": "Recovery.DeleteTooltip",
+    "English": "Remove this session record from the recovery list",
+    "Vietnamese": "Xóa phiên cửa sổ này khỏi danh sách khôi phục"
+  },
+  {
+    "Key": "Recovery.CannotDeleteProtected",
+    "English": "Cannot delete a currently protected window session. Stop protection first.",
+    "Vietnamese": "Không thể xóa phiên cửa sổ đang được bảo vệ. Hãy dừng bảo vệ trước."
+  },
+  {
+    "Key": "Recovery.CannotDeleteProtectedTooltip",
+    "English": "Cannot delete a currently protected window session. Stop protection first.",
+    "Vietnamese": "Không thể xóa phiên cửa sổ đang được bảo vệ. Hãy dừng bảo vệ trước."
+  },
+  {
+    "Key": "Recovery.DeleteSuccess",
+    "English": "Removed recovery record for {0}.",
+    "Vietnamese": "Đã xóa phiên khôi phục của {0}."
+  },
+  {
+    "Key": "Cannot delete a currently protected window session. Stop protection first.",
+    "English": "Cannot delete a currently protected window session. Stop protection first.",
+    "Vietnamese": "Không thể xóa phiên cửa sổ đang được bảo vệ. Hãy dừng bảo vệ trước."
+  },
+  {
+    "Key": "Remove this session record from the recovery list",
+    "English": "Remove this session record from the recovery list",
+    "Vietnamese": "Xóa phiên cửa sổ này khỏi danh sách khôi phục"
+  },
+  {
+    "Key": "Recovery.EmptyTitle",
+    "English": "No recovery items",
+    "Vietnamese": "Chưa có mục khôi phục"
+  },
+  {
+    "Key": "Recovery.EmptyHint",
+    "English": "Recovery information is saved before a window is changed. Closed windows and unsaved content cannot be recreated here.",
+    "Vietnamese": "Thông tin khôi phục được lưu trước khi thay đổi cửa sổ. Không thể tạo lại cửa sổ đã đóng hoặc nội dung chưa lưu tại đây."
+  },
+  {
+    "Key": "Recovery.Summary",
+    "English": "Recovery center: {0} pending, {1} finished.",
+    "Vietnamese": "Khôi phục: {0} mục cần xử lý, {1} mục đã kết thúc."
+  },
+  {
+    "Key": "Recovery.Pending",
+    "English": "Recovery pending",
+    "Vietnamese": "Đang chờ khôi phục"
+  },
+  {
+    "Key": "Recovery.Protected",
+    "English": "Managed window",
+    "Vietnamese": "Cửa sổ đang được quản lý"
+  },
+  {
+    "Key": "Recovery.Failed",
+    "English": "Recovery failed",
+    "Vietnamese": "Khôi phục thất bại"
+  },
+  {
+    "Key": "Recovery.Recovered",
+    "English": "Recovered",
+    "Vietnamese": "Đã khôi phục"
+  },
+  {
+    "Key": "Recovery.Closed",
+    "English": "Window closed",
+    "Vietnamese": "Cửa sổ đã đóng"
+  },
+  {
+    "Key": "Recovery.Unverified",
+    "English": "Verification required",
+    "Vietnamese": "Cần xác minh"
+  },
+  {
+    "Key": "Recovery.Hidden",
+    "English": "Hidden window",
+    "Vietnamese": "Cửa sổ đã ẩn"
+  },
+  {
+    "Key": "Recovery.Desktop",
+    "English": "Virtual desktop",
+    "Vietnamese": "Desktop ảo"
+  },
+  {
+    "Key": "Recovery.Host",
+    "English": "Window host",
+    "Vietnamese": "Khung bảo vệ"
+  },
+  {
+    "Key": "Recovery.Preparing",
+    "English": "Preparing window",
+    "Vietnamese": "Đang chuẩn bị cửa sổ"
+  },
+  {
+    "Key": "Recovery.Previous",
+    "English": "Previous session",
+    "Vietnamese": "Phiên trước"
+  },
+  {
+    "Key": "Recovery.Current",
+    "English": "Current session",
+    "Vietnamese": "Phiên hiện tại"
+  },
+  {
+    "Key": "Recovery.Done",
+    "English": "Recovery completed.",
+    "Vietnamese": "Đã hoàn tất khôi phục."
+  },
+  {
+    "Key": "Recovery.Attention",
+    "English": "Some recovery items still need attention.",
+    "Vietnamese": "Một số mục khôi phục vẫn cần xử lý."
+  },
+  {
+    "Key": "Recovery.Gone",
+    "English": "The original window no longer exists. Unsaved content cannot be recovered here.",
+    "Vietnamese": "Cửa sổ gốc không còn tồn tại. Không thể khôi phục nội dung chưa lưu tại đây."
+  },
+  {
+    "Key": "Recovery.RestoredDetail",
+    "English": "The window has been returned to its original desktop and layout.",
+    "Vietnamese": "Đã đưa cửa sổ về desktop và bố cục ban đầu."
+  },
+  {
+    "Key": "Recovery.Unsaved",
+    "English": "The window was restored, but the result could not be saved. Retry after file access is restored.",
+    "Vietnamese": "Đã khôi phục cửa sổ nhưng chưa lưu được kết quả. Hãy thử lại khi có thể ghi file."
+  },
+  {
+    "Key": "Recovery.Backup",
+    "English": "Recovery data was loaded from its backup.",
+    "Vietnamese": "Đã nạp dữ liệu khôi phục từ bản dự phòng."
+  },
+  {
+    "Key": "Recovery.ReadError",
+    "English": "Recovery data could not be read: {0}",
+    "Vietnamese": "Không thể đọc dữ liệu khôi phục: {0}"
+  },
+  {
+    "Key": "Recovery.WriteError",
+    "English": "Recovery data could not be saved: {0}",
+    "Vietnamese": "Không thể lưu dữ liệu khôi phục: {0}"
+  },
+  {
+    "Key": "Recovery.Duplicate",
+    "English": "This window already has pending recovery information. Restore it before protecting it again.",
+    "Vietnamese": "Cửa sổ này đã có bản ghi đang chờ khôi phục. Hãy khôi phục trước khi bảo vệ lại."
+  },
+  {
+    "Key": "Recovery.CaptureError",
+    "English": "The original window identity or layout could not be verified.",
+    "Vietnamese": "Không xác minh được danh tính hoặc bố cục của cửa sổ gốc."
+  },
+  {
+    "Key": "Recovery.TagError",
+    "English": "A recovery marker could not be attached to the original window.",
+    "Vietnamese": "Không thể gắn dấu nhận diện khôi phục vào cửa sổ gốc."
+  },
+  {
+    "Key": "Recovery.Mismatch",
+    "English": "The original process, window marker or parent no longer matches. No action was taken.",
+    "Vietnamese": "Tiến trình, dấu nhận diện hoặc cửa sổ cha không còn khớp. Chưa thực hiện thao tác."
+  },
+  {
+    "Key": "Recovery.VerifyError",
+    "English": "The original process or window could not be verified. No action was taken.",
+    "Vietnamese": "Không xác minh được tiến trình hoặc cửa sổ gốc. Chưa thực hiện thao tác."
+  },
+  {
+    "Key": "Recovery.NativeError",
+    "English": "Windows could not restore this window.",
+    "Vietnamese": "Windows không thể khôi phục cửa sổ này."
+  },
+  {
+    "Key": "Recovery.DesktopError",
+    "English": "The original desktop is unavailable. Recovery information has been retained.",
+    "Vietnamese": "Desktop ban đầu không khả dụng. Thông tin khôi phục vẫn được giữ lại."
+  },
+  {
+    "Key": "Recovery.PrepareError",
+    "English": "Recovery data could not be prepared.",
+    "Vietnamese": "Không thể chuẩn bị dữ liệu khôi phục."
+  },
+  {
+    "Key": "Recovery.UnexpectedError",
+    "English": "Recovery failed: {0}",
+    "Vietnamese": "Khôi phục thất bại: {0}"
+  },
+  {
+    "Key": "Recovery.ParentError",
+    "English": "The original window parent could not be restored.",
+    "Vietnamese": "Không thể khôi phục quan hệ cửa sổ cha ban đầu."
+  },
+  {
+    "Key": "Recovery.StylesError",
+    "English": "The original window styles could not be restored.",
+    "Vietnamese": "Không thể khôi phục kiểu cửa sổ ban đầu."
+  },
+  {
+    "Key": "Recovery.FrameError",
+    "English": "The original window frame could not be restored.",
+    "Vietnamese": "Không thể khôi phục khung cửa sổ ban đầu."
+  },
+  {
+    "Key": "Recovery.LayoutError",
+    "English": "The window layout or visibility could not be restored.",
+    "Vietnamese": "Không thể khôi phục bố cục hoặc trạng thái hiển thị của cửa sổ."
+  },
+  {
+    "Key": "Captions.Title",
+    "English": "Live Captions",
+    "Vietnamese": "Phụ đề trực tiếp"
+  },
+  {
+    "Key": "Captions.Description",
+    "English": "Offline English captions from system playback audio. Start when needed; transcripts are saved as TXT and SRT.",
+    "Vietnamese": "Phụ đề tiếng Anh ngoại tuyến từ âm thanh loa/tai nghe. Bật khi cần; bản chép lời được lưu dạng TXT và SRT."
+  },
+  {
+    "Key": "Captions.Start",
+    "English": "Start captions",
+    "Vietnamese": "Bật phụ đề"
+  },
+  {
+    "Key": "Captions.Stop",
+    "English": "Stop captions",
+    "Vietnamese": "Dừng phụ đề"
+  },
+  {
+    "Key": "Captions.Pause",
+    "English": "Pause",
+    "Vietnamese": "Tạm dừng"
+  },
+  {
+    "Key": "Captions.Resume",
+    "English": "Resume",
+    "Vietnamese": "Tiếp tục"
+  },
+  {
+    "Key": "Captions.PauseResume",
+    "English": "Pause / resume captions",
+    "Vietnamese": "Tạm dừng / tiếp tục phụ đề"
+  },
+  {
+    "Key": "Captions.Stopped",
+    "English": "Captions stopped",
+    "Vietnamese": "Phụ đề đã dừng"
+  },
+  {
+    "Key": "Captions.Starting",
+    "English": "Preparing speech recognition…",
+    "Vietnamese": "Đang chuẩn bị nhận dạng giọng nói…"
+  },
+  {
+    "Key": "Captions.Running",
+    "English": "Live · system playback",
+    "Vietnamese": "Trực tiếp · âm thanh hệ thống"
+  },
+  {
+    "Key": "Captions.Paused",
+    "English": "Captions paused",
+    "Vietnamese": "Phụ đề đang tạm dừng"
+  },
+  {
+    "Key": "Captions.Stopping",
+    "English": "Stopping captions…",
+    "Vietnamese": "Đang dừng phụ đề…"
+  },
+  {
+    "Key": "Captions.Faulted",
+    "English": "Captions need attention",
+    "Vietnamese": "Phụ đề gặp lỗi"
+  },
+  {
+    "Key": "Captions.ShowHide",
+    "English": "Show / hide overlay",
+    "Vietnamese": "Hiện / ẩn phụ đề nổi"
+  },
+  {
+    "Key": "Captions.Latest",
+    "English": "LATEST CAPTION",
+    "Vietnamese": "PHỤ ĐỀ MỚI NHẤT"
+  },
+  {
+    "Key": "Captions.Waiting",
+    "English": "Captions will appear here when English speech is recognized.",
+    "Vietnamese": "Phụ đề sẽ xuất hiện ở đây khi nhận dạng được giọng nói tiếng Anh."
+  },
+  {
+    "Key": "Captions.Copy",
+    "English": "Copy latest caption",
+    "Vietnamese": "Sao chép phụ đề mới nhất"
+  },
+  {
+    "Key": "Captions.Folder",
+    "English": "Open transcripts folder",
+    "Vietnamese": "Mở thư mục bản chép lời"
+  },
+  {
+    "Key": "Captions.Overlay",
+    "English": "Floating subtitle window",
+    "Vietnamese": "Cửa sổ phụ đề nổi"
+  },
+  {
+    "Key": "Captions.SingleLine",
+    "English": "Show only the latest caption",
+    "Vietnamese": "Chỉ hiển thị phụ đề mới nhất"
+  },
+  {
+    "Key": "Captions.ClickThrough",
+    "English": "Let mouse clicks pass through the overlay",
+    "Vietnamese": "Cho phép nhấp chuột xuyên qua cửa sổ phụ đề"
+  },
+  {
+    "Key": "Captions.Exclude",
+    "English": "Exclude subtitles from supported screen capture",
+    "Vietnamese": "Loại trừ phụ đề khỏi ghi hình có hỗ trợ"
+  },
+  {
+    "Key": "Captions.Reset",
+    "English": "Reset overlay position",
+    "Vietnamese": "Đặt lại vị trí phụ đề"
+  },
+  {
+    "Key": "Captions.Smaller",
+    "English": "Smaller subtitle font",
+    "Vietnamese": "Giảm cỡ chữ phụ đề"
+  },
+  {
+    "Key": "Captions.Larger",
+    "English": "Larger subtitle font",
+    "Vietnamese": "Tăng cỡ chữ phụ đề"
+  },
+  {
+    "Key": "Captions.Hide",
+    "English": "Hide overlay; keep captions running",
+    "Vietnamese": "Ẩn cửa sổ; tiếp tục nhận dạng phụ đề"
+  },
+  {
+    "Key": "Captions.Note",
+    "English": "Captures playback only; no microphone access or global subtitle shortcuts. Click-through can be disabled here. Closing Driver Booster stops captions. Windows capture exclusion has limits.",
+    "Vietnamese": "Chỉ thu âm thanh đang phát; không truy cập micrô hay đăng ký phím tắt phụ đề toàn cục. Có thể tắt nhấp xuyên tại đây. Thoát Driver Booster sẽ dừng phụ đề. Loại trừ ghi hình của Windows có giới hạn."
+  },
+  {
+    "Key": "Captions.CaptureOff",
+    "English": "Subtitle capture exclusion is off.",
+    "Vietnamese": "Đang tắt loại trừ phụ đề khỏi ghi hình."
+  },
+  {
+    "Key": "Captions.CaptureVerified",
+    "English": "Windows confirmed subtitle capture exclusion.",
+    "Vietnamese": "Windows đã xác nhận loại trừ phụ đề khỏi ghi hình."
+  },
+  {
+    "Key": "Captions.CaptureLimited",
+    "English": "Windows supports only limited subtitle capture protection.",
+    "Vietnamese": "Windows chỉ hỗ trợ bảo vệ ghi hình phụ đề ở mức giới hạn."
+  },
+  {
+    "Key": "Captions.CapturePending",
+    "English": "Subtitle capture exclusion has not been verified; show the overlay to check.",
+    "Vietnamese": "Chưa xác minh loại trừ ghi hình phụ đề; hiện cửa sổ để kiểm tra."
+  },
+  {
+    "Key": "Captions.SaveError",
+    "English": "Subtitle preferences could not be saved.",
+    "Vietnamese": "Không thể lưu tùy chọn phụ đề."
+  },
+  {
+    "Key": "Captions.ToggleTranslation",
+    "English": "Toggle Vietnamese translation (Ctrl+Alt+T)",
+    "Vietnamese": "Bật/Tắt dịch sang Tiếng Việt (Ctrl+Alt+T)"
+  },
+  {
+    "Key": "Captions.TranslationSection",
+    "English": "Real-time Translation (Vietnamese)",
+    "Vietnamese": "Dịch phụ đề thời gian thực (Tiếng Việt)"
+  },
+  {
+    "Key": "Captions.EnableTranslation",
+    "English": "Auto-translate English to Vietnamese",
+    "Vietnamese": "Tự động dịch tiếng Anh sang Tiếng Việt"
+  },
+  {
+    "Key": "Captions.ModeBilingual",
+    "English": "Bilingual (English - Vietnamese)",
+    "Vietnamese": "Song ngữ (Anh - Việt)"
+  },
+  {
+    "Key": "Captions.ModeVietnameseOnly",
+    "English": "Vietnamese only",
+    "Vietnamese": "Chỉ Tiếng Việt"
+  },
+  {
+    "Key": "Captions.TranslationHotkeyNotice",
+    "English": "Press Ctrl+Alt+T or click VI on the overlay to toggle translation anytime.",
+    "Vietnamese": "Nhấn Ctrl+Alt+T hoặc bấm nút VI trên cửa sổ nổi để bật/tắt dịch bất kỳ lúc nào."
+  },
+  {
+    "Key": "Captions.TranslationEnabledNotice",
+    "English": "Real-time Vietnamese translation enabled (Ctrl+Alt+T)",
+    "Vietnamese": "Đã bật dịch phụ đề thời gian thực sang Tiếng Việt (Ctrl+Alt+T)"
+  },
+  {
+    "Key": "Captions.TranslationDisabledNotice",
+    "English": "Real-time translation disabled (Ctrl+Alt+T)",
+    "Vietnamese": "Đã tắt dịch phụ đề thời gian thực (Ctrl+Alt+T)"
+  },
+  {
+    "Key": "Captions.VocabularySection",
+    "English": "Custom Vocabulary & Technical Terms",
+    "Vietnamese": "Từ điển từ khóa & Thuật ngữ riêng"
+  },
+  {
+    "Key": "Captions.VocabularyHint",
+    "English": "Enter difficult words, names, or IT terms (comma-separated) to improve recognition accuracy.",
+    "Vietnamese": "Nhập các từ khó, tên riêng hoặc thuật ngữ IT (cách nhau bằng dấu phẩy) để tăng độ chính xác."
+  },
+  {
+    "Key": "Captions.SaveVocabulary",
+    "English": "Save Vocabulary",
+    "Vietnamese": "Lưu từ điển"
+  },
+  {
+    "Key": "Captions.ClearVocabulary",
+    "English": "Clear Vocabulary",
+    "Vietnamese": "Xóa nhanh từ điển"
+  },
+  {
+    "Key": "Captions.ClearVocabularyTooltip",
+    "English": "Quickly clear all saved keywords and custom terms from the vocabulary",
+    "Vietnamese": "Xóa nhanh toàn bộ từ khóa và thuật ngữ đã lưu trong từ điển"
+  },
+  {
+    "Key": "Captions.KeywordsSavedNotice",
+    "English": "Custom vocabulary keywords saved for captions.",
+    "Vietnamese": "Đã lưu từ điển từ khóa chuyên ngành cho phụ đề."
+  },
+  {
+    "Key": "Captions.KeywordsClearedNotice",
+    "English": "All custom vocabulary keywords have been cleared.",
+    "Vietnamese": "Đã xóa toàn bộ từ điển từ khóa và thuật ngữ riêng."
+  },
+  {
+    "Key": "UiRefresh.PrivacyHint",
+    "English": "Capture, device privacy and browser tools in one place.",
+    "Vietnamese": "Quản lý ghi hình, quyền thiết bị và công cụ trình duyệt."
+  },
+  {
+    "Key": "UiRefresh.SettingsHint",
+    "English": "Choose your language and keep useful shortcuts close at hand.",
+    "Vietnamese": "Chọn ngôn ngữ và tra cứu các phím tắt thường dùng."
+  },
+  {
+    "Key": "UiRefresh.Offline",
+    "English": "Offline",
+    "Vietnamese": "Ngoại tuyến"
+  },
+  {
+    "Key": "UiRefresh.EnglishAudio",
+    "English": "English speech",
+    "Vietnamese": "Giọng nói tiếng Anh"
+  },
+{"Key":"Transcripts.Open","Vietnamese":"Xem bản chép lời","English":"View transcripts"},
+{"Key":"Transcripts.Title","Vietnamese":"Bản chép lời đã lưu","English":"Saved transcripts"},
+{"Key":"Transcripts.Hint","Vietnamese":"Đọc lại phiên đã lưu tại đây hoặc theo dõi phiên đang ghi.","English":"Read a saved session here, or follow the session being recorded."},
+{"Key":"Transcripts.Session","Vietnamese":"Phiên chép lời","English":"Session"},
+{"Key":"Transcripts.Format","Vietnamese":"Định dạng","English":"Format"},
+{"Key":"Transcripts.FormatTooltip","Vietnamese":"Chọn kiểu hiển thị: TXT (văn bản thô), SRT (kèm mốc thời gian), hoặc TOEIC (A-D) (tự động tách câu hỏi và 4 đáp án A, B, C, D)","English":"Choose display format: TXT (plain text), SRT (with timestamps), or TOEIC (A-D) (auto-formats questions and A, B, C, D choices)"},
+{"Key":"Transcripts.Refresh","Vietnamese":"Làm mới","English":"Refresh"},
+{"Key":"Transcripts.Copy","Vietnamese":"Sao chép nhanh","English":"Quick Copy"},
+{"Key":"Transcripts.CopyTooltip","Vietnamese":"Sao chép nhanh toàn bộ nội dung bản chép lời vào bộ nhớ tạm","English":"Quickly copy all transcript content to clipboard"},
+{"Key":"Transcripts.Clear","Vietnamese":"Xoá nhanh","English":"Quick Clear"},
+{"Key":"Transcripts.ClearTooltip","Vietnamese":"Xoá nhanh toàn bộ nội dung trong khu vực bản chép lời","English":"Quickly clear all content in this transcript area"},
+{"Key":"Transcripts.CopiedNotice","Vietnamese":"Đã sao chép toàn bộ nội dung bản chép lời vào bộ nhớ tạm.","English":"All transcript content copied to clipboard."},
+{"Key":"Transcripts.ClearedNotice","Vietnamese":"Đã xoá sạch toàn bộ nội dung bản chép lời trong khu vực.","English":"All transcript content in this area cleared."},
+{"Key":"Transcripts.ClearedLiveNotice","Vietnamese":"Phiên đang ghi trực tiếp: Đã xoá nội dung hiển thị trong khu vực xem.","English":"Active recording session: cleared displayed content in the viewer."},
+{"Key":"Transcripts.CopiedButton","Vietnamese":"Đã sao chép!","English":"Copied!"},
+{"Key":"Transcripts.Close","Vietnamese":"Đóng phần xem","English":"Close viewer"},
+{"Key":"Transcripts.CloseTooltip","Vietnamese":"Đóng bảng đọc bản chép lời","English":"Close saved transcripts viewer"},
+{"Key":"Transcripts.DeletePrevious","Vietnamese":"Xoá các phiên trước","English":"Delete previous sessions"},
+{"Key":"Transcripts.DeletePreviousTooltip","Vietnamese":"Xoá bớt các phiên chép lời trước đó (chuyển vào Thùng rác, giữ lại phiên mới nhất)","English":"Delete previous transcript sessions (move to Recycle Bin, keeps latest session)"},
+{"Key":"Transcripts.DeleteSessionTooltip","Vietnamese":"Xoá phiên chép lời đang chọn này","English":"Delete this selected transcript session"},
+{"Key":"Transcripts.DeletedPreviousNotice","Vietnamese":"Đã xoá {0} phiên chép lời trước đó (chuyển vào Thùng rác).","English":"Deleted {0} previous transcript session(s) to Recycle Bin."},
+{"Key":"Transcripts.DeletedSessionNotice","Vietnamese":"Đã xoá phiên chép lời '{0}' (chuyển vào Thùng rác).","English":"Deleted transcript session '{0}' to Recycle Bin."},
+{"Key":"Transcripts.CannotDeleteLiveNotice","Vietnamese":"Không thể xoá phiên đang ghi âm trực tiếp.","English":"Cannot delete the active recording session."},
+{"Key":"Transcripts.Follow","Vietnamese":"Theo dõi phiên đang ghi","English":"Follow the current session"},
+{"Key":"Transcripts.Empty","Vietnamese":"Chưa có bản chép lời. Bật phụ đề để tạo phiên mới.","English":"No saved transcripts yet. Start captions to create a session."},
+{"Key":"Transcripts.ReadError","Vietnamese":"Không thể đọc bản chép lời. File có thể đã bị di chuyển, xóa hoặc khóa. Hãy thử làm mới.","English":"This transcript could not be read. It may have been moved, deleted or locked. Try refreshing."},
+{"Key":"Transcripts.Truncated","Vietnamese":"Đang hiển thị 256 KB cuối để giữ giao diện mượt. File đầy đủ vẫn được giữ nguyên.","English":"Showing the last 256 KB for responsiveness. The complete file is preserved."},
+{"Key":"Transcripts.Live","Vietnamese":"Phiên hiện tại · tự cập nhật khi phần xem đang mở.","English":"Current session · updates automatically while the viewer is open."},
+{"Key":"Transcripts.Saved","Vietnamese":"Phiên đã lưu · có thể chọn và sao chép văn bản.","English":"Saved session · you can select and copy text."},
+{"Vietnamese":"Đang tải bản chép lời…","Key":"Transcripts.Loading","English":"Loading transcript…"},
+{"English":"Automatic updates are off · refresh when you are ready.","Vietnamese":"Đã tắt tự cập nhật · bấm Làm mới khi bạn muốn đọc tiếp.","Key":"Transcripts.Manual"},
+{"Key":"Transcripts.SearchPlaceholder","Vietnamese":"Tìm kiếm từ khoá trong bản chép...","English":"Search keywords in transcript..."},
+{"Key":"Transcripts.FindPrev","Vietnamese":"Trước","English":"Prev"},
+{"Key":"Transcripts.FindPrevTooltip","Vietnamese":"Tìm kết quả trước (Shift+Enter)","English":"Find previous match (Shift+Enter)"},
+{"Key":"Transcripts.FindNext","Vietnamese":"Tiếp","English":"Next"},
+{"Key":"Transcripts.FindNextTooltip","Vietnamese":"Tìm kết quả tiếp theo (Enter)","English":"Find next match (Enter)"},
+{"Key":"Transcripts.ClearSearchTooltip","Vietnamese":"Xóa tìm kiếm (Esc)","English":"Clear search (Esc)"},
+{"Key":"Transcripts.SearchCount","Vietnamese":"{0} / {1}","English":"{0} / {1}"},
+{"Key":"Transcripts.NoMatches","Vietnamese":"0 kết quả","English":"0 results"},
+{"Key":"Transcripts.ScrollToLatest","Vietnamese":"⬇ Cuộn xuống mới nhất (+{0})","English":"⬇ Scroll to latest (+{0})"},
+{"Key":"Transcripts.ScrollToLatestPlain","Vietnamese":"⬇ Cuộn xuống mới nhất","English":"⬇ Scroll to latest"},
+{"Key":"Transcripts.ScrollTop","Vietnamese":"Đầu trang","English":"Top"},
+{"Key":"Transcripts.ScrollTopTooltip","Vietnamese":"Cuộn lên đầu bản chép lời","English":"Scroll to top of transcript"},
+{"Key":"Transcripts.ScrollBottom","Vietnamese":"Cuối trang","English":"Bottom"},
+{"Key":"Transcripts.ScrollBottomTooltip","Vietnamese":"Cuộn xuống cuối bản chép lời","English":"Scroll to bottom of transcript"},
+{"Key":"Transcripts.Expand","Vietnamese":"Mở rộng","English":"Expand"},
+{"Key":"Transcripts.Collapse","Vietnamese":"Thu gọn","English":"Collapse"},
+{"Key":"Transcripts.ExpandTooltip","Vietnamese":"Mở rộng chiều cao khung xem để đọc thoáng hơn","English":"Expand viewer height for comfortable reading"},
+{"Key":"Transcripts.CollapseTooltip","Vietnamese":"Thu gọn chiều cao khung xem về kích thước tiêu chuẩn","English":"Collapse viewer height to standard size"},
+{"Key":"Transcripts.CopySelected","Vietnamese":"Sao chép đoạn đã chọn","English":"Copy selected text"},
+{"Key":"Transcripts.CopyRecent","Vietnamese":"Sao chép 10 câu mới nhất","English":"Copy 10 recent sentences"},
+{"Key":"Transcripts.CopyAll","Vietnamese":"Sao chép toàn bộ bản chép","English":"Copy entire transcript"},
+{"Key":"Transcripts.SelectAll","Vietnamese":"Chọn tất cả","English":"Select all"},
+{"Key":"Transcripts.CopiedSelectionNotice","Vietnamese":"Đã sao chép đoạn văn bản được chọn vào bộ nhớ tạm.","English":"Selected transcript text copied to clipboard."},
+{"Key":"Transcripts.CopiedRecentNotice","Vietnamese":"Đã sao chép 10 câu mới nhất vào bộ nhớ tạm.","English":"Copied 10 most recent sentences to clipboard."},
+{"Key":"UI.046B","English":"Added","Vietnamese":"Đã thêm"},
+{"Key":"UI.078","English":"Toggle Driver Booster window: Quick open / Minimize & hide (chord)","Vietnamese":"Bật / Tắt cửa sổ Driver Booster: Mở nhanh / Thu nhỏ & ẩn (gõ nhịp phím)"},
+{"Key":"UI.086","English":"Force exit Driver Booster & terminate enabled apps","Vietnamese":"Thoát khẩn cấp Driver Booster kèm các ứng dụng đang bật"},
+{"Key":"Status.Disabled","English":"Disabled","Vietnamese":"Đã tắt"},
+{"Key":"Message.DisabledApp","English":"Disabled protection for {0}","Vietnamese":"Đã tắt bảo vệ cho {0}"},
+{"Key":"Message.UpdatedInShield","English":"Updated {0} in shield list","Vietnamese":"Đã cập nhật {0} trong danh sách bảo vệ"},
+{"Key":"SystemTools.Title","English":"SYSTEM ADMINISTRATION TOOLS LOCK","Vietnamese":"KHÓA CÔNG CỤ QUẢN TRỊ HỆ THỐNG"},
+{"Key":"SystemTools.Badge","English":"SAFE • AUTO-RESTORE","Vietnamese":"AN TOÀN • TỰ KHÔI PHỤC"},
+{"Key":"SystemTools.Toggle","English":"Block opening Task Manager, Registry Editor, Command Prompt, and Group Policy Editor","Vietnamese":"Vô hiệu hóa mở Task Manager, Registry Editor, Command Prompt và Group Policy Editor"},
+{"Key":"SystemTools.Hint","English":"Enable or disable blocking of Task Manager, Registry Editor, Command Prompt, and Group Policy Editor without damaging the system","Vietnamese":"Bật hoặc tắt chặn mở Task Manager, Registry Editor, Command Prompt và Group Policy Editor mà không làm hỏng hệ thống"},
+{"Key":"SystemTools.Description","English":"Applies reversible per-user (HKCU) policies and active window closing. Automatically restores full access when switched off, on Panic (Ctrl+Shift+Alt+H), or when exiting the application.","Vietnamese":"Áp dụng chính sách người dùng (HKCU) có thể hoàn tác kết hợp đóng cửa sổ tức thì. Tự động khôi phục nguyên trạng khi tắt công tắc, bấm Khẩn cấp (Ctrl+Shift+Alt+H) hoặc khi thoát ứng dụng."},
+{"Key":"SystemTools.StatusOff","English":"Status: Unlocked — Task Manager, Registry Editor, Command Prompt, and Group Policy Editor can open normally.","Vietnamese":"Trạng thái: Đang mở khóa — Task Manager, Registry Editor, Command Prompt và Group Policy Editor hoạt động bình thường."},
+{"Key":"SystemTools.StatusOn","English":"Status: Locked — Blocking Task Manager, Registry Editor, Command Prompt, and Group Policy Editor.","Vietnamese":"Trạng thái: Đang chặn — Đã vô hiệu hóa mở Task Manager, Registry Editor, Command Prompt và Group Policy Editor."},
+{"Key":"Message.SystemToolsBlocked","English":"Blocked Task Manager, Registry Editor, Command Prompt, and Group Policy Editor","Vietnamese":"Đã chặn mở Task Manager, Registry Editor, Command Prompt và Group Policy Editor"},
+{"Key":"Message.SystemToolsRestored","English":"Restored access to Task Manager, Registry Editor, Command Prompt, and Group Policy Editor","Vietnamese":"Đã mở khóa Task Manager, Registry Editor, Command Prompt và Group Policy Editor"},
+{"Key":"SystemTools.EmergencyRestoreButton","English":"⚡ Emergency Restore","Vietnamese":"⚡ Khôi phục khẩn cấp"},
+{"Key":"SystemTools.EmergencyRestoreTooltip","English":"Instantly unlock Task Manager, Registry Editor, CMD, and Group Policy, and create restore script","Vietnamese":"Mở khóa ngay lập tức Task Manager, Registry Editor, CMD và Group Policy, đồng thời tạo tệp khôi phục"},
+{"Key":"SystemTools.OpenScriptButton","English":"📄 Emergency Script (.bat)","Vietnamese":"📄 Tệp khôi phục (.bat)"},
+{"Key":"SystemTools.OpenScriptTooltip","English":"Open location of Emergency_Restore_Tools.bat script","Vietnamese":"Mở thư mục chứa tệp khôi phục Emergency_Restore_Tools.bat"},
+{"Key":"Message.SystemToolsEmergencyRestored","English":"Emergency restore completed: Task Manager, Registry Editor, CMD, and Group Policy unlocked","Vietnamese":"Đã khôi phục khẩn cấp: Đã mở khóa Task Manager, Registry Editor, CMD và Group Policy"},
+{"Key":"AgyNotify.Title","English":"ANTIGRAVITY & ANTIGRAVITY IDE NOTIFICATION GUARD","Vietnamese":"KIỂM SOÁT THÔNG BÁO ANTIGRAVITY & ANTIGRAVITY IDE"},
+{"Key":"AgyNotify.Badge","English":"SILENT AGENT","Vietnamese":"IM LẶNG TUYỆT ĐỐI"},
+{"Key":"AgyNotify.Toggle","English":"Mute task completion & approval notifications in Antigravity and Antigravity IDE","Vietnamese":"Tắt thông báo hoàn thành nhiệm vụ và yêu cầu chấp thuận của Antigravity & Antigravity IDE"},
+{"Key":"AgyNotify.Hint","English":"Toggle to silence or restore task completion and approval notifications for both Antigravity and Antigravity IDE","Vietnamese":"Bật/tắt thông báo hoàn thành nhiệm vụ và yêu cầu chấp thuận cho cả Antigravity và Antigravity IDE"},
+{"Key":"AgyNotify.Description","English":"Silences special-event alerts (task completion, approval prompts, and sound effects) in Antigravity settings, Antigravity IDE Do-Not-Disturb mode, and Windows Toast Notification Center.","Vietnamese":"Tắt thông báo sự kiện đặc biệt (hoàn thành nhiệm vụ, yêu cầu phê duyệt và âm báo) trong cấu hình Antigravity, chế độ Không làm phiền của Antigravity IDE và Trung tâm thông báo Windows."},
+{"Key":"AgyNotify.StatusOff","English":"Status: Notifications Active — Antigravity and Antigravity IDE task completion & approval alerts are enabled.","Vietnamese":"Trạng thái: Đang bật thông báo — Thông báo hoàn thành nhiệm vụ và yêu cầu chấp thuận của Antigravity & Antigravity IDE hoạt động bình thường."},
+{"Key":"AgyNotify.StatusOn","English":"Status: Notifications Muted — Task completion & approval alerts and sounds are silenced for Antigravity and Antigravity IDE.","Vietnamese":"Trạng thái: Đã tắt thông báo — Đã chặn thông báo và âm báo hoàn thành nhiệm vụ / yêu cầu chấp thuận của Antigravity & Antigravity IDE."},
+{"Key":"Message.AgyNotifyMuted","English":"Muted task completion and approval notifications for Antigravity & Antigravity IDE","Vietnamese":"Đã tắt thông báo hoàn thành nhiệm vụ và yêu cầu chấp thuận của Antigravity & Antigravity IDE"},
+{"Key":"Message.AgyNotifyPartial","English":"Antigravity notification mute enabled (some settings or registry keys could not be updated)","Vietnamese":"Đã bật tắt thông báo Antigravity (một số khóa cấu hình hoặc Registry không thể ghi)"},
+{"Key":"Message.AgyNotifyRestored","English":"Restored task completion and approval notifications for Antigravity & Antigravity IDE","Vietnamese":"Đã khôi phục thông báo hoàn thành nhiệm vụ và yêu cầu chấp thuận của Antigravity & Antigravity IDE"},
+  {"Key":"AgyInstall.Title","English":"ANTIGRAVITY DESKTOP (AGENTIC AI)","Vietnamese":"ANTIGRAVITY DESKTOP (AGENTIC AI)"},
+  {"Key":"AgyInstall.BadgeInstalled","English":"INSTALLED","Vietnamese":"ĐÃ CÀI ĐẶT"},
+  {"Key":"AgyInstall.BadgeNotInstalled","English":"NOT INSTALLED","Vietnamese":"CHƯA CÀI ĐẶT"},
+  {"Key":"AgyInstall.Description","English":"Antigravity Desktop is a standalone Agentic AI assistant (completely distinct from IDE and CLI). Includes a 100% offline installer for air-gapped deployment.","Vietnamese":"Antigravity Desktop là trợ lý Agentic AI độc lập trên máy tính (phân biệt hoàn toàn với IDE và CLI). Tích hợp sẵn bộ cài đặt offline 100% để triển khai nhanh chóng trên các máy không có mạng."},
+  {"Key":"AgyInstall.BtnInstall","English":"Install Antigravity","Vietnamese":"Cài đặt Antigravity"},
+  {"Key":"AgyInstall.BtnInstallTooltip","English":"Launch the standard interactive Antigravity Desktop installer setup","Vietnamese":"Khởi chạy trình cài đặt giao diện trực quan Antigravity Desktop"},
+  {"Key":"AgyInstall.BtnSilentInstall","English":"Silent Install","Vietnamese":"Cài đặt ngầm"},
+  {"Key":"AgyInstall.BtnSilentInstallTooltip","English":"Install Antigravity Desktop silently in the background using the /S switch","Vietnamese":"Tự động cài đặt ngầm Antigravity Desktop trong nền với tham số /S"},
+  {"Key":"AgyInstall.BtnLaunch","English":"Launch Antigravity","Vietnamese":"Khởi chạy Antigravity"},
+  {"Key":"AgyInstall.BtnLaunchTooltip","English":"Launch the installed Antigravity Desktop application","Vietnamese":"Mở ứng dụng Antigravity Desktop đã cài đặt"},
+  {"Key":"AgyInstall.BtnReinstall","English":"Reinstall / Upgrade","Vietnamese":"Cài lại / Nâng cấp"},
+  {"Key":"AgyInstall.BtnReinstallTooltip","English":"Run the offline installer again to repair or reinstall","Vietnamese":"Chạy lại bộ cài đặt offline để sửa lỗi hoặc cài đè"},
+  {"Key":"AgyInstall.SourceFound","English":"Offline installer detected: {0} ({1} MB)","Vietnamese":"Phát hiện bộ cài Offline tích hợp sẵn: {0} ({1} MB)"},
+  {"Key":"AgyInstall.SourceMissing","English":"Offline installer not found in installers directory.","Vietnamese":"Không tìm thấy bộ cài đặt offline trong thư mục installers."},
+  {"Key":"AgyInstall.VersionInfo","English":"Version: {0} • Location: {1}","Vietnamese":"Phiên bản: {0} • Vị trí: {1}"},
+  {"Key":"AgyInstall.InstallingInteractive","English":"Launching interactive Antigravity installer...","Vietnamese":"Đang khởi chạy bộ cài đặt trực quan Antigravity..."},
+  {"Key":"AgyInstall.InstallingSilent","English":"Silent installation in progress. Please wait...","Vietnamese":"Đang cài đặt ngầm Antigravity trong nền. Vui lòng chờ..."},
+  {"Key":"AgyInstall.InstallSuccess","English":"Antigravity Desktop installed successfully!","Vietnamese":"Cài đặt Antigravity Desktop thành công!"},
+  {"Key":"AgyInstall.InstallFailed","English":"Installation completed or canceled: Antigravity could not be detected.","Vietnamese":"Quá trình cài đặt đã kết thúc hoặc bị hủy: Không phát hiện được Antigravity."},
+  {"Key":"AgyInstall.LaunchSuccess","English":"Antigravity Desktop launched.","Vietnamese":"Đã khởi chạy Antigravity Desktop."},
+  {"Key":"AgyInstall.LaunchFailed","English":"Failed to launch Antigravity Desktop.","Vietnamese":"Không thể khởi chạy Antigravity Desktop."},
+  {"Key":"AgyInstall.BtnSecureLogin","English":"Secure Login via Browser","Vietnamese":"Đăng nhập qua Trình duyệt bảo vệ"},
+  {"Key":"AgyInstall.BtnSecureLoginTooltip","English":"Automatically capture Antigravity Google OAuth link and log in inside the Protected Browser to shield credentials from recording","Vietnamese":"Tự động bắt liên kết đăng nhập Google của Antigravity và mở trong Trình duyệt bảo vệ để giữ bí mật tài khoản và mật khẩu"},
+  {"Key":"Browser.AntigravityLogin","English":"Antigravity Login","Vietnamese":"Đăng nhập Antigravity"},
+  {"Key":"Browser.AntigravityLoginTooltip","English":"Capture or open Antigravity Google OAuth login link securely in this protected browser","Vietnamese":"Bắt hoặc mở liên kết đăng nhập Google của Antigravity an toàn trong trình duyệt này"},
+  {"Key":"AgyBridge.Listening","English":"Waiting for Antigravity login link... (Click 'Sign in' on Antigravity or copy the link)","Vietnamese":"Đang chờ liên kết đăng nhập từ Antigravity... (Hãy bấm 'Sign in' trên Antigravity hoặc sao chép link)"},
+  {"Key":"AgyBridge.Captured","English":"Login link captured! Loading in Protected Browser...","Vietnamese":"Đã bắt liên kết đăng nhập Antigravity! Đang tải trong Trình duyệt bảo vệ..."},
+  {"Key":"AgyBridge.Success","English":"Antigravity authentication successful! Session synchronized.","Vietnamese":"Xác thực Antigravity thành công! Phiên làm việc đã được đồng bộ."},
+  {"Key":"AgyBridge.Timeout","English":"Timed out waiting for Antigravity login link.","Vietnamese":"Hết thời gian chờ liên kết đăng nhập Antigravity."},
+  {"Key":"AgyBridge.Cancelled","English":"Antigravity login listener stopped.","Vietnamese":"Đã dừng chế độ chờ liên kết đăng nhập Antigravity."},
+  {"Key":"AgyBridge.NotInstalled","English":"Please install Antigravity Desktop first before logging in.","Vietnamese":"Vui lòng cài đặt Antigravity Desktop trước khi đăng nhập."},
+  {"Key":"Snipping.Title","English":"PROTECTED SCREEN CAPTURE & SNIPPING TOOL","Vietnamese":"CÔNG CỤ CHỤP MÀN HÌNH BẢO VỆ"},
+  {"Key":"Snipping.Badge","English":"ANTI-RECORDING • DRAG & DROP","Vietnamese":"CHỐNG GHI HÌNH • KÉO THẢ"},
+  {"Key":"Snipping.Description","English":"Capture custom screen areas while hiding the snipping overlay from recording and screen sharing tools (OBS, Discord, Zoom). Screenshots are saved to your chosen folder and copied to clipboard.","Vietnamese":"Kéo thả chụp vùng màn hình tùy chọn với cơ chế ẩn thao tác khỏi phần mềm quay màn hình và chia sẻ trực tiếp (OBS, Discord, Zoom). Ảnh được lưu tự động vào thư mục do bạn chỉ định và sao chép vào bộ nhớ tạm."},
+  {"Key":"Snipping.StartButton","English":"Take Screenshot (Ctrl+Alt+S)","Vietnamese":"Chụp màn hình (Ctrl+Alt+S)"},
+  {"Key":"Snipping.QuickSnipTooltip","English":"Protected Screen Snip (Ctrl+Alt+S)","Vietnamese":"Chụp màn hình bảo vệ (Ctrl+Alt+S)"},
+  {"Key":"Snipping.SaveDirLabel","English":"Screenshot Save Directory:","Vietnamese":"Thư mục lưu ảnh chụp màn hình:"},
+  {"Key":"Snipping.Browse","English":"Browse…","Vietnamese":"Chọn thư mục…"},
+  {"Key":"Snipping.OpenFolder","English":"Open Folder","Vietnamese":"Mở thư mục"},
+  {"Key":"Snipping.ExcludeToggle","English":"Protect during capture (conceal overlay and drag action from OBS / Discord / Zoom)","Vietnamese":"Bảo vệ khi đang chụp (ẩn cửa sổ và thao tác kéo thả khỏi OBS / Discord / Zoom)"},
+  {"Key":"Snipping.ClipboardToggle","English":"Automatically copy captured screenshot to Windows Clipboard","Vietnamese":"Tự động chép ảnh chụp vào bộ nhớ tạm (Clipboard)"},
+  {"Key":"Snipping.OverlayGuide","English":"Drag to select capture region • Esc or Right-click to cancel","Vietnamese":"Kéo thả chuột để chụp vùng chọn • Esc hoặc chuột phải để hủy"},
+  {"Key":"Snipping.Success","English":"Screenshot saved to {0} ({1}×{2} px)","Vietnamese":"Đã lưu ảnh chụp vào {0} ({1}×{2} px)"},
+  {"Key":"Snipping.Canceled","English":"Screenshot capture canceled","Vietnamese":"Đã hủy thao tác chụp màn hình"},
+  {"Key":"Snipping.InvalidDir","English":"Invalid directory path: {0}","Vietnamese":"Đường dẫn thư mục không hợp lệ: {0}"},
+  {"Key":"Snipping.TrayMenuItem","English":"Take Screenshot (Ctrl+Alt+S)","Vietnamese":"Chụp màn hình (Ctrl+Alt+S)"},
+  {"Key":"Snipping.HotkeyLabel","English":"Snipping Tool Hotkey:","Vietnamese":"Phím tắt chụp màn hình:"},
+  {"Key":"Snipping.HotkeyTooltip","English":"Click to record custom snipping hotkey, Esc to cancel","Vietnamese":"Bấm vào để đổi phím tắt chụp màn hình, Esc để hủy"},
+  {"Key":"Snipping.HotkeySettingTitle","English":"SNIPPING TOOL SHORTCUT","Vietnamese":"PHÍM TẮT CHỤP MÀN HÌNH"},
+  {"Key":"Snipping.HotkeyHint","English":"Default is Ctrl+Alt+S. Change this combination if it conflicts with other workflow shortcuts.","Vietnamese":"Mặc định là Ctrl+Alt+S. Tùy chỉnh tổ hợp phím này nếu cần tránh xung đột với các ứng dụng khác."},
+  {"Key":"Snipping.HotkeyConflict","English":"Snipping hotkey conflicts with guarded app {0}","Vietnamese":"Phím tắt chụp màn hình bị trùng với ứng dụng bảo vệ {0}"},
+  {"Key":"Snipping.HotkeyAssigned","English":"Assigned snipping hotkey: {0}","Vietnamese":"Đã gán phím tắt chụp màn hình: {0}"},
+  {"Key":"Snipping.HotkeyRecording","English":"Recording snipping hotkey: press a key combination (e.g. Ctrl+Alt+S), Esc to cancel","Vietnamese":"Đang ghi nhận phím tắt chụp màn hình: bấm tổ hợp phím (ví dụ Ctrl+Alt+S), Esc để hủy"},
+  {"Key":"Snipping.HotkeyRegisterFailed","English":"Could not register hotkey {0} (may be in use by another application)","Vietnamese":"Không thể đăng ký phím tắt {0} (có thể bị ứng dụng khác chiếm giữ)"},
+  {"Key":"Snipping.CheatSheetLabel","English":"Take protected screenshot","Vietnamese":"Chụp màn hình bảo vệ"},
+  {"Key":"Snipping.ActionTakeScreenshot","English":"Take Screenshot","Vietnamese":"Chụp màn hình"},
+  {"Key":"Snipping.ActionQuickSnip","English":"Protected Screen Snip","Vietnamese":"Chụp màn hình bảo vệ"},
+  {"Key":"Snipping.HotkeyCanceled","English":"Snipping hotkey recording canceled","Vietnamese":"Đã hủy đổi phím tắt chụp màn hình"},
+  {"Key":"CursorShield.Title","English":"CURSOR SHIELD & SHAPE PROTECTION","Vietnamese":"KHIÊN CON TRỎ CHUỘT & BẢO VỆ HÌNH DẠNG"},
+  {"Key":"CursorShield.Badge","English":"CRASH-SAFE • RESTORABLE","Vietnamese":"CHỐNG CRASH • TỰ KHÔI PHỤC"},
+  {"Key":"CursorShield.Toggle","English":"Conceal cursor shape changes during active protection (lock pointer to standard arrow)","Vietnamese":"Khóa hình dạng con trỏ chuột thành mũi tên chuẩn khi đang bảo vệ ứng dụng"},
+  {"Key":"CursorShield.Hint","English":"Locks all 16 Windows pointer shapes to the standard arrow while apps are protected to prevent cursor reconnaissance, with automatic restoration","Vietnamese":"Ép toàn bộ 16 loại con trỏ Windows thành con trỏ mũi tên chuẩn khi đang bảo vệ để tránh bị đọc loại con trỏ chuột, tự động khôi phục khi tắt hoặc thoát"},
+  {"Key":"CursorShield.Description","English":"Masks text I-beam, link hand, resizing arrows, and wait cursors so external screen observers cannot determine what UI element is under the cursor. System cursors are safely restored whenever protection stops, on exit, on panic restore, or on next startup.","Vietnamese":"Khóa con trỏ I-beam gõ chữ, bàn tay bấm link, mũi tên co dãn và đồng hồ cát thành mũi tên thông thường để người theo dõi màn hình không suy đoán được thành phần giao diện dưới chuột. Chuột được tự động khôi phục khi ngừng bảo vệ, khi thoát, khi khẩn cấp hoặc khi mở lại ứng dụng."},
+  {"Key":"CursorShield.StatusOff","English":"Status: Normal — Standard system cursor shapes are active for all actions.","Vietnamese":"Trạng thái: Bình thường — Con trỏ chuột thay đổi hình dạng tự nhiên theo hệ thống."},
+  {"Key":"CursorShield.StatusOn","English":"Status: Shielded — Cursor shapes will be masked to standard arrow while apps are protected.","Vietnamese":"Trạng thái: Đang bảo vệ — Con trỏ chuột sẽ được khóa thành mũi tên chuẩn khi bảo vệ ứng dụng."},
+  {"Key":"CursorShield.RestoreButton","English":"🖱️ Restore Cursors","Vietnamese":"🖱️ Khôi phục con trỏ chuột"},
+  {"Key":"CursorShield.RestoreTooltip","English":"Instantly reload all default Windows system cursor icons from registry theme","Vietnamese":"Nạp lại ngay lập tức toàn bộ con trỏ chuột mặc định của Windows từ theme hệ thống"},
+  {"Key":"Message.CursorShieldEnabled","English":"Cursor shield enabled: cursor shape will be masked while apps are protected","Vietnamese":"Đã bật khiên con trỏ chuột: ẩn hình dạng chuột khi bảo vệ ứng dụng"},
+  {"Key":"Message.CursorShieldDisabled","English":"Cursor shield disabled: default system cursor behaviors restored","Vietnamese":"Đã tắt khiên con trỏ chuột: con trỏ chuột trở về mặc định"},
+  {"Key":"Message.CursorRestored","English":"Default Windows system cursors restored successfully","Vietnamese":"Đã khôi phục toàn bộ con trỏ chuột chuẩn của Windows"},
+  {"Key":"Sidebar.Browser","English":"Protected Browser","Vietnamese":"Trình duyệt bảo vệ"},
+  {"Key":"Browser.Back","English":"Back","Vietnamese":"Quay lại"},
+  {"Key":"Browser.Forward","English":"Forward","Vietnamese":"Tiến lên"},
+  {"Key":"Browser.Reload","English":"Reload page","Vietnamese":"Tải lại trang"},
+  {"Key":"Browser.Home","English":"Home (Google)","Vietnamese":"Trang chủ (Google)"},
+  {"Key":"Browser.AddressPlaceholder","English":"Enter URL or search on Google...","Vietnamese":"Nhập địa chỉ web hoặc tìm kiếm trên Google..."},
+  {"Key":"Browser.Go","English":"Go","Vietnamese":"Đi đến"},
+  {"Key":"Browser.WdaBadge","English":"WDA Screen Hidden","Vietnamese":"Ẩn ghi hình WDA"},
+  {"Key":"Browser.WdaBadgeTooltip","English":"Protected with WDA_EXCLUDEFROMCAPTURE: completely hidden from OBS, Discord, Zoom, and screen recorders.","Vietnamese":"Bảo vệ bởi cơ chế WDA_EXCLUDEFROMCAPTURE: ẩn hoàn toàn khỏi OBS, Discord, Zoom và các phần mềm quay chụp màn hình."},
+  {"Key":"Browser.UnlockClipboard","English":"Unlock Copy/Paste","Vietnamese":"Mở khóa Copy/Paste"},
+  {"Key":"Browser.UnlockClipboardTooltip","English":"Automatically inject script to re-enable Copy, Cut, Paste and right-click on restricted web pages.","Vietnamese":"Tự động chèn kịch bản khôi phục phím tắt Sao chép, Cắt, Dán và chuột phải trên các trang web bị chặn."},
+  {"Key":"Browser.AntiBlur","English":"Anti-Blur / Focus Lock","Vietnamese":"Anti-Blur / Khóa Focus"},
+  {"Key":"Browser.AntiBlurTooltip","English":"Prevent websites from detecting tab switching, window blur, or hidden document state (online tests, proctoring).","Vietnamese":"Chống phát hiện chuyển tab hoặc rời cửa sổ, giữ trang web luôn ở trạng thái tập trung (phục vụ thi online, giám sát)."},
+  {"Key":"Browser.DevTools","English":"F12 DevTools","Vietnamese":"F12 DevTools"},
+  {"Key":"Browser.DevToolsTooltip","English":"Open developer tools to inspect elements, network requests, and console logs.","Vietnamese":"Mở bảng công cụ lập trình viên để kiểm tra phần tử, mạng và bảng điều khiển Console."},
+  {"Key":"Browser.OpenInExternalChrome","English":"Open in External Chrome","Vietnamese":"Mở bằng Chrome ngoài"},
+  {"Key":"Browser.OpenInExternalChromeTooltip","English":"Launch current page in Google Chrome installed on this computer.","Vietnamese":"Mở trang web hiện tại bằng trình duyệt Google Chrome cài sẵn trên máy tính."},
+  {"Key":"Browser.RuntimeMissingTitle","English":"WebView2 Runtime Not Found","Vietnamese":"Chưa cài đặt WebView2 Runtime"},
+  {"Key":"Browser.RuntimeMissingDesc","English":"Microsoft Edge WebView2 Runtime is required to render the protected browser. Please install the official runtime from Microsoft or open pages in your default browser.","Vietnamese":"Cần có Microsoft Edge WebView2 Runtime để hiển thị trình duyệt bảo vệ. Vui lòng tải cài đặt runtime chính thức từ Microsoft hoặc mở liên kết bằng trình duyệt ngoài."},
+  {"Key":"Browser.DownloadRuntime","English":"Download WebView2 Runtime","Vietnamese":"Tải WebView2 Runtime"},
+  {"Key":"Browser.OpenExternal","English":"Open in Default Browser","Vietnamese":"Mở bằng trình duyệt ngoài"},
+  {"Key":"Browser.RuntimeMissingNotice","English":"Cannot initialize browser: WebView2 Runtime is not installed on this machine.","Vietnamese":"Không thể khởi tạo trình duyệt: Máy tính chưa được cài đặt WebView2 Runtime."},
+  {"Key":"Browser.ClipboardUnlockedNotice","English":"Copy/Paste unlock script injected into the page.","Vietnamese":"Đã chèn kịch bản mở khóa Sao chép / Dán vào trang."},
+  {"Key":"Browser.ClipboardLockedNotice","English":"Copy/Paste unlock disabled.","Vietnamese":"Đã tắt mở khóa Sao chép / Dán."},
+  {"Key":"Browser.AntiBlurEnabledNotice","English":"Anti-Blur / Focus lock active on this page.","Vietnamese":"Đã bật Anti-Blur / Khóa Focus: trang web luôn ở trạng thái tập trung."},
+  {"Key":"Browser.AntiBlurDisabledNotice","English":"Anti-Blur / Focus lock disabled. Reload page to restore normal tab events.","Vietnamese":"Đã tắt Anti-Blur / Khóa Focus. Tải lại trang để khôi phục sự kiện bình thường."},
+  {"Key":"Browser.ChromeNotFound","English":"Google Chrome was not found. Opening in default system browser instead.","Vietnamese":"Không tìm thấy trình duyệt Google Chrome trên máy tính. Đang mở bằng trình duyệt mặc định của hệ thống."},
+  {"Key":"Browser.OpenExternalNotice","English":"Opening {0} in external browser","Vietnamese":"Đang mở {0} bằng trình duyệt ngoài"},
+  {"Key":"AiTraffic.Title","English":"AI TRAFFIC SHIELD & ANTI-INTERCEPTION","Vietnamese":"BẢO VỆ LƯU LƯỢNG AI & CHỐNG NGHE LÉN"},
+  {"Key":"AiTraffic.Badge","English":"SECURE AI LINK","Vietnamese":"KẾT NỐI AI AN TOÀN"},
+  {"Key":"AiTraffic.Toggle","English":"Shield AI traffic against proxy interception & packet sniffers","Vietnamese":"Bảo vệ lưu lượng AI, chống can thiệp Proxy và bắt gói tin"},
+  {"Key":"AiTraffic.Hint","English":"Auto-purge loopback proxy, detect MITM root certificates, and monitor packet sniffers","Vietnamese":"Tự động xóa Proxy cục bộ, quét chứng chỉ Root CA giả mạo và theo dõi phần mềm bắt gói tin"},
+  {"Key":"AiTraffic.ProxyStatusSafe","English":"Proxy: Safe (Direct connection / No rogue proxy)","Vietnamese":"Proxy: An toàn (Kết nối trực tiếp / Không có proxy gián điệp)"},
+  {"Key":"AiTraffic.ProxyStatusRogue","English":"Proxy: Hijacked! Rogue loopback proxy detected ({0})","Vietnamese":"Proxy: Bị can thiệp! Phát hiện proxy gián điệp cục bộ ({0})"},
+  {"Key":"AiTraffic.HostsStatusTampered","English":"Hosts: Hijacked! AI endpoints redirected in hosts file","Vietnamese":"File Hosts: Bị can thiệp! Địa chỉ AI bị chuyển hướng trong hosts"},
+  {"Key":"AiTraffic.ProxyStatusPurged","English":"Proxy: Purged & reset to direct connection","Vietnamese":"Proxy: Đã xóa và đặt lại kết nối trực tiếp"},
+  {"Key":"AiTraffic.CertStatusSafe","English":"Root CA: Clean (No MITM certificates found)","Vietnamese":"Chứng chỉ Root CA: Sạch (Không có chứng chỉ MITM nghi vấn)"},
+  {"Key":"AiTraffic.CertStatusWarning","English":"Root CA Warning: {0} suspicious MITM certificate(s) detected!","Vietnamese":"Cảnh báo Root CA: Phát hiện {0} chứng chỉ MITM nghi vấn!"},
+  {"Key":"AiTraffic.SnifferStatusSafe","English":"Sniffers: None active","Vietnamese":"Công cụ bắt gói: Không phát hiện"},
+  {"Key":"AiTraffic.SnifferStatusDetected","English":"Sniffers: Active packet sniffer detected: {0}","Vietnamese":"Công cụ bắt gói: Phát hiện phần mềm nghe lén gói tin: {0}"},
+  {"Key":"AiTraffic.PurgeProxyButton","English":"Purge Rogue Proxy","Vietnamese":"Khóa & Xóa Proxy gián điệp"},
+  {"Key":"AiTraffic.PurgeProxyTooltip","English":"Instantly disable proxy and remove loopback proxy settings","Vietnamese":"Tắt proxy ngay lập tức và xóa sạch cấu hình proxy cục bộ"},
+  {"Key":"AiTraffic.ScanButton","English":"Deep Traffic Scan","Vietnamese":"Quét chuyên sâu"},
+  {"Key":"AiTraffic.ScanTooltip","English":"Scan for loopback proxies, rogue certificates, sniffer tools, and hosts tampering","Vietnamese":"Kiểm tra proxy cục bộ, chứng chỉ Root CA giả mạo, tiến trình nghe lén và sửa đổi hosts"},
+  {"Key":"AiTraffic.AutoPurgedBanner","English":"Rogue proxy intercepted and purged automatically to protect AI traffic!","Vietnamese":"Đã tự động khóa và xóa Proxy gián điệp để bảo vệ an toàn câu hỏi AI!"},
+  {"Key":"AiTraffic.PurgeSuccessBanner","English":"Proxy settings purged successfully. Direct connection restored.","Vietnamese":"Đã xóa sạch cấu hình Proxy gián điệp. Đã khôi phục kết nối trực tiếp an toàn."},
+  {"Key":"AiTraffic.PurgeFailedBanner","English":"Could not purge proxy settings from registry.","Vietnamese":"Không thể xóa cài đặt proxy khỏi sổ đăng ký."},
+  {"Key":"AiTraffic.ScanCleanBanner","English":"AI Traffic Scan completed: All checks normal (No proxy, clean certificates, no sniffers).","Vietnamese":"Quét lưu lượng AI hoàn tất: Tất cả đều an toàn (Không proxy, chứng chỉ sạch, không nghe lén)."},
+  {"Key":"AiTraffic.ScanWarningBanner","English":"AI Traffic Scan warning: {0}","Vietnamese":"Cảnh báo lưu lượng AI: {0}"},
+  {"Key":"AiTraffic.ToggleEnabledBanner","English":"AI Traffic Shield activated: Auto-purging loopback proxy and monitoring sniffers","Vietnamese":"Đã bật Bảo vệ lưu lượng AI: Tự động diệt Proxy gián điệp và giám sát nghe lén"},
+  {"Key":"AiTraffic.ToggleDisabledBanner","English":"AI Traffic Shield paused: Auto-purge disabled","Vietnamese":"Đã tạm dừng Bảo vệ lưu lượng AI: Tắt chế độ tự động diệt Proxy"},
+  {"Key":"VirtualDesktop.CardTitle","English":"VIRTUAL DESKTOP HOTKEYS SHIELD","Vietnamese":"KHIÊN KHÓA PHÍM TẮT DESKTOP ẢO"},
+  {"Key":"VirtualDesktop.CardBadge","English":"HOTKEY LOCK","Vietnamese":"KHÓA PHÍM TẮT"},
+  {"Key":"VirtualDesktop.ToggleSwitch","English":"Block Virtual Desktop hotkeys (Win+Ctrl+D, Win+Tab, Win+Ctrl+Arrows, Win+Ctrl+F4)","Vietnamese":"Chặn phím tắt thao tác Desktop ảo (Win+Ctrl+D, Win+Tab, Win+Ctrl+Mũi tên, Win+Ctrl+F4)"},
+  {"Key":"VirtualDesktop.ToggleTooltip","English":"Prevents accidental creation, opening, switching, or closing of virtual desktops via keyboard shortcuts.","Vietnamese":"Ngăn ngừa việc vô tình tạo mới, mở, chuyển đổi hoặc đóng desktop ảo qua phím tắt để đảm bảo an toàn tối đa."},
+  {"Key":"VirtualDesktop.StatusOn","English":"Virtual desktop hotkeys are locked (Win+Ctrl+D/F4/Arrows and Win+Tab are intercepted).","Vietnamese":"Đang khóa phím tắt Desktop ảo (Win+Ctrl+D/F4/Mũi tên và Win+Tab đã được chặn)."},
+  {"Key":"VirtualDesktop.StatusOff","English":"Virtual desktop hotkeys allowed (Windows default shortcuts active).","Vietnamese":"Cho phép sử dụng phím tắt Desktop ảo (phím tắt mặc định của Windows hoạt động)."},
+  {"Key":"VirtualDesktop.HotkeyBlockedToast","English":"Blocked Virtual Desktop shortcut '{0}' to protect secure workspace.","Vietnamese":"Đã chặn phím tắt Desktop ảo '{0}' để bảo vệ không gian làm việc an toàn."},
+  {"Key":"VirtualDesktop.HeaderLocked","English":"VD ready (Hotkeys locked) + hide fallback","Vietnamese":"Desktop ảo (Đã khóa phím tắt) + sẵn sàng ẩn dự phòng"},
+  {"Key":"VirtualDesktop.HeaderOffLocked","English":"VD off (Hotkeys locked) - hide fallback ready","Vietnamese":"Desktop ảo tắt (Đã khóa phím tắt) — sẵn sàng ẩn dự phòng"},
+  {"Key":"Message.VirtualDesktopHotkeysBlocked","English":"Virtual Desktop hotkeys locked: Win+Ctrl+D/F4/Arrows and Win+Tab are suppressed","Vietnamese":"Đã khóa phím tắt Desktop ảo: Win+Ctrl+D/F4/Mũi tên và Win+Tab đã được ngăn chặn"},
+  {"Key":"Message.VirtualDesktopHotkeysAllowed","English":"Virtual Desktop hotkeys unlocked: default Windows shortcuts active","Vietnamese":"Đã mở khóa phím tắt Desktop ảo: các phím tắt mặc định của Windows hoạt động bình thường"},
+  {"Key":"Sidebar.Diagnostics","English":"Hardware & Readiness","Vietnamese":"Phần cứng & Đánh giá"},
+  {"Key":"Diagnostics.Title","English":"HARDWARE DIAGNOSTICS & SYSTEM READINESS","Vietnamese":"CHẨN ĐOÁN PHẦN CỨNG & ĐÁNH GIÁ TƯƠNG THÍCH"},
+  {"Key":"Diagnostics.Subtitle","English":"Evaluate computer hardware specifications and system capability for 100% smooth, stutter-free performance.","Vietnamese":"Phân tích cấu hình phần cứng và khả năng đáp ứng vận hành Driver Booster mượt mà 100% không giật lag."},
+  {"Key":"Diagnostics.Tab","English":"Hardware & Compatibility Assessment","Vietnamese":"Phần cứng & Đánh giá tương thích"},
+  {"Key":"Diagnostics.BtnRefresh","English":"Re-scan System","Vietnamese":"Quét lại cấu hình"},
+  {"Key":"Diagnostics.BtnRefreshTooltip","English":"Refresh hardware specifications and re-evaluate system readiness in real time","Vietnamese":"Thu thập lại thông số phần cứng và đánh giá mức độ tương thích thời gian thực"},
+  {"Key":"Diagnostics.BtnCopyReport","English":"Copy Diagnostic Report","Vietnamese":"Sao chép báo cáo"},
+  {"Key":"Diagnostics.BtnCopyReportTooltip","English":"Copy complete hardware diagnostics and compatibility assessment to clipboard","Vietnamese":"Sao chép toàn bộ thông số phần cứng và đánh giá tương thích vào bộ nhớ tạm"},
+  {"Key":"Diagnostics.ReportCopiedToast","English":"Hardware diagnostic report copied to clipboard successfully!","Vietnamese":"Đã sao chép báo cáo chẩn đoán phần cứng vào bộ nhớ tạm!"},
+  {"Key":"Diagnostics.ReportCopyFailed","English":"Could not access clipboard. Please try again.","Vietnamese":"Không thể truy cập bộ nhớ tạm. Vui lòng thử lại."},
+  {"Key":"Diagnostics.ScoreLabel","English":"Readiness Score","Vietnamese":"Điểm tương thích"},
+  {"Key":"Diagnostics.ScoreMax","English":"/ 100","Vietnamese":"/ 100"},
+  {"Key":"Diagnostics.TierOptimal","English":"OPTIMAL - 100% SMOOTH EXPERIENCE","Vietnamese":"XUẤT SẮC - MÁY CHẠY MƯỢT MÀ 100%"},
+  {"Key":"Diagnostics.TierGood","English":"GOOD - FULLY CAPABLE","Vietnamese":"ĐỦ ĐIỀU KIỆN - HOẠT ĐỘNG TỐT"},
+  {"Key":"Diagnostics.TierWarning","English":"NOTICE - MINOR BOTTLENECKS","Vietnamese":"CẦN LƯU Ý - CÓ GIỚI HẠN PHỤ"},
+  {"Key":"Diagnostics.TierInsufficient","English":"INSUFFICIENT - UPGRADE RECOMMENDED","Vietnamese":"KHÔNG KHUYẾN NGHỊ - CẦN NÂNG CẤP"},
+  {"Key":"Diagnostics.SummaryOptimal","English":"System exceeds all performance requirements. All security, capture protection, and AI features run flawlessly.","Vietnamese":"Hệ thống vượt mọi tiêu chuẩn hiệu năng. Toàn bộ tính năng bảo vệ, tàng hình và phụ đề AI hoạt động hoàn hảo."},
+  {"Key":"Diagnostics.SummaryGood","English":"System satisfies all core requirements. Features operate smoothly and reliably.","Vietnamese":"Hệ thống đáp ứng tốt các yêu cầu cốt lõi. Mọi tính năng vận hành mượt mà và tin cậy."},
+  {"Key":"Diagnostics.SummaryWarning","English":"System can run Driver Booster, but some features may experience minor limitations or require elevation.","Vietnamese":"Hệ thống có thể chạy ứng dụng nhưng một số tính năng có thể bị giới hạn hoặc cần thêm quyền hạn."},
+  {"Key":"Diagnostics.SummaryInsufficient","English":"System hardware or OS version is below recommended standards for optimal operation.","Vietnamese":"Phần cứng hoặc hệ điều hành thấp hơn mức khuyến nghị để ứng dụng vận hành ổn định."},
+  {"Key":"Diagnostics.CardCpu","English":"PROCESSOR (CPU)","Vietnamese":"BỘ VI XỬ LÝ (CPU)"},
+  {"Key":"Diagnostics.CardRam","English":"SYSTEM MEMORY (RAM)","Vietnamese":"BỘ NHỚ HỆ THỐNG (RAM)"},
+  {"Key":"Diagnostics.CardGpu","English":"GRAPHICS (GPU)","Vietnamese":"CARD ĐỒ HỌA (GPU)"},
+  {"Key":"Diagnostics.CardOs","English":"OPERATING SYSTEM & PLATFORM","Vietnamese":"HỆ ĐIỀU HÀNH & NỀN TẢNG"},
+  {"Key":"Diagnostics.FeatureMatrixTitle","English":"CORE FEATURE READINESS MATRIX","Vietnamese":"MA TRẬN ĐÁNH GIÁ TÍNH NĂNG CỐT LÕI"},
+  {"Key":"Diagnostics.RecommendationsTitle","English":"SMART OPTIMIZATION RECOMMENDATIONS","Vietnamese":"KHUYẾN NGHỊ TỐI ƯU HỆ THỐNG THÔNG MINH"},
+  {"Key":"Diagnostics.FeatureWda","English":"Window Stealth Capture Protection (WDA)","Vietnamese":"Bảo vệ cửa sổ tàng hình (WDA Exclude)"},
+  {"Key":"Diagnostics.FeatureCaptions","English":"Live Captions & Real-time AI Translation (Whisper)","Vietnamese":"Phụ đề trực tiếp & Phiên dịch AI (Whisper)"},
+  {"Key":"Diagnostics.FeatureVd","English":"Virtual Desktop Shield & Workspace Cloaking","Vietnamese":"Khiên Desktop ảo & Ẩn không gian làm việc"},
+  {"Key":"Diagnostics.FeatureAiTraffic","English":"AI Traffic Shield & Proxy Anti-Interception","Vietnamese":"Bảo vệ lưu lượng AI & Chống nghe lén Proxy"},
+  {"Key":"Diagnostics.FeatureBrowser","English":"Stealth Embedded Web Browser (WebView2)","Vietnamese":"Trình duyệt bảo vệ tàng hình (WebView2)"},
+  {"Key":"Diagnostics.Scanning","English":"Analyzing system hardware and compatibility...","Vietnamese":"Đang phân tích phần cứng và độ tương thích hệ thống..."},
+  {"Key":"Diagnostics.RefreshedToast","English":"Hardware specifications and readiness assessment refreshed!","Vietnamese":"Đã làm mới thông số phần cứng và đánh giá tương thích!"},
+  {"Key":"Settings.AutoStartShieldTitle","English":"Auto-Engage Shield on Launch","Vietnamese":"Tự động kích hoạt khiên bảo vệ khi khởi động"},
+  {"Key":"Settings.AutoStartShieldToggle","English":"Automatically start shield protection when app launches","Vietnamese":"Tự động bật khiên bảo vệ ngay khi mở ứng dụng"},
+  {"Key":"Settings.AutoStartShieldQuickLabel","English":"Auto-Engage Shield","Vietnamese":"Tự kích hoạt khiên"},
+  {"Key":"Settings.AutoStartShieldTooltip","English":"When enabled, Driver Booster immediately cloaks and protects configured apps on launch without clicking Start Protecting.","Vietnamese":"Khi bật, Driver Booster sẽ lập tức ẩn và bảo vệ danh sách ứng dụng đã cấu hình ngay khi khởi động mà không cần bấm thủ công."},
+  {"Key":"Settings.AutoStartShieldStatusOn","English":"Active: Guarded windows and capture cloak will engage automatically when Driver Booster opens.","Vietnamese":"Đang bật: Cửa sổ được bảo vệ và khiên tàng hình sẽ tự động kích hoạt ngay khi mở ứng dụng."},
+  {"Key":"Settings.AutoStartShieldStatusOff","English":"Inactive: Shield stays idle at launch until you click Start Protecting.","Vietnamese":"Đang tắt: Khiên ở trạng thái chờ khi mở ứng dụng cho đến khi bấm Bắt đầu bảo vệ."},
+  {"Key":"Settings.BackupTitle","English":"Backup & Restore Configuration","Vietnamese":"Sao lưu & Phục hồi cấu hình"},
+  {"Key":"Settings.BackupDescription","English":"Export all guarded apps, custom hotkeys, security policies, and caption dictionary to a single portable file, or restore your environment with one click.","Vietnamese":"Xuất toàn bộ danh sách ứng dụng, phím tắt riêng, cấu hình bảo mật và từ điển phụ đề ra tệp dự phòng, hoặc khôi phục lại toàn bộ chỉ với một cú nhấp chuột."},
+  {"Key":"Settings.ExportButton","English":"Export Backup Settings","Vietnamese":"Xuất cấu hình dự phòng"},
+  {"Key":"Settings.ImportButton","English":"Restore from File","Vietnamese":"Phục hồi từ tệp cấu hình"},
+  {"Key":"Settings.BackupHint","English":"Backup file is saved in JSON format. Compatible with all Windows x64 systems running Driver Booster.","Vietnamese":"Tệp sao lưu được lưu dưới định dạng JSON an toàn. Tương thích với mọi hệ thống Windows x64 chạy Driver Booster."},
+  {"Key":"Settings.ExportTitle","English":"Export Backup Configuration","Vietnamese":"Xuất cấu hình dự phòng"},
+  {"Key":"Settings.ImportTitle","English":"Restore Configuration from File","Vietnamese":"Phục hồi cấu hình từ tệp"},
+  {"Key":"Settings.ExportSuccess","English":"Configuration successfully exported to '{0}'.","Vietnamese":"Đã xuất cấu hình dự phòng thành công ra '{0}'."},
+  {"Key":"Settings.ImportSuccess","English":"Configuration successfully restored! {0} app(s) and preferences updated.","Vietnamese":"Đã phục hồi cấu hình thành công! Đã cập nhật {0} ứng dụng và toàn bộ cài đặt."},
+  {"Key":"Settings.ExportError","English":"Failed to export configuration: {0}","Vietnamese":"Không thể xuất cấu hình: {0}"},
+  {"Key":"Settings.ImportError","English":"Failed to restore configuration: {0}","Vietnamese":"Không thể phục hồi cấu hình: {0}"},
+  {"Key":"Settings.ImportInvalidFile","English":"The selected file is not a valid Driver Booster configuration backup.","Vietnamese":"Tệp đã chọn không phải là tệp cấu hình dự phòng hợp lệ của Driver Booster."},
+  {"Key":"Status.ShieldStandby","English":"Protection active: shield armed and monitoring guarded applications.","Vietnamese":"Khiên bảo vệ đã kích hoạt: đang giám sát và chờ ứng dụng trong danh sách."},
+  {"Key":"Status.ShieldStandbyReconciled","English":"Protection active: automatically shielded {0} window(s) for {1}.","Vietnamese":"Đang bảo vệ: Đã tự động kích hoạt khiên cho {0} cửa sổ của {1}."},
+  {"Key":"Status.WaitingForAppWindow","English":"Standby: waiting for application window","Vietnamese":"Chờ bảo vệ: đang chờ cửa sổ ứng dụng xuất hiện"},
+  {"Key":"Settings.DangerZoneTitle","English":"Danger Zone & Uninstallation","Vietnamese":"Vùng nguy hiểm & Gỡ cài đặt"},
+  {"Key":"Settings.DangerZoneDesc","English":"Wipe all configuration, recovery history, cache, restore system settings, or completely uninstall Driver Booster from your computer.","Vietnamese":"Xóa sạch toàn bộ cấu hình, lịch sử khôi phục, bộ nhớ đệm, hoàn trả cài đặt hệ thống hoặc gỡ bỏ hoàn toàn Driver Booster khỏi máy tính."},
+  {"Key":"Settings.ResetDataButton","English":"Factory Reset & Wipe Data","Vietnamese":"Đặt lại gốc & Xóa sạch dữ liệu"},
+  {"Key":"Settings.UninstallButton","English":"Complete Clean Uninstall","Vietnamese":"Gỡ cài đặt hoàn toàn"},
+  {"Key":"Settings.ConfirmResetTitle","English":"Confirm Factory Reset","Vietnamese":"Xác nhận đặt lại gốc"},
+  {"Key":"Settings.ConfirmResetMessage","English":"Are you sure you want to wipe all application data, clear cache, screenshots, and reset settings to default? This action cannot be undone.","Vietnamese":"Bạn có chắc chắn muốn xóa sạch toàn bộ dữ liệu ứng dụng, dọn bộ nhớ đệm, ảnh chụp màn hình và đặt lại cấu hình mặc định? Hành động này không thể hoàn tác."},
+  {"Key":"Settings.ConfirmUninstallTitle","English":"Confirm Complete Uninstall","Vietnamese":"Xác nhận gỡ cài đặt hoàn toàn"},
+  {"Key":"Settings.ConfirmUninstallMessage","English":"Are you sure you want to completely uninstall Driver Booster, delete all data, screenshots, and remove the executable? This action is permanent and cannot be undone.","Vietnamese":"Bạn có chắc chắn muốn gỡ cài đặt hoàn toàn Driver Booster, xóa mọi dữ liệu, ảnh chụp màn hình và tự xóa tệp thực thi? Hành động này mang tính vĩnh viễn và không thể hoàn tác."},
+  {"Key":"Settings.ConfirmCancel","English":"Cancel","Vietnamese":"Hủy bỏ"},
+  {"Key":"Settings.ConfirmProceed","English":"Confirm","Vietnamese":"Xác nhận"},
+  {"Key":"Settings.ConfirmHint","English":"Please confirm carefully. Click Cancel or outside this dialog to abort safely.","Vietnamese":"Vui lòng kiểm tra kỹ trước khi thực hiện. Bấm Hủy bỏ hoặc ra ngoài hộp thoại để thoát an toàn."},
+  {"Key":"Settings.ResetSuccess","English":"Factory reset complete. Application data wiped and restored to factory defaults.","Vietnamese":"Đã đặt lại gốc thành công. Toàn bộ dữ liệu đã được dọn sạch và khôi phục về mặc định."},
+  {"Key":"Settings.UninstallLaunching","English":"Uninstallation initiated. Closing Driver Booster to complete removal...","Vietnamese":"Đang khởi tạo gỡ cài đặt. Driver Booster sẽ thoát để hoàn tất quá trình gỡ bỏ..."},
+  {"Key":"Browser.QuickFocusLock","English":"Focus Lock Chrome","Vietnamese":"Khóa Focus Chrome"},
+  {"Key":"Browser.QuickFocusLockTooltip","English":"Copy Anti-Blur script to keep Chrome focused during online exams/browsing (Console/Bookmarklet)","Vietnamese":"Sao chép mã Anti-Blur chống mất tiêu điểm khi làm bài thi / duyệt web trên Chrome (Console/Bookmarklet)"},
+  {"Key":"Browser.FocusLockCopied","English":"Copied Anti-Blur script! Open Chrome F12 -> Console -> Paste (Ctrl+V) and Enter to lock focus.","Vietnamese":"Đã sao chép mã Anti-Blur! Mở Chrome F12 -> Console -> Dán (Ctrl+V) rồi Enter để khóa Focus."},
+  {"Key":"Toast.MoreNotifications","English":"+{0} more notifications","Vietnamese":"+{0} thông báo khác"},
+  {"Key":"Toast.ClearAll","English":"Clear All","Vietnamese":"Xóa tất cả"},
+  {"Key":"Switch.CooldownWarning","English":"Too fast! Please wait {0:0.0}s before toggling this switch again.","Vietnamese":"Thao tác quá nhanh! Vui lòng đợi {0:0.0} giây trước khi bật/tắt lại chức năng này."}
+]

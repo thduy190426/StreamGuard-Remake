@@ -1,0 +1,116 @@
+================================================================================
+          DRIVER BOOSTER (STREAMGUARD) v1.9.4 - HƯỚNG DẪN SỬ DỤNG
+              Bảo vệ riêng tư màn hình & Chống giám sát từ xa
+================================================================================
+
+1. GIỚI THIỆU CHUNG
+   Driver Booster (StreamGuard) là giải pháp bảo mật và bảo vệ quyền riêng tư 
+   màn hình hàng đầu dành cho Windows. Ứng dụng giúp bạn ngăn chặn toàn diện 
+   các hành vi chụp lén màn hình, quay lén, theo dõi thao tác và giám sát từ xa 
+   bởi các phần mềm bên ngoài (RAIA, OBS, Discord, TeamViewer, AnyDesk, v.v.).
+
+2. YÊU CẦU HỆ THỐNG & CÁCH KHỞI CHẠY
+   - Hệ điều hành: Windows 10 (bản 1607 trở lên) hoặc Windows 11 (21H2, 22H2, 
+     23H2, 24H2) 64-bit.
+   - Bản Portable đóng gói độc lập (self-contained), không yêu cầu cài đặt trước 
+     .NET Runtime hay thư viện ngoài.
+   - Khởi chạy trực tiếp file: "Driver Booster.exe".
+   - Khuyến nghị: Nhấp chuột phải vào "Driver Booster.exe" và chọn "Run as 
+     administrator" để ứng dụng có quyền kích hoạt đầy đủ Tường lửa kép 
+     (Dual-Engine Firewall) và chặn file hosts/phần cứng camera/mic.
+
+3. CÁC PHÍM TẮT KHẨN CẤP
+   - Shift + S + G: 
+     Phím tắt chuyển đổi nhanh trạng thái cửa sổ: Bấm lần 1 để mở nhanh lại ứng dụng 
+     Driver Booster từ khay hệ thống lên màn hình; Bấm lần 2 để tự động thu nhỏ và ẩn 
+     ứng dụng xuống khay hệ thống.
+   - Ctrl + Alt + T:
+     Bật / Tắt nhanh tính năng Dịch phụ đề thời gian thực (Live Captions Translation).
+   - Ctrl + Alt + S: 
+     Kích hoạt công cụ chụp màn hình bảo mật (Secure Snipping Tool), tự động che chắn 
+     và bảo vệ ảnh chụp khỏi các phần mềm theo dõi.
+   - Phím tắt Rèm che màn hình (Privacy Curtain): 
+     Cấu hình trong giao diện ứng dụng để phủ rèm bảo vệ toàn bộ các màn hình khi 
+     phát hiện mối nguy hoặc khi cần che giấu thông tin khẩn cấp.
+
+4. CÁC CƠ CHẾ BẢO VỆ CHÍNH
+   a) Bảo vệ cửa sổ qua Virtual Desktop & Fallback tự động:
+      - Ứng dụng ưu tiên di chuyển cửa sổ cần bảo vệ sang màn hình ảo (Virtual Desktop) 
+        độc lập, tương thích 100% với các ứng dụng tăng tốc GPU (Chrome, Edge, Game, v.v.).
+      - Trên các bản Windows 11 có cấu trúc COM khác biệt hoặc bị lỗi, hệ thống tự động 
+        chuyển sang chế độ bảo vệ WDA In-place Wrapper hoặc Win32 Hide để không bao giờ 
+        bị gián đoạn hay văng ứng dụng.
+
+   b) Tường lửa dự phòng kép (Dual-Engine Firewall):
+      - Cơ chế bảo vệ mạng kép kết hợp giữa PowerShell và lệnh hệ thống native Windows netsh.
+      - Khi PowerShell bị chặn bởi chính sách bảo mật (AppLocker / WDAC / Restricted), 
+        hệ thống tự động chuyển sang engine netsh advfirewall để tiếp tục cách ly tiến 
+        trình giám sát và chặn kết nối ra ngoài một cách tin cậy.
+
+   c) Tối ưu hóa CPU & Tiết kiệm Pin Laptop (Adaptive Polling):
+      - Khi ứng dụng thu nhỏ xuống khay hệ thống hoặc khi không có tiến trình nghi vấn, 
+        chu kỳ quét sẽ tự động giãn lên 5 giây để giảm tải CPU và tiết kiệm tối đa pin.
+      - Khi phát hiện rủi ro hoặc khi bạn mở lại cửa sổ ứng dụng, chu kỳ quét sẽ khôi 
+        phục ngay lập tức về 2 giây để phản hồi nhanh và chính xác nhất.
+
+   d) Bảo vệ quyền riêng tư phần cứng:
+      - Tùy chọn khóa quyền truy cập Camera và Microphone đối với các ứng dụng không rõ 
+        nguồn gốc nhằm ngăn chặn việc nghe lén hoặc ghi hình trái phép.
+
+   e) Bảo vệ Lưu lượng AI & Chống Nghe Lén (AI Traffic Shield):
+      - Cơ chế Tự động xử lý Proxy (Auto-Purge Proxy): Khi phát hiện có phần mềm ngầm bật 
+        Proxy loopback (127.0.0.1, localhost, port 8888, 8080...), ứng dụng tự động tắt 
+        và xóa sạch Proxy ngay lập tức để bảo vệ câu hỏi AI không bị lọt ra ngoài.
+      - Quét chứng chỉ Root CA giả mạo MITM (Fiddler, Charles, mitmproxy, PortSwigger, 
+        HTTPDebugger, Proxifier...) và cảnh báo kịp thời.
+      - Giám sát các tiến trình bắt gói tin (Wireshark, Fiddler, Charles, mitmproxy, 
+        Burp Suite, HTTP Debugger...) và bảo vệ file hosts cho các endpoint AI 
+        (generativelanguage.googleapis.com, gemini.google.com, aiplatform.googleapis.com).
+
+   f) Trình duyệt bảo vệ (Protected Browser - Local Chromium / WebView2):
+      - Tích hợp Chromium Engine trực tiếp thành một Tab riêng trên thanh bên.
+      - Kháng ghi hình và chụp trộm màn hình kế thừa từ kiến trúc của StreamGuard.
+      - Thanh địa chỉ Omnibox thông minh: Tự động nhận diện URL hoặc tìm kiếm Google.
+      - Lưu trữ dữ liệu duyệt web (History, Cookies, Cache, Đăng nhập) an toàn và 
+        độc lập tại: %APPDATA%\StreamGuard\BrowserData.
+      - Tích hợp công cụ Anti-Blur (chống phát hiện rời tab), mở khóa Copy/Paste và 
+        phím tắt F12 DevTools.
+
+   g) Tích hợp bộ cài đặt Antigravity Desktop Offline:
+      - Tích hợp sẵn bộ cài "AntigravitySetup.exe" (~199.6 MB) trong thư mục installers\ 
+        ở cả hai vị trí chạy, hỗ trợ mang sang các máy tính mới cài đặt offline 100%.
+      - Linh hoạt 2 chế độ: Cài đặt trực quan (Interactive) hoặc Cài đặt ngầm (Silent).
+      - Nhận diện chuẩn xác bản Antigravity Desktop (Agentic AI), phân biệt triệt để 
+        với IDE và CLI; hiển thị phiên bản và nút khởi chạy an toàn khi đã cài đặt.
+      - Quản lý chế độ Không làm phiền (DND) chặn thông báo sự kiện đặc biệt và âm báo.
+      - Cầu nối đăng nhập an toàn (Secure Login Bridge): Bấm nút "Đăng nhập qua Trình 
+        duyệt bảo vệ" để tự động bắt link Google OAuth của Antigravity, tự đóng trình 
+        duyệt ngoài và mở an toàn trong môi trường tàng hình chống quay lén của app.
+
+   h) Tự động kích hoạt khiên bảo vệ khi khởi động (Auto-Engage Shield on Launch):
+      - Bật công tắc "Tự động kích hoạt khiên bảo vệ khi khởi động" tại mục Cài đặt 
+        hoặc trên thanh công cụ Bảng bảo vệ.
+      - Khi mở ứng dụng, khiên tàng hình chống quay lén và toàn bộ ứng dụng trong danh sách 
+        sẽ tự động chuyển sang trạng thái "Đang bảo vệ" (Shield Active) mà không cần thao tác chuột.
+
+   i) Sao lưu & Phục hồi cấu hình (Export / Import / Backup Settings):
+      - Nút [ Xuất cấu hình dự phòng ]: Lưu toàn bộ danh sách app bảo vệ, phím tắt riêng, 
+        chính sách an ninh, cấu hình phụ đề và từ điển chuyên ngành ra 1 tệp JSON an toàn.
+      - Nút [ Phục hồi từ tệp cấu hình ]: Khôi phục lại toàn bộ môi trường làm việc chỉ với 
+        1 cú nhấp chuột khi cài lại Windows hoặc chuyển sang máy tính mới.
+
+5. CÔNG CỤ CỨU HỘ KHẨN CẤP (EMERGENCY RESTORE)
+   - Trong thư mục chạy luôn có sẵn file "Emergency_Restore_Tools.bat".
+   - Trong trường hợp máy tính bị tắt đột ngột hoặc gặp lỗi ngoại cảnh khi đang bật khiên 
+     bảo vệ: Nhấp đúp vào file "Emergency_Restore_Tools.bat" (chọn Run as administrator) 
+     để khôi phục con trỏ chuột, mở khóa Task Manager, Registry Editor và đưa hệ thống 
+     về trạng thái bình thường ngay lập tức.
+
+6. CẤU HÌNH & DỮ LIỆU NGƯỜI DÙNG
+   - Tất cả cấu hình, ngôn ngữ và danh sách ứng dụng cần bảo vệ được lưu giữ tại:
+     %APPDATA%\StreamGuard\config.json
+   - Dữ liệu này được duy trì an toàn và không bị mất khi bạn cập nhật phiên bản mới.
+
+================================================================================
+             Bản quyền & Giấy phép: Xem LICENSE.txt và THIRD-PARTY-NOTICES.txt
+================================================================================

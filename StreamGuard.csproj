@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Driver Booster</AssemblyName>
+    <AssemblyTitle>Driver Booster</AssemblyTitle>
+    <Product>Driver Booster</Product>
+    <Version>1.9.4</Version>
+    <InformationalVersion>1.9.4</InformationalVersion>
+    <Description>Desktop privacy and capture protection</Description>
+    <RootNamespace>StreamGuard</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="LICENSE.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Update="THIRD-PARTY-NOTICES.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <None Update="HUONG_DAN_SU_DUNG.txt" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+    <Resource Include="Assets\AppIcon.ico" />
+    <EmbeddedResource Include="Localization\Strings.json" LogicalName="StreamGuard.Localization.Strings.json" />
+    <EmbeddedResource Include="BrowserScripts\EnableCopyPaste.js" LogicalName="StreamGuard.BrowserScripts.EnableCopyPaste.js" />
+    <EmbeddedResource Include="Captions\Runtime.zip" LogicalName="StreamGuard.Captions.Runtime.zip" />
+    <EmbeddedResource Include="Captions\Backend\worker.py" LogicalName="StreamGuard.Captions.Backend.worker.py" />
+    <EmbeddedResource Include="Captions\Backend\app\__init__.py" LogicalName="StreamGuard.Captions.Backend.app.__init__.py" />
+    <EmbeddedResource Include="Captions\Backend\app\config.py" LogicalName="StreamGuard.Captions.Backend.app.config.py" />
+    <EmbeddedResource Include="Captions\Backend\app\audio_capture.py" LogicalName="StreamGuard.Captions.Backend.app.audio_capture.py" />
+    <EmbeddedResource Include="Captions\Backend\app\transcriber.py" LogicalName="StreamGuard.Captions.Backend.app.transcriber.py" />
+    <Compile Remove="tests\**" />
+    <Page Remove="tests\**" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+  </ItemGroup>
+  <!-- Exclude nested git repo (StreamGuard/ subfolder) to avoid duplicate members -->
+  <ItemGroup>
+    <Compile Remove="StreamGuard\**" />
+    <Page Remove="StreamGuard\**" />
+    <EmbeddedResource Remove="StreamGuard\**" />
+    <None Remove="StreamGuard\**" />
+  </ItemGroup>
+  <Target Name="CopyWebView2LoaderToOutput" AfterTargets="Build">
+    <Copy SourceFiles="$(NuGetPackageRoot)microsoft.web.webview2\1.0.2903.40\runtimes\win-x64\native\WebView2Loader.dll"
+          DestinationFolder="$(TargetDir)"
+          SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CopyWebView2LoaderToPublish" AfterTargets="Publish">
+    <Copy SourceFiles="$(NuGetPackageRoot)microsoft.web.webview2\1.0.2903.40\runtimes\win-x64\native\WebView2Loader.dll"
+          DestinationFolder="$(PublishDir)"
+          SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(NuGetPackageRoot)microsoft.web.webview2\1.0.2903.40\runtimes\win-x64\native\WebView2Loader.dll"
+          DestinationFolder="$(PublishDir)runtimes\win-x64\native"
+          SkipUnchangedFiles="true" />
+  </Target>
+</Project>
