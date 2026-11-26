@@ -159,17 +159,26 @@ Phân hệ chuyên dụng bảo vệ toàn vẹn nội dung câu hỏi (prompts)
 - Ngăn chặn người khác hoặc phần mềm độc hại đóng Driver Booster hoặc vô hiệu hóa các lớp bảo vệ.
 - Tự động mở khóa an toàn khi ứng dụng thoát bình thường.
 
-#### Khiên con trỏ chuột (Cursor Shield / Ghost Cursor)
-- Che giấu hoặc làm mờ tọa độ con trỏ chuột trên các phần mềm quay chụp màn hình, ngăn chặn việc theo dõi hành vi nhập liệu hoặc định vị vùng làm việc nhạy cảm.
+#### Khiên con trỏ chuột & Tàng hình chuột (Cursor Shield & Cursor Cloak)
+- **Khiên con trỏ chuột (`Cursor Shield`)**: Chuẩn hóa hình dạng con trỏ chuột hệ thống khi bảo vệ ứng dụng, ngăn lộ trạng thái con trỏ khi quay/chụp màn hình.
+- **Tàng hình chuột trên ứng dụng (`In-App Cursor Cloak`)**: Ẩn con trỏ thật bên trong cửa sổ `Driver Booster` (`WM_SETCURSOR` / `Cursors.None`) và hiển thị con trỏ giả lập (`VisualCursorAdorner`) chỉ cho người dùng cục bộ.
+- **Tàng hình chuột trên toàn màn hình (`Global Cursor Cloak` — `Ctrl + Shift + M`)**:
+  - Thay thế toàn bộ con trỏ hệ thống (`SystemCursorIds`) bằng con trỏ trong suốt để ẩn hoàn toàn con trỏ chuột thật khi chia sẻ toàn màn hình (Google Meet, OBS, Zoom...), đồng thời vẽ con trỏ giả lập cục bộ trên `GlobalCursorOverlayWindow` (`WDA_EXCLUDEFROMCAPTURE`, tự giữ `HWND_TOPMOST` trên cửa sổ Fullscreen).
+  - Phối hợp an toàn với `CursorShieldService` (không khôi phục nhầm con trỏ mặc định khi đang bật `Global Cursor Cloak`) và hỗ trợ phím khẩn cấp **`Ctrl + Shift + Esc`** để khôi phục con trỏ Windows ngay lập tức.
 
 #### Mở khóa sao chép & dán trang web (Copy & Paste Unlocker)
 - Cung cấp các script mở khóa nhúng sẵn (`BrowserScripts/EnableCopyPaste.js`) để khôi phục thao tác chuột phải, bôi đen văn bản, và tổ hợp phím `Ctrl+C / Ctrl+V / Ctrl+X` trên các trang web có tính năng ngăn chặn.
 - Hỗ trợ 3 phương thức: **Sao chép Script Console F12**, **Sao chép Bookmarklet**, và **Sao chép lệnh hoàn nguyên**.
 
 #### Chụp màn hình bảo mật (Secure Snipping Tool)
-- Phím tắt mặc định **`Ctrl+Alt+S`** (hoặc tùy chỉnh trong cài đặt) cho phép khoanh vùng và chụp ảnh màn hình nhanh.
-- Tự động loại trừ cửa sổ Driver Booster khỏi ảnh chụp.
+- Phím tắt mặc định **`Ctrl + Alt + S`** (hoặc tùy chỉnh trong cài đặt) cho phép khoanh vùng và chụp ảnh màn hình nhanh.
+- Hoạt động an toàn trên **Chrome Fullscreen** có giám sát: `SnippingOverlayWindow` dùng `WS_EX_NOACTIVATE` + `MA_NOACTIVATE` (không làm Chrome mất focus `blur` / `visibilitychange`), `HWND_TOPMOST` phủ trên Fullscreen, `WDA_EXCLUDEFROMCAPTURE` (ẩn lớp phủ khỏi quay/chụp màn hình), và hook bàn phím `WH_KEYBOARD_LL` chặn phím `Escape` để hủy chụp mà không làm Chrome thoát Fullscreen.
 - Tùy chọn tự động sao chép ảnh vào Clipboard hoặc lưu thành tệp hình ảnh vào thư mục cấu hình riêng.
+
+#### An toàn thao tác & Vùng nguy hiểm (Passive Focus, Switch Cooldown & Confirmation)
+- **Passive Focus Mode**: Giữ cửa sổ `Driver Booster` ở chế độ không cướp focus khi người dùng thao tác song song với trình duyệt/Chrome.
+- **Chống bật/tắt liên tục Switch (`SwitchCooldownService`)**: Áp dụng thời gian chờ `1.2 giây` độc lập cho từng switch chức năng (`CheckBox` / `ToggleButton`) khi bấm chuột hoặc nhấn `Space`, kèm thông báo cảnh báo `ToastType.Warning` để tránh xung đột hệ thống.
+- **Xác nhận Vùng nguy hiểm**: Các thao tác đặt lại gốc (*Factory Reset & Wipe Data*) và gỡ cài đặt hoàn toàn (*Complete Clean Uninstall*) đều có hộp thoại xác nhận trước khi thực thi.
 
 #### Khiên khóa phím tắt Desktop ảo (Virtual Desktop Hotkeys Shield)
 - Cung cấp công tắc Switch bật/tắt tiện lợi trong cả hai phân hệ **Quyền riêng tư & Cách ly** và **Cài đặt hệ thống** (đồng bộ trạng thái 100%).
@@ -200,7 +209,9 @@ Phân hệ chuyên dụng bảo vệ toàn vẹn nội dung câu hỏi (prompts)
   - **Chế độ Chỉ Tiếng Việt (Vietnamese Only)**: Cho phép chuyển đổi linh hoạt sang hiển thị hoàn toàn bản dịch tiếng Việt.
   - **Phím tắt nhanh & Nút bấm trên cửa sổ nổi**: Tổ hợp phím toàn cầu **`Ctrl + Alt + T`** hoặc nút bấm **`VI`** ngay trên thanh công cụ của cửa sổ nổi giúp bật/tắt dịch tức thì mọi lúc mọi nơi.
   - **Bộ đệm thông minh (LRU Cache)**: Bộ nhớ đệm tốc độ cao lưu trữ đến 2,000 cụm từ thường gặp, cho thời gian phản hồi tức thì (0ms) và tiết kiệm lưu lượng.
-  - **Bản chép lời Song ngữ & Ghi tức thời (Real-time AutoFlush)**: Tự động lưu trữ cả câu gốc tiếng Anh và câu dịch Tiếng Việt vào tệp `.txt` và `.srt` theo mốc thời gian tại `%APPDATA%\StreamGuard\Captions\transcripts\`. Cơ chế streaming I/O `AutoFlush = true` đảm bảo ghi đĩa ngay tức khắc (<1ms), bắt trọn vẹn mọi câu nói ngay cả khi người nói phát âm với tốc độ cực nhanh (Fast Speech Rate).
+  - **Bản chép lời Song ngữ, Định dạng `TOEIC (A-D)` & Ghi tức thời (Real-time AutoFlush)**:
+    - Tự động lưu cả câu gốc tiếng Anh và bản dịch Tiếng Việt vào tệp `.txt` và `.srt` theo mốc thời gian tại `%APPDATA%\StreamGuard\Captions\transcripts\`. Cơ chế streaming I/O `AutoFlush = true` ghi đĩa tức thì (<1ms).
+    - Hỗ trợ 3 chế độ hiển thị trong hộp xem bản chép lời (**`TXT | SRT | TOEIC (A-D)`**): riêng chế độ **`TOEIC (A-D)`** tự động định dạng câu hỏi/ngữ cảnh và tách 4 lựa chọn `(A)`, `(B)`, `(C)`, `(D)` rõ ràng, kèm bản dịch thụt lề ngay dưới từng câu hỏi và đáp án khi bật dịch song ngữ.
   - **Thao tác nhanh trên Bản chép lời đã lưu (Transcript Quick Actions)**:
     - **Nút "Sao chép nhanh" (Quick Copy)**: Sao chép nhanh toàn bộ nội dung bản chép lời vào bộ nhớ tạm (Clipboard), hỗ trợ đọc toàn bộ tệp hoàn chỉnh kể cả khi phiên ghi âm dài vượt ngưỡng hiển thị 256 KB, kèm hiệu ứng đổi biểu tượng tích xanh ("Đã sao chép!") tức thì 1.5 giây.
     - **Nút "Xoá nhanh" (Quick Clear)**: Xoá nhanh toàn bộ nội dung trong khu vực bản chép lời (đối với phiên đã lưu: xoá sạch tệp phiên trên đĩa và làm mới danh sách; đối với phiên đang ghi trực tiếp: làm sạch khung hiển thị và ngắt tự cuộn để tránh rối mắt).
@@ -234,7 +245,7 @@ Phân hệ trình duyệt bảo mật được tích hợp trực tiếp thành 
 - **Điều khiển điều hướng hoàn chỉnh**: Các nút Quay lại (Back), Đi tiếp (Forward), Tải lại (Refresh), Trang chủ (Home), và nút mở DevTools (F12).
 - **Bộ công cụ tăng cường tích hợp sẵn**:
   - **Mở khóa Copy / Paste tự động**: Gỡ bỏ giới hạn bôi đen văn bản, chuột phải và tổ hợp phím sao chép trên các trang web có tính năng ngăn chặn.
-  - **Cơ chế Chống mờ / Khóa tiêu điểm (Anti-Blur Guard)**: Ghi đè thuộc tính `document.hidden = false` và `document.visibilityState = 'visible'`, ngăn trang web phát hiện việc người dùng chuyển tab hoặc rời cửa sổ (rất hữu ích khi làm bài kiểm tra hoặc tra cứu tài liệu).
+  - **Cơ chế Chống mờ / Khóa tiêu điểm & Fullscreen (Anti-Blur & F11 Fullscreen Lock)**: Ghi đè `document.hidden = false`, `document.visibilityState = 'visible'`, `document.hasFocus() = true`, đồng thời khóa các sự kiện `blur`, `visibilitychange`, `fullscreenchange` và `exitFullscreen()` để ngăn trang web phát hiện chuyển tab hoặc thoát fullscreen; hỗ trợ nút **Khóa Focus Chrome** sao chép nhanh script Console/Bookmarklet cho Chrome ngoài.
   - **Phím tắt F12 DevTools**: Bật/tắt giao diện nhà phát triển để soi mã nguồn, phân tích mạng và gỡ lỗi web.
   - **Nút "⚡ Đăng nhập Antigravity (Tự động)"**: Tự động kích hoạt Antigravity và đón bắt liên kết đăng nhập Google để xác thực an toàn ngay trong tab.
   - **Nút "Mở bằng Chrome ngoài"**: Nếu người dùng muốn chuyển trang web ra ngoài, ứng dụng tự tìm `chrome.exe` để mở; nếu máy không có Chrome, ứng dụng tự động mở bằng trình duyệt mặc định sẵn có của hệ thống kèm thông báo hướng dẫn.
@@ -248,6 +259,8 @@ Phân hệ trình duyệt bảo mật được tích hợp trực tiếp thành 
 | **`Ctrl + Shift + G`** hoặc **`Shift + S + G`** | Hiện hoặc ẩn cửa sổ Driver Booster | Toàn cầu (Global) |
 | **`Ctrl + Shift + Alt + H`** | **Panic Restore**: Khôi phục khẩn cấp toàn bộ cửa sổ về Desktop 1 | Toàn cầu (Global) |
 | **`Ctrl + Shift + Alt + C`** | Gỡ hoặc tạm dừng Rèm che bảo vệ (Privacy Curtain) | Toàn cầu (Global) |
+| **`Ctrl + Shift + M`** | Bật hoặc tắt **Tàng hình chuột trên toàn màn hình** (`Global Cursor Cloak`) | Toàn cầu (Global) |
+| **`Ctrl + Shift + Esc`** | Khôi phục khẩn cấp con trỏ chuột Windows mặc định | Toàn cầu (Global) |
 | **`Ctrl + Alt + S`** (hoặc cấu hình) | Kích hoạt công cụ Chụp ảnh màn hình bảo mật | Toàn cầu (Global) |
 | **`Ctrl + Alt + T`** | Bật hoặc tắt Dịch phụ đề thời gian thực sang Tiếng Việt | Toàn cầu (Global) |
 | **`F4`** | Mở bộ chọn ngôn ngữ hiển thị (Tiếng Việt / English) | Trong ứng dụng |
@@ -300,10 +313,10 @@ Toàn bộ cấu hình và dữ liệu của người dùng được phân tách
 
 ### Chuẩn bị môi trường
 - Cài đặt **.NET 8 SDK** (phiên bản `8.0.400` trở lên): [Tải .NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
+- Cài đặt **Git LFS** và chạy `git lfs pull` sau khi clone để tải đầy đủ `Captions/Runtime.zip` (`230.44 MB`).
 
 ### Cách 1: Biên dịch bản Unpacked (`net8.0-windows`)
 ```powershell
-cd C:\Users\VirusBetaTester\Downloads\PalStatus\StreamGuard
 dotnet restore
 dotnet build -c Release StreamGuard.csproj
 ```
@@ -311,34 +324,35 @@ Kết quả xuất ra tại: `bin\Release\net8.0-windows\`
 
 ### Cách 2: Xuất bản độc lập Single-File (`release`)
 ```powershell
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o "C:\Users\VirusBetaTester\Downloads\PalStatus\release" StreamGuard.csproj
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o "..\release" StreamGuard.csproj
 ```
-Kết quả xuất ra tại: `C:\Users\VirusBetaTester\Downloads\PalStatus\release\Driver Booster.exe`
+Kết quả xuất ra tại: `..\release\Driver Booster.exe` (đi kèm các DLL native và `WebView2Loader.dll`).
 
 ---
 
 ## 10. Kiểm thử tự động (Automated Test Suite)
 
-Dự án sở hữu bộ kiểm thử tự động toàn diện với hơn **4,492 test checks**, bao phủ:
+Dự án sở hữu bộ kiểm thử tự động toàn diện với **6,012 test checks**, bao phủ:
 - Kiểm tra hiển thị giao diện WPF và ràng buộc Data Binding ngoài màn hình.
 - Rà soát tính toàn vẹn song ngữ (`vi-VN` và `en-US`), thông số định dạng chuỗi.
 - Kiểm tra an toàn tiến trình hệ thống, bộ lọc danh sách trắng/đen.
 - Kiểm thử cơ chế bảo vệ lưu lượng AI, phát hiện và xóa proxy loopback, quét chứng chỉ MITM.
 - Kiểm thử logic phân biệt bộ cài Antigravity Desktop với IDE/CLI và định dạng tham số Silent Install.
 - Kiểm thử toàn diện Antigravity Secure Login Bridge (bắt link, timeout, clipboard retry, process inspection).
-- Kiểm thử hệ thống Dịch Phụ đề Thời gian thực & Từ điển từ khóa chuyên ngành (CaptionTranslationService, CaptionVocabularyService, bộ nhớ đệm Cache, xử lý ngoại lệ fallback, giải mã thực thể HTML, Circuit Breaker, bảo toàn thuật ngữ kỹ thuật, ghi file TXT/SRT song ngữ).
+- Kiểm thử hệ thống Dịch Phụ đề Thời gian thực, định dạng `TOEIC (A-D)` & Từ điển từ khóa chuyên ngành (`CaptionTranslationService`, `CaptionVocabularyService`, `TranscriptToeicFormatter`, bộ nhớ đệm LRU Cache, bảo toàn thuật ngữ kỹ thuật, ghi file TXT/SRT song ngữ).
+- Kiểm thử cơ chế chống chụp cửa sổ (`WDA_EXCLUDEFROMCAPTURE`), tàng hình chuột (`InApp` & `GlobalCursorCloak` phối hợp cùng `CursorShieldService`), chụp màn hình trên Chrome Fullscreen (chặn `Escape` / không cướp focus), chống bật/tắt liên tục switch (`SwitchCooldownService`) và hệ thống Toast thông báo.
 - Kiểm thử trung tâm khôi phục, độ tương thích DPI và xử lý ngoại lệ.
 
 Chạy kiểm thử bằng lệnh:
 ```powershell
-& "C:\Users\VirusBetaTester\.dotnet-sdk-8\dotnet.exe" run --project tests/StreamGuard.Localization.Tests.csproj
+dotnet run --project tests/StreamGuard.Localization.Tests.csproj -c Release
 ```
-Kết quả xác nhận: **`PASS: 4641 checks`**.
+Kết quả xác nhận: **`PASS: 6012 checks.`**
 
 ---
 
 ## 11. Bản quyền & Giấy phép
 
 - Mã nguồn và tài liệu thuộc dự án **StreamGuard (Driver Booster)**.
-- Chi tiết giấy phép phần mềm xem tại [`LICENSE.txt`](file:///c:/Users/VirusBetaTester/Downloads/PalStatus/StreamGuard/LICENSE.txt).
-- Thông báo về các thư viện mã nguồn mở bên thứ ba (Newtonsoft.Json, WebView2, CommunityToolkit.Mvvm...) xem tại [`THIRD-PARTY-NOTICES.txt`](file:///c:/Users/VirusBetaTester/Downloads/PalStatus/StreamGuard/THIRD-PARTY-NOTICES.txt).
+- Chi tiết giấy phép phần mềm xem tại [`LICENSE.txt`](LICENSE.txt).
+- Thông báo về các thư viện mã nguồn mở bên thứ ba (Newtonsoft.Json, WebView2, CommunityToolkit.Mvvm...) xem tại [`THIRD-PARTY-NOTICES.txt`](THIRD-PARTY-NOTICES.txt).
