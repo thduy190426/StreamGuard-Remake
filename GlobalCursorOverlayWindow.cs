@@ -80,6 +80,7 @@ namespace StreamGuard
         private int _lastY = int.MinValue;
         private long _lastTopmostReassertTick;
         private IntPtr _hwnd;
+        private CompositionTarget? _cachedCompositionTarget;
         private bool _isRendering;
         private bool _forceRedraw;
         private bool _displaySettingsHooked;
@@ -129,7 +130,16 @@ namespace StreamGuard
             Content = canvas;
 
             SourceInitialized += OnSourceInitialized;
-            Loaded += (_, _) => StartTracking();
+            Loaded += (_, _) =>
+            {
+                _cachedCompositionTarget = PresentationSource.FromVisual(this)?.CompositionTarget;
+                StartTracking();
+            };
+            DpiChanged += (_, _) =>
+            {
+                _cachedCompositionTarget = PresentationSource.FromVisual(this)?.CompositionTarget;
+                _forceRedraw = true;
+            };
             IsVisibleChanged += (_, _) =>
             {
                 if (IsVisible)
@@ -373,10 +383,10 @@ namespace StreamGuard
             var clientPt = new POINT { X = pt.X, Y = pt.Y };
             if (hwnd != IntPtr.Zero && ScreenToClient(hwnd, ref clientPt))
             {
-                var source = PresentationSource.FromVisual(this);
-                if (source?.CompositionTarget != null)
+                var compositionTarget = _cachedCompositionTarget ??= PresentationSource.FromVisual(this)?.CompositionTarget;
+                if (compositionTarget != null)
                 {
-                    var dipPt = source.CompositionTarget.TransformFromDevice.Transform(new Point(clientPt.X, clientPt.Y));
+                    var dipPt = compositionTarget.TransformFromDevice.Transform(new Point(clientPt.X, clientPt.Y));
                     _transform.X = dipPt.X - hotspot.X;
                     _transform.Y = dipPt.Y - hotspot.Y;
                 }

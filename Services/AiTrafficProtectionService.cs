@@ -36,18 +36,42 @@ public sealed record AiHostsAssessment(
     public static AiHostsAssessment Clean { get; } = new(false, Array.Empty<string>());
 }
 
+public sealed record EnvProxyAssessment(
+    bool HasRogueEnvVars,
+    IReadOnlyList<string> DetectedVariables,
+    bool HasTlsBypassOrCustomCa,
+    string? Reason
+)
+{
+    public static EnvProxyAssessment Clean { get; } = new(false, Array.Empty<string>(), false, null);
+}
+
+public sealed record WinHttpProxyAssessment(
+    bool IsRogueWinHttpProxy,
+    string? ProxyServer,
+    string? Reason
+)
+{
+    public static WinHttpProxyAssessment Clean { get; } = new(false, null, null);
+}
+
 public sealed record AiTrafficAssessment(
     ProxyAssessment Proxy,
     IReadOnlyList<RogueCertificateInfo> RogueCertificates,
     IReadOnlyList<CaptureTool> ActiveSniffers,
-    AiHostsAssessment Hosts
+    AiHostsAssessment Hosts,
+    EnvProxyAssessment? EnvProxy = null,
+    WinHttpProxyAssessment? WinHttpProxy = null
 )
 {
     public bool IsAllSafe =>
         !Proxy.IsRogueProxy &&
         RogueCertificates.Count == 0 &&
         ActiveSniffers.Count == 0 &&
-        !Hosts.IsTampered;
+        !Hosts.IsTampered &&
+        !(EnvProxy?.HasRogueEnvVars ?? false) &&
+        !(EnvProxy?.HasTlsBypassOrCustomCa ?? false) &&
+        !(WinHttpProxy?.IsRogueWinHttpProxy ?? false);
 }
 
 public sealed class AiTrafficProtectionService
@@ -60,6 +84,10 @@ public sealed class AiTrafficProtectionService
     [DllImport("wininet.dll", SetLastError = true)]
     private static extern bool InternetSetOption(IntPtr hInternet, int dwOption, IntPtr lpBuffer, int dwBufferLength);
 
+    [DllImport("dnsapi.dll", EntryPoint = "DnsFlushResolverCache", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DnsFlushResolverCacheNative();
+
     public static readonly string[] KnownMitmKeywords =
     {
         "fiddler",
@@ -71,14 +99,44 @@ public sealed class AiTrafficProtectionService
         "http debugger",
         "proxifier",
         "burpsuite",
-        "burp"
+        "burp",
+        "reqable",
+        "whistle",
+        "proxyman",
+        "telerik"
     };
 
     public static readonly string[] ProtectedAiEndpoints =
     {
         "generativelanguage.googleapis.com",
         "gemini.google.com",
-        "aiplatform.googleapis.com"
+        "aiplatform.googleapis.com",
+        "cloudcode-pa.googleapis.com",
+        "daily-cloudcode-pa.sandbox.googleapis.com",
+        "oauth2.googleapis.com",
+        "accounts.google.com",
+        "api.openai.com",
+        "api.anthropic.com",
+        "chatgpt.com",
+        "claude.ai"
+    };
+
+    public static readonly string[] ProxyEnvVarNames =
+    {
+        "HTTP_PROXY",
+        "HTTPS_PROXY",
+        "ALL_PROXY",
+        "http_proxy",
+        "https_proxy",
+        "all_proxy"
+    };
+
+    public static readonly string[] TlsOverrideEnvVarNames =
+    {
+        "NODE_EXTRA_CA_CERTS",
+        "SSL_CERT_FILE",
+        "REQUESTS_CA_BUNDLE",
+        "NODE_TLS_REJECT_UNAUTHORIZED"
     };
 
     private static readonly string[] CommonProxyPorts =
@@ -552,6 +610,16 @@ public sealed class AiTrafficProtectionService
     {
         try
         {
+            if (DnsFlushResolverCacheNative())
+                return;
+        }
+        catch
+        {
+            // Fallback below if dnsapi.dll is unavailable in restricted environments
+        }
+
+        try
+        {
             using var proc = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
             {
                 FileName = "ipconfig.exe",
@@ -564,15 +632,175 @@ public sealed class AiTrafficProtectionService
         catch { }
     }
 
+    public EnvProxyAssessment CheckEnvironmentProxyStatus(IDictionary<string, string?>? testEnv = null)
+    {
+        var detected = new List<string>();
+        var hasProxy = false;
+        var hasTls = false;
+
+        void InspectValue(string name, string? val, string scopeLabel)
+        {
+            if (string.IsNullOrWhiteSpace(val)) return;
+            var trimmed = val.Trim();
+
+            if (ProxyEnvVarNames.Contains(name, StringComparer.OrdinalIgnoreCase))
+            {
+                if (IsRogueProxyAddress(trimmed))
+                {
+                    hasProxy = true;
+                    detected.Add($"{scopeLabel}:{name}={trimmed}");
+                }
+                return;
+            }
+
+            if (string.Equals(name, "NODE_TLS_REJECT_UNAUTHORIZED", StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(trimmed, "0", StringComparison.Ordinal))
+            {
+                hasTls = true;
+                detected.Add($"{scopeLabel}:{name}=0");
+                return;
+            }
+
+            if (string.Equals(name, "NODE_EXTRA_CA_CERTS", StringComparison.OrdinalIgnoreCase) ||
+                KnownMitmKeywords.Any(k => trimmed.Contains(k, StringComparison.OrdinalIgnoreCase)))
+            {
+                hasTls = true;
+                detected.Add($"{scopeLabel}:{name}={trimmed}");
+            }
+        }
+
+        if (testEnv != null)
+        {
+            foreach (var kv in testEnv)
+            {
+                InspectValue(kv.Key, kv.Value, "Test");
+            }
+        }
+        else
+        {
+            foreach (var name in ProxyEnvVarNames.Concat(TlsOverrideEnvVarNames))
+            {
+                try { InspectValue(name, Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process), "Process"); } catch { }
+                try { InspectValue(name, Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.User), "User"); } catch { }
+                try { InspectValue(name, Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine), "Machine"); } catch { }
+            }
+        }
+
+        var distinct = detected.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+        if (distinct.Length == 0)
+            return EnvProxyAssessment.Clean;
+
+        return new EnvProxyAssessment(
+            hasProxy,
+            distinct,
+            hasTls,
+            $"Detected AI proxy/TLS environment overrides: {string.Join(", ", distinct)}");
+    }
+
+    public bool PurgeEnvironmentProxySettings(IDictionary<string, string?>? testUserEnv = null)
+    {
+        var purgedAny = false;
+
+        bool ShouldRemove(string name, string? val)
+        {
+            if (string.IsNullOrWhiteSpace(val)) return false;
+            var trimmed = val.Trim();
+            if (ProxyEnvVarNames.Contains(name, StringComparer.OrdinalIgnoreCase))
+                return IsRogueProxyAddress(trimmed);
+            if (string.Equals(name, "NODE_TLS_REJECT_UNAUTHORIZED", StringComparison.OrdinalIgnoreCase))
+                return string.Equals(trimmed, "0", StringComparison.Ordinal);
+            if (string.Equals(name, "NODE_EXTRA_CA_CERTS", StringComparison.OrdinalIgnoreCase))
+                return true;
+            return KnownMitmKeywords.Any(k => trimmed.Contains(k, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (testUserEnv != null)
+        {
+            foreach (var key in testUserEnv.Keys.ToArray())
+            {
+                if (ShouldRemove(key, testUserEnv[key]))
+                {
+                    testUserEnv.Remove(key);
+                    purgedAny = true;
+                }
+            }
+            return purgedAny;
+        }
+
+        foreach (var name in ProxyEnvVarNames.Concat(TlsOverrideEnvVarNames))
+        {
+            try
+            {
+                var procVal = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
+                if (ShouldRemove(name, procVal))
+                {
+                    Environment.SetEnvironmentVariable(name, null, EnvironmentVariableTarget.Process);
+                    purgedAny = true;
+                }
+            }
+            catch { }
+
+            try
+            {
+                var userVal = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.User);
+                if (ShouldRemove(name, userVal))
+                {
+                    Environment.SetEnvironmentVariable(name, null, EnvironmentVariableTarget.User);
+                    purgedAny = true;
+                }
+            }
+            catch { }
+        }
+
+        return purgedAny;
+    }
+
+    public WinHttpProxyAssessment CheckWinHttpProxy(byte[]? testWinHttpSettings = null)
+    {
+        try
+        {
+            byte[]? raw = testWinHttpSettings;
+            if (raw == null)
+            {
+                using var key = Registry.LocalMachine.OpenSubKey(
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\Connections",
+                    writable: false);
+                raw = key?.GetValue("WinHttpSettings") as byte[];
+            }
+
+            if (raw == null || raw.Length < 16)
+                return WinHttpProxyAssessment.Clean;
+
+            var flags = BitConverter.ToInt32(raw, 8);
+            var len = BitConverter.ToInt32(raw, 12);
+            if ((flags & 0x02) == 0 || len <= 0 || 16 + len > raw.Length)
+                return WinHttpProxyAssessment.Clean;
+
+            var proxyServer = System.Text.Encoding.ASCII.GetString(raw, 16, len).Trim('\0', ' ');
+            if (IsRogueProxyAddress(proxyServer))
+            {
+                return new WinHttpProxyAssessment(true, proxyServer, $"Rogue WinHTTP proxy detected: {proxyServer}");
+            }
+
+            return WinHttpProxyAssessment.Clean;
+        }
+        catch
+        {
+            return WinHttpProxyAssessment.Clean;
+        }
+    }
+
     public AiTrafficAssessment ScanAll(CaptureAssessment? captureAssessment = null, string? hostsPath = null)
     {
         var proxy = CheckProxyStatus();
         var certs = ScanRogueCertificates(forceRefresh: true);
         var hosts = CheckAiHostsProtection(hostsPath);
+        var envProxy = CheckEnvironmentProxyStatus();
+        var winHttpProxy = CheckWinHttpProxy();
 
         var assessment = captureAssessment ?? new CaptureRiskService().Scan();
         var sniffers = assessment.Tools.Where(t => t.Kind == CaptureToolKind.Sniffer).ToArray();
 
-        return new AiTrafficAssessment(proxy, certs, sniffers, hosts);
+        return new AiTrafficAssessment(proxy, certs, sniffers, hosts, envProxy, winHttpProxy);
     }
 }

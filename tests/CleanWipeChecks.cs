@@ -118,10 +118,12 @@ public static class CleanWipeChecks
         check(!CleanWipeService.IsDedicatedScreenshotDirectory(desktop),
             "Desktop must NEVER be flagged as dedicated screenshot directory");
 
-        // 2. A dedicated folder like DriverBooster_Screenshots should be recognized
+        // 2. A dedicated folder like DriverBooster_Screenshots or Screenshoot should be recognized
         var dedicated = Path.Combine(root, "MyProject_DriverBooster_Screenshots");
         check(CleanWipeService.IsDedicatedScreenshotDirectory(dedicated),
             "Dedicated screenshot directory with DriverBooster name should be recognized");
+        check(CleanWipeService.IsDedicatedScreenshotDirectory(@"D:\Screenshoot"),
+            "Dedicated D:\\Screenshoot directory should be recognized");
 
         // 3. Shared directory purge test: if user points screenshot dir to a shared folder,
         // it must only delete screenshot files, NOT the shared folder or unrelated files!

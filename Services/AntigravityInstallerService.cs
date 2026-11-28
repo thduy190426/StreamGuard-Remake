@@ -440,6 +440,27 @@ namespace StreamGuard.Services
             }
         }
 
+        public static ProcessStartInfo CreateSanitizedLaunchStartInfo(string exePath, string workDir)
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = exePath,
+                WorkingDirectory = workDir,
+                UseShellExecute = false
+            };
+
+            foreach (var envKey in AiTrafficProtectionService.ProxyEnvVarNames)
+            {
+                psi.EnvironmentVariables.Remove(envKey);
+            }
+            foreach (var tlsKey in AiTrafficProtectionService.TlsOverrideEnvVarNames)
+            {
+                psi.EnvironmentVariables.Remove(tlsKey);
+            }
+            psi.EnvironmentVariables["NO_PROXY"] = "*";
+            return psi;
+        }
+
         public bool LaunchAntigravity()
         {
             if (_customLaunchHandler != null)
@@ -456,12 +477,7 @@ namespace StreamGuard.Services
                 if (string.IsNullOrWhiteSpace(workDir) || !Directory.Exists(workDir))
                     workDir = Path.GetDirectoryName(exePath) ?? string.Empty;
 
-                var psi = new ProcessStartInfo
-                {
-                    FileName = exePath,
-                    WorkingDirectory = workDir,
-                    UseShellExecute = true
-                };
+                var psi = CreateSanitizedLaunchStartInfo(exePath, workDir);
                 Process.Start(psi);
                 return true;
             }

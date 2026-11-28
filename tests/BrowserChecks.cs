@@ -102,6 +102,20 @@ internal static class BrowserChecks
         var disable = BrowserScriptService.GetDisableCopyPasteScript();
         check(disable.Contains("disable()"), "Copy/paste disable command is present");
 
+        var keystrokeGuard = BrowserScriptService.GetKeystrokeGuardScript();
+        check(!string.IsNullOrWhiteSpace(keystrokeGuard), "Keystroke guard script is present");
+        check(keystrokeGuard.Contains("__streamGuardKeystrokeGuard"), "Keystroke guard defines global state key");
+        check(keystrokeGuard.Contains("stopImmediatePropagation"), "Keystroke guard stops propagation of protected combos");
+        check(keystrokeGuard.Contains("EventTarget.prototype.addEventListener"), "Keystroke guard wraps EventTarget.prototype.addEventListener");
+        check(keystrokeGuard.Contains("listener.handleEvent"), "Keystroke guard handles EventListener handleEvent objects");
+        check(keystrokeGuard.Contains("KeyboardEvent.prototype.getModifierState"), "Keystroke guard masks getModifierState");
+
+        var keystrokeBookmarklet = BrowserScriptService.GetKeystrokeGuardBookmarklet();
+        check(keystrokeBookmarklet.StartsWith("javascript:", StringComparison.Ordinal), "Keystroke guard bookmarklet starts with javascript:");
+
+        var disableKeystroke = BrowserScriptService.GetDisableKeystrokeGuardScript();
+        check(disableKeystroke.Contains("disable()"), "Keystroke guard disable command is present");
+
         File.WriteAllText(Path.Combine(tempDir, "anti-blur-test.js"), antiBlur);
     }
 
@@ -124,6 +138,27 @@ internal static class BrowserChecks
         check(L.Translate("Cannot initialize browser: WebView2 Runtime is not installed on this machine.") == "Cannot initialize browser: WebView2 Runtime is not installed on this machine.", "Runtime missing notice renders English");
         check(L.Translate("Copy/Paste unlock script injected into the page.") == "Copy/Paste unlock script injected into the page.", "Copy/paste injected notice renders English");
         check(L.Translate("Opening https://www.google.com in external browser") == "Opening https://www.google.com in external browser", "Open external template renders English");
+
+        foreach (var k in new[]
+        {
+            "Browser.KeystrokeGuard",
+            "Browser.KeystrokeGuardTooltip",
+            "Browser.KeystrokeGuardEnabledNotice",
+            "Browser.KeystrokeGuardDisabledNotice",
+            "Browser.CopyKeystrokeGuardScript",
+            "Browser.CopyKeystrokeGuardScriptTip",
+            "Browser.CopyKeystrokeGuardBookmarklet",
+            "Browser.CopyKeystrokeGuardBookmarkletTip"
+        })
+        {
+            L.SetLanguage("en");
+            var en = L[k];
+            L.SetLanguage("vi");
+            var vi = L[k];
+            check(!string.IsNullOrWhiteSpace(en) && en != k, $"Key '{k}' exists in English");
+            check(!string.IsNullOrWhiteSpace(vi) && vi != k, $"Key '{k}' exists in Vietnamese");
+            check(en != vi, $"Key '{k}' differs between English and Vietnamese");
+        }
     }
 
     internal static void RunUiChecks(MainWindow window, Action<bool, string> check)

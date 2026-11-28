@@ -169,5 +169,15 @@ internal static class CaptionVocabularyChecks
             check(!string.IsNullOrWhiteSpace(vi) && vi != key, $"Localization key '{key}' has Vietnamese text: {vi}");
             check(!string.IsNullOrWhiteSpace(en) && en != key, $"Localization key '{key}' has English text: {en}");
         }
+
+        // Vocabulary validation checks (empty, invalid, and valid cases)
+        check(!CaptionVocabularyService.TryValidateKeywords("", out _, out _), "Empty keywords rejected");
+        check(!CaptionVocabularyService.TryValidateKeywords("   ,  , ", out _, out _), "Whitespace and comma-only keywords rejected");
+        check(!CaptionVocabularyService.TryValidateKeywords("a, Gemini", out _, out _), "Single-character keyword rejected");
+        check(!CaptionVocabularyService.TryValidateKeywords("@@@", out _, out _), "Symbol-only keyword without alphanumeric rejected");
+        check(!CaptionVocabularyService.TryValidateKeywords("Docker\nKubernetes", out _, out _), "Newline control character rejected");
+        check(CaptionVocabularyService.TryValidateKeywords("  Antigravity , gemini , Antigravity , .NET ", out var norm, out _),
+            "Valid comma-separated keywords accepted");
+        check(norm == "Antigravity, gemini, .NET", $"Normalized keywords deduplicated cleanly (got '{norm}')");
     }
 }

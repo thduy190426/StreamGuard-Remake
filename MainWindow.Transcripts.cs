@@ -53,11 +53,18 @@ public partial class MainWindow
     private async void BtnCaptionTranscripts_Click(object sender, RoutedEventArgs e)
     {
         if (_cleanupDone) return;
-        if (CaptionTranscriptPanel.Visibility == Visibility.Visible) { CloseTranscriptReader(); return; }
-        CaptionTranscriptPanel.Visibility = Visibility.Visible;
-        _transcriptTimer.Start();
-        await LoadTranscriptAsync(refreshList: true, followCurrent: TranscriptFollowCheckBox.IsChecked == true);
-        if (!_cleanupDone && CaptionTranscriptPanel.Visibility == Visibility.Visible) CaptionTranscriptPanel.BringIntoView();
+        try
+        {
+            if (CaptionTranscriptPanel.Visibility == Visibility.Visible) { CloseTranscriptReader(); return; }
+            CaptionTranscriptPanel.Visibility = Visibility.Visible;
+            _transcriptTimer.Start();
+            await LoadTranscriptAsync(refreshList: true, followCurrent: TranscriptFollowCheckBox.IsChecked == true);
+            if (!_cleanupDone && CaptionTranscriptPanel.Visibility == Visibility.Visible) CaptionTranscriptPanel.BringIntoView();
+        }
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Transcript error: {ex.Message}", false);
+        }
     }
 
     private void CloseTranscriptReader()
@@ -75,30 +82,42 @@ public partial class MainWindow
     private async void TranscriptSelection_Changed(object sender, SelectionChangedEventArgs e)
     {
         if (_settingTranscriptSelection || _transcriptStore == null || CaptionTranscriptPanel.Visibility != Visibility.Visible) return;
-        if (ReferenceEquals(sender, TranscriptSessionCombo))
+        try
         {
-            var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
-            var isLive = (TranscriptSessionCombo.SelectedItem as CaptionTranscriptSession)?.Id == active &&
-                _captions?.State is CaptionState.Starting or CaptionState.Running or CaptionState.Paused or CaptionState.Stopping;
-            if (BtnTranscriptDeleteSession != null)
-                BtnTranscriptDeleteSession.IsEnabled = !isLive && TranscriptSessionCombo.SelectedItem != null;
-
-            if ((TranscriptSessionCombo.SelectedItem as CaptionTranscriptSession)?.Id != active)
+            if (ReferenceEquals(sender, TranscriptSessionCombo))
             {
-                _settingTranscriptSelection = true;
-                TranscriptFollowCheckBox.IsChecked = false;
-                _settingTranscriptSelection = false;
+                var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
+                var isLive = (TranscriptSessionCombo.SelectedItem as CaptionTranscriptSession)?.Id == active &&
+                    _captions?.State is CaptionState.Starting or CaptionState.Running or CaptionState.Paused or CaptionState.Stopping;
+                if (BtnTranscriptDeleteSession != null)
+                    BtnTranscriptDeleteSession.IsEnabled = !isLive && TranscriptSessionCombo.SelectedItem != null;
+
+                if ((TranscriptSessionCombo.SelectedItem as CaptionTranscriptSession)?.Id != active)
+                {
+                    _settingTranscriptSelection = true;
+                    TranscriptFollowCheckBox.IsChecked = false;
+                    _settingTranscriptSelection = false;
+                }
             }
+            await LoadTranscriptAsync();
         }
-        await LoadTranscriptAsync();
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Transcript error: {ex.Message}", false);
+        }
     }
 
     private async void TranscriptFollow_Changed(object sender, RoutedEventArgs e)
     {
         if (_settingTranscriptSelection || _transcriptStore == null || CaptionTranscriptPanel.Visibility != Visibility.Visible) return;
-        await LoadTranscriptAsync(refreshList: true, followCurrent: TranscriptFollowCheckBox.IsChecked == true);
+        try { await LoadTranscriptAsync(refreshList: true, followCurrent: TranscriptFollowCheckBox.IsChecked == true); }
+        catch (Exception ex) { if (!_cleanupDone) UpdateStatus($"Transcript error: {ex.Message}", false); }
     }
-    private async void BtnTranscriptRefresh_Click(object sender, RoutedEventArgs e) => await LoadTranscriptAsync(refreshList: true);
+    private async void BtnTranscriptRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        try { await LoadTranscriptAsync(refreshList: true); }
+        catch (Exception ex) { if (!_cleanupDone) UpdateStatus($"Transcript error: {ex.Message}", false); }
+    }
     private void BtnTranscriptClose_Click(object sender, RoutedEventArgs e) => CloseTranscriptReader();
 
     private async void BtnTranscriptCopy_Click(object sender, RoutedEventArgs e)
@@ -110,28 +129,29 @@ public partial class MainWindow
         string textToCopy;
         string noticeMessage;
 
-        if (hasSelection)
-        {
-            textToCopy = selectedText;
-            noticeMessage = LocalizationService.GetString("Transcripts.CopiedSelectionNotice", "Đã sao chép đoạn văn bản được chọn vào bộ nhớ tạm.");
-        }
-        else
-        {
-            textToCopy = CaptionTranscriptText.Text;
-            if (_transcriptTruncated && TranscriptSessionCombo.SelectedItem is CaptionTranscriptSession session && _transcriptStore != null)
-            {
-                var formatIndex = TranscriptFormatCombo.SelectedIndex;
-                var subtitle = formatIndex == 1;
-                var toeic = formatIndex == 2;
-                var full = await Task.Run(() => _transcriptStore.ReadAllText(session.Id, subtitle));
-                if (!string.IsNullOrEmpty(full))
-                    textToCopy = toeic ? TranscriptToeicFormatter.Format(full) : full;
-            }
-            noticeMessage = LocalizationService.GetString("Transcripts.CopiedNotice", "Đã sao chép toàn bộ nội dung bản chép lời vào bộ nhớ tạm.");
-        }
-
         try
         {
+            if (hasSelection)
+            {
+                textToCopy = selectedText;
+                noticeMessage = LocalizationService.GetString("Transcripts.CopiedSelectionNotice", "Đã sao chép đoạn văn bản được chọn vào bộ nhớ tạm.");
+            }
+            else
+            {
+                textToCopy = CaptionTranscriptText.Text;
+                if (_transcriptTruncated && TranscriptSessionCombo.SelectedItem is CaptionTranscriptSession session && _transcriptStore != null)
+                {
+                    var formatIndex = TranscriptFormatCombo.SelectedIndex;
+                    var subtitle = formatIndex == 1;
+                    var toeic = formatIndex == 2;
+                    var full = await Task.Run(() => _transcriptStore.ReadAllText(session.Id, subtitle));
+                    if (!string.IsNullOrEmpty(full))
+                        textToCopy = toeic ? TranscriptToeicFormatter.Format(full) : full;
+                }
+                noticeMessage = LocalizationService.GetString("Transcripts.CopiedNotice", "Đã sao chép toàn bộ nội dung bản chép lời vào bộ nhớ tạm.");
+            }
+
+            if (_cleanupDone) return;
             System.Windows.Clipboard.SetText(textToCopy);
             UpdateStatus(noticeMessage, true);
 
@@ -156,6 +176,10 @@ public partial class MainWindow
         {
             UpdateStatus("Clipboard is busy, please try again.", false);
         }
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Copy error: {ex.Message}", false);
+        }
     }
 
     private async void BtnTranscriptClear_Click(object sender, RoutedEventArgs e)
@@ -163,37 +187,44 @@ public partial class MainWindow
         if (_cleanupDone || CaptionTranscriptText.Text.Length == 0 || _transcriptStore == null) return;
         if (TranscriptSessionCombo.SelectedItem is not CaptionTranscriptSession session) return;
 
-        var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
-        var isLive = session.Id == active && _captions?.State is CaptionState.Starting or CaptionState.Running or CaptionState.Paused or CaptionState.Stopping;
-
-        _userScrolledUp = false;
-        _unreadSegmentsCount = 0;
-        if (BtnTranscriptScrollLatest != null) BtnTranscriptScrollLatest.Visibility = Visibility.Collapsed;
-
-        if (isLive)
+        try
         {
-            CaptionTranscriptText.Text = "";
-            _liveRawTxtBuffer.Clear();
-            _liveSrtIndex = 0;
-            TranscriptFollowCheckBox.IsChecked = false;
-            BtnTranscriptCopy.IsEnabled = false;
-            if (BtnTranscriptClear != null) BtnTranscriptClear.IsEnabled = false;
-            UpdateStatus(LocalizationService.GetString("Transcripts.ClearedLiveNotice", "Phiên đang ghi trực tiếp: Đã xoá nội dung hiển thị trong khu vực xem."), true);
-        }
-        else
-        {
-            _transcriptStore.Delete(session.Id);
-            CaptionTranscriptText.Text = "";
-            _liveRawTxtBuffer.Clear();
-            _liveSrtIndex = 0;
-            _transcriptContentKey = null;
-            BtnTranscriptCopy.IsEnabled = false;
-            if (BtnTranscriptClear != null) BtnTranscriptClear.IsEnabled = false;
-            UpdateStatus(LocalizationService.GetString("Transcripts.ClearedNotice", "Đã xoá sạch toàn bộ nội dung bản chép lời trong khu vực."), true);
-            await LoadTranscriptAsync(refreshList: true);
-        }
+            var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
+            var isLive = session.Id == active && _captions?.State is CaptionState.Starting or CaptionState.Running or CaptionState.Paused or CaptionState.Stopping;
 
-        PerformTranscriptSearch(keepPosition: false);
+            _userScrolledUp = false;
+            _unreadSegmentsCount = 0;
+            if (BtnTranscriptScrollLatest != null) BtnTranscriptScrollLatest.Visibility = Visibility.Collapsed;
+
+            if (isLive)
+            {
+                CaptionTranscriptText.Text = "";
+                _liveRawTxtBuffer.Clear();
+                _liveSrtIndex = 0;
+                TranscriptFollowCheckBox.IsChecked = false;
+                BtnTranscriptCopy.IsEnabled = false;
+                if (BtnTranscriptClear != null) BtnTranscriptClear.IsEnabled = false;
+                UpdateStatus(LocalizationService.GetString("Transcripts.ClearedLiveNotice", "Phiên đang ghi trực tiếp: Đã xoá nội dung hiển thị trong khu vực xem."), true);
+            }
+            else
+            {
+                _transcriptStore.Delete(session.Id);
+                CaptionTranscriptText.Text = "";
+                _liveRawTxtBuffer.Clear();
+                _liveSrtIndex = 0;
+                _transcriptContentKey = null;
+                BtnTranscriptCopy.IsEnabled = false;
+                if (BtnTranscriptClear != null) BtnTranscriptClear.IsEnabled = false;
+                UpdateStatus(LocalizationService.GetString("Transcripts.ClearedNotice", "Đã xoá sạch toàn bộ nội dung bản chép lời trong khu vực."), true);
+                await LoadTranscriptAsync(refreshList: true);
+            }
+
+            PerformTranscriptSearch(keepPosition: false);
+        }
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Clear transcript error: {ex.Message}", false);
+        }
     }
 
     private async void BtnTranscriptDeleteSession_Click(object sender, RoutedEventArgs e)
@@ -201,39 +232,53 @@ public partial class MainWindow
         if (_cleanupDone || _transcriptStore == null) return;
         if (TranscriptSessionCombo.SelectedItem is not CaptionTranscriptSession session) return;
 
-        var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
-        var isLive = session.Id == active && _captions?.State is CaptionState.Starting or CaptionState.Running or CaptionState.Paused or CaptionState.Stopping;
-        if (isLive)
+        try
         {
-            UpdateStatus(LocalizationService.GetString("Transcripts.CannotDeleteLiveNotice", "Không thể xoá phiên đang ghi âm trực tiếp."), false);
-            return;
-        }
+            var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
+            var isLive = session.Id == active && _captions?.State is CaptionState.Starting or CaptionState.Running or CaptionState.Paused or CaptionState.Stopping;
+            if (isLive)
+            {
+                UpdateStatus(LocalizationService.GetString("Transcripts.CannotDeleteLiveNotice", "Không thể xoá phiên đang ghi âm trực tiếp."), false);
+                return;
+            }
 
-        var label = session.Label;
-        _transcriptStore.Delete(session.Id);
-        CaptionTranscriptText.Text = "";
-        _liveRawTxtBuffer.Clear();
-        _transcriptContentKey = null;
-        UpdateStatus(string.Format(LocalizationService.GetString("Transcripts.DeletedSessionNotice", "Đã xoá phiên chép lời '{0}' (chuyển vào Thùng rác)."), label), true);
-        await LoadTranscriptAsync(refreshList: true);
+            var label = session.Label;
+            _transcriptStore.Delete(session.Id);
+            CaptionTranscriptText.Text = "";
+            _liveRawTxtBuffer.Clear();
+            _transcriptContentKey = null;
+            UpdateStatus(string.Format(LocalizationService.GetString("Transcripts.DeletedSessionNotice", "Đã xoá phiên chép lời '{0}' (chuyển vào Thùng rác)."), label), true);
+            await LoadTranscriptAsync(refreshList: true);
+        }
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Delete transcript error: {ex.Message}", false);
+        }
     }
 
     private async void BtnTranscriptDeletePrevious_Click(object sender, RoutedEventArgs e)
     {
         if (_cleanupDone || _transcriptStore == null) return;
-        var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
-        var deletedCount = _transcriptStore.DeletePreviousSessions(active);
-        if (deletedCount > 0)
+        try
         {
-            CaptionTranscriptText.Text = "";
-            _liveRawTxtBuffer.Clear();
-            _transcriptContentKey = null;
-            UpdateStatus(string.Format(LocalizationService.GetString("Transcripts.DeletedPreviousNotice", "Đã xoá {0} phiên chép lời trước đó (chuyển vào Thùng rác)."), deletedCount), true);
-            await LoadTranscriptAsync(refreshList: true);
+            var active = Path.GetFileNameWithoutExtension(_captions?.LastTranscriptPath);
+            var deletedCount = _transcriptStore.DeletePreviousSessions(active);
+            if (deletedCount > 0)
+            {
+                CaptionTranscriptText.Text = "";
+                _liveRawTxtBuffer.Clear();
+                _transcriptContentKey = null;
+                UpdateStatus(string.Format(LocalizationService.GetString("Transcripts.DeletedPreviousNotice", "Đã xoá {0} phiên chép lời trước đó (chuyển vào Thùng rác)."), deletedCount), true);
+                await LoadTranscriptAsync(refreshList: true);
+            }
+            else
+            {
+                UpdateStatus("Không có phiên chép lời trước đó nào để xoá.", false);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            UpdateStatus("Không có phiên chép lời trước đó nào để xoá.", false);
+            if (!_cleanupDone) UpdateStatus($"Delete previous transcripts error: {ex.Message}", false);
         }
     }
 
@@ -822,24 +867,29 @@ public partial class MainWindow
     private async void MenuTranscriptCopyAll_Click(object sender, RoutedEventArgs e)
     {
         if (_cleanupDone || CaptionTranscriptText.Text.Length == 0) return;
-        var textToCopy = CaptionTranscriptText.Text;
-        if (_transcriptTruncated && TranscriptSessionCombo.SelectedItem is CaptionTranscriptSession session && _transcriptStore != null)
-        {
-            var formatIndex = TranscriptFormatCombo.SelectedIndex;
-            var subtitle = formatIndex == 1;
-            var toeic = formatIndex == 2;
-            var full = await Task.Run(() => _transcriptStore.ReadAllText(session.Id, subtitle));
-            if (!string.IsNullOrEmpty(full))
-                textToCopy = toeic ? TranscriptToeicFormatter.Format(full) : full;
-        }
         try
         {
+            var textToCopy = CaptionTranscriptText.Text;
+            if (_transcriptTruncated && TranscriptSessionCombo.SelectedItem is CaptionTranscriptSession session && _transcriptStore != null)
+            {
+                var formatIndex = TranscriptFormatCombo.SelectedIndex;
+                var subtitle = formatIndex == 1;
+                var toeic = formatIndex == 2;
+                var full = await Task.Run(() => _transcriptStore.ReadAllText(session.Id, subtitle));
+                if (!string.IsNullOrEmpty(full))
+                    textToCopy = toeic ? TranscriptToeicFormatter.Format(full) : full;
+            }
+            if (_cleanupDone) return;
             System.Windows.Clipboard.SetText(textToCopy);
             UpdateStatus(LocalizationService.GetString("Transcripts.CopiedNotice", "Đã sao chép toàn bộ nội dung bản chép lời vào bộ nhớ tạm."), true);
         }
         catch (System.Runtime.InteropServices.ExternalException)
         {
             UpdateStatus("Clipboard is busy, please try again.", false);
+        }
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Copy error: {ex.Message}", false);
         }
     }
 

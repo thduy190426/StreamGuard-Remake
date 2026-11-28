@@ -72,7 +72,7 @@ public partial class MainWindow
             case ReadinessTier.Good:
                 tierText = isVi ? "ĐỦ ĐIỀU KIỆN - RẤT TỐT" : "GOOD - FULLY CAPABLE";
                 tierFg = (SolidColorBrush)FindResource("InfoBrush");
-                tierBg = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x0c, 0x27, 0x3d));
+                tierBg = (SolidColorBrush)FindResource("BlueBgSubtleBrush");
                 tierBorder = (SolidColorBrush)FindResource("InfoBrush");
                 break;
             case ReadinessTier.Warning:
@@ -164,7 +164,9 @@ public partial class MainWindow
         {
             string mic = result.Audio.HasInputDevice ? (isVi ? "Mic: Có" : "Mic: Yes") : (isVi ? "Mic: Không" : "Mic: No");
             string spk = result.Audio.HasOutputDevice ? (isVi ? "Loa: Có" : "Speakers: Yes") : (isVi ? "Loa: Không" : "Speakers: No");
-            string wv2 = !string.IsNullOrWhiteSpace(result.WebView2Version) ? "WebView2: OK" : "WebView2: Missing";
+            string wv2 = !string.IsNullOrWhiteSpace(result.WebView2Version)
+                ? (isVi ? "WebView2: Sẵn sàng" : "WebView2: OK")
+                : (isVi ? "WebView2: Chưa cài" : "WebView2: Missing");
             DiagnosticsAudioWebViewInfo.Text = $"{mic} | {spk} | {wv2}";
         }
 
@@ -346,8 +348,17 @@ public partial class MainWindow
 
     private async void BtnRefreshDiagnostics_Click(object sender, RoutedEventArgs e)
     {
-        await LoadHardwareDiagnosticsAsync(force: true);
-        ShowDiagnosticsToast(LocalizationService.GetString("Diagnostics.RefreshedToast", "Hardware specifications and readiness assessment refreshed!"));
+        if (_cleanupDone) return;
+        try
+        {
+            await LoadHardwareDiagnosticsAsync(force: true);
+            if (!_cleanupDone)
+                ShowDiagnosticsToast(LocalizationService.GetString("Diagnostics.RefreshedToast", "Hardware specifications and readiness assessment refreshed!"));
+        }
+        catch (Exception ex)
+        {
+            if (!_cleanupDone) UpdateStatus($"Diagnostics error: {ex.Message}", false);
+        }
     }
 
     private void BtnCopyDiagnosticsReport_Click(object sender, RoutedEventArgs e)

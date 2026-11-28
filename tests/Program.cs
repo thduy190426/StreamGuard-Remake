@@ -70,6 +70,8 @@ internal static class Program
             StreamGuard.Tests.CursorCaptureProtectionChecks.Run(Check, Temp);
             StreamGuard.Tests.ToastNotificationChecks.Run(Check, Temp);
             StreamGuard.Tests.SwitchCooldownChecks.Run(Check);
+            StreamGuard.Tests.ThemeChecks.Run(Check, Temp);
+            StreamGuard.Tests.OptimizationAuditChecks.Run(Check);
             Console.WriteLine($"PASS: {_checks} checks. Artifacts: {Temp}");
             return 0;
         }
@@ -394,6 +396,7 @@ internal static class Program
         RecoveryChecks.Ui(Check, Temp);
         CaptionChecks.Ui(window, Check, Temp);
         StreamGuard.Tests.BackupChecks.RunUiChecks(window, Check);
+        StreamGuard.Tests.ThemeChecks.RunUiChecks(window, configPath, Check);
         TestUiUxImprovements(window, configPath);
         Check(errors.Messages.Count == 0, "WPF binding errors: " + string.Join("\n", errors.Messages));
         // Dispose only local resources. CleanupAndExit also kills managed apps and is deliberately excluded.

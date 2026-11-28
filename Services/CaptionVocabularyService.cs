@@ -34,9 +34,75 @@ public sealed class CaptionVocabularyService
     private readonly HashSet<string> _jargonKeywords = new(StringComparer.OrdinalIgnoreCase);
     private readonly object _syncLock = new();
 
+    public const int MaxKeywordsCount = 100;
+    public const int MaxTotalKeywordsLength = 2000;
+    public const int MinKeywordLength = 2;
+    public const int MaxKeywordLength = 64;
+
     public CaptionVocabularyService(string? customKeywords = null)
     {
         UpdateKeywords(customKeywords);
+    }
+
+    public static bool TryValidateKeywords(string? rawInput, out string normalizedKeywords, out string errorKey)
+    {
+        normalizedKeywords = string.Empty;
+        if (string.IsNullOrWhiteSpace(rawInput))
+        {
+            errorKey = "Captions.VocabErrorEmpty";
+            return false;
+        }
+
+        if (rawInput.Length > MaxTotalKeywordsLength)
+        {
+            errorKey = "Captions.VocabErrorTooLong";
+            return false;
+        }
+
+        // Reject control characters (newlines/tabs/nulls) that break single-line keyword rules
+        if (rawInput.Any(c => char.IsControl(c)))
+        {
+            errorKey = "Captions.VocabErrorInvalidChars";
+            return false;
+        }
+
+        var rawSegments = rawInput.Split(',');
+        var validTerms = new List<string>();
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var rawSegment in rawSegments)
+        {
+            var term = rawSegment.Trim();
+            if (string.IsNullOrEmpty(term))
+                continue;
+
+            if (term.Length < MinKeywordLength || term.Length > MaxKeywordLength || !term.Any(char.IsLetterOrDigit))
+            {
+                errorKey = "Captions.VocabErrorInvalidTerm";
+                return false;
+            }
+
+            if (seen.Add(term))
+            {
+                validTerms.Add(term);
+            }
+        }
+
+        if (validTerms.Count == 0)
+        {
+            errorKey = "Captions.VocabErrorEmpty";
+            return false;
+        }
+
+        if (validTerms.Count > MaxKeywordsCount)
+        {
+            errorKey = "Captions.VocabErrorTooMany";
+            return false;
+        }
+
+        normalizedKeywords = string.Join(", ", validTerms);
+        errorKey = string.Empty;
+        return true;
     }
 
     /// <summary>

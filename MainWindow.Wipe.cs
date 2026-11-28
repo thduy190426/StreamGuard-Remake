@@ -221,8 +221,10 @@ public partial class MainWindow
             blockMicrophoneAccess: true,
             passiveFocusMode: true,
             language: "en",
+            themeMode: Services.ThemeService.DarkMode,
             captureGuardEnabled: true,
             captureGuardIncludeMultiPurpose: false,
+            allowSelfScreenCapture: false,
             inAppCursorCloakEnabled: true,
             globalCursorCloakEnabled: false,
             blockSystemTools: false,
@@ -230,11 +232,13 @@ public partial class MainWindow
             screenshotDirectory: "",
             screenshotAutoCopyClipboard: true,
             screenshotExcludeFromCapture: true,
+            screenshotOpenEditorAfterCapture: true,
             enableCursorShield: false,
             enableAiTrafficShield: true,
             snippingHotkey: "Ctrl+Alt+S",
             blockVirtualDesktopHotkeys: false,
-            autoStartShield: false);
+            autoStartShield: false,
+            enableSystemTrayIcon: false);
 
         // 5. Reload clean config from disk into all UI controls and settings
         LoadConfig();

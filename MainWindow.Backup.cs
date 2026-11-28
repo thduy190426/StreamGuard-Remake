@@ -87,8 +87,10 @@ public partial class MainWindow
                     BlockMicrophoneAccess = BlockMicrophoneAccessCheckBox?.IsChecked ?? _config.BlockMicrophoneAccess,
                     PassiveFocusMode = PassiveFocusCheckBox?.IsChecked ?? _config.PassiveFocusMode,
                     Language = LocalizationService.Current.Language,
+                    ThemeMode = Services.ThemeService.Instance.CurrentTheme,
                     CaptureGuardEnabled = CaptureGuardCheckBox?.IsChecked ?? _config.CaptureGuardEnabled,
                     CaptureGuardIncludeMultiPurpose = CaptureMultiPurposeCheckBox?.IsChecked ?? _config.CaptureGuardIncludeMultiPurpose,
+                    AllowSelfScreenCapture = AllowSelfScreenCaptureCheckBox?.IsChecked ?? _config.AllowSelfScreenCapture,
                     InAppCursorCloakEnabled = InAppCursorCloakCheckBox?.IsChecked ?? _config.InAppCursorCloakEnabled,
                     GlobalCursorCloakEnabled = GlobalCursorCloakCheckBox?.IsChecked ?? _config.GlobalCursorCloakEnabled,
                     BlockSystemTools = BlockSystemToolsCheckBox?.IsChecked ?? _config.BlockSystemTools,
@@ -96,11 +98,13 @@ public partial class MainWindow
                     ScreenshotDirectory = TxtScreenshotDir?.Text ?? _config.ScreenshotDirectory,
                     ScreenshotAutoCopyClipboard = ScreenshotClipboardCheckbox?.IsChecked ?? _config.ScreenshotAutoCopyClipboard,
                     ScreenshotExcludeFromCapture = ScreenshotExcludeCheckbox?.IsChecked ?? _config.ScreenshotExcludeFromCapture,
+                    ScreenshotOpenEditorAfterCapture = ScreenshotOpenEditorCheckbox?.IsChecked ?? _config.ScreenshotOpenEditorAfterCapture,
                     EnableCursorShield = EnableCursorShieldCheckBox?.IsChecked ?? _config.EnableCursorShield,
                     EnableAiTrafficShield = EnableAiTrafficShieldCheckBox?.IsChecked ?? _config.EnableAiTrafficShield,
                     SnippingHotkey = string.IsNullOrWhiteSpace(_snippingHotkey) ? (string.IsNullOrWhiteSpace(_config.SnippingHotkey) ? "Ctrl+Alt+S" : _config.SnippingHotkey) : _snippingHotkey,
                     BlockVirtualDesktopHotkeys = BlockVirtualDesktopHotkeysSettingsCheckBox?.IsChecked ?? _config.BlockVirtualDesktopHotkeys,
-                    AutoStartShield = AutoStartShieldCheckBox?.IsChecked ?? AutoStartShieldQuickCheckBox?.IsChecked ?? _config.AutoStartShield
+                    AutoStartShield = AutoStartShieldCheckBox?.IsChecked ?? AutoStartShieldQuickCheckBox?.IsChecked ?? _config.AutoStartShield,
+                    EnableSystemTrayIcon = SystemTrayIconCheckBox?.IsChecked ?? _config.EnableSystemTrayIcon
                 };
 
                 if (CaptionCustomKeywordsTextBox != null)
@@ -216,6 +220,8 @@ public partial class MainWindow
 
             if (CaptureGuardCheckBox != null) CaptureGuardCheckBox.IsChecked = config.CaptureGuardEnabled;
             if (CaptureMultiPurposeCheckBox != null) CaptureMultiPurposeCheckBox.IsChecked = config.CaptureGuardIncludeMultiPurpose;
+            if (AllowSelfScreenCaptureCheckBox != null) AllowSelfScreenCaptureCheckBox.IsChecked = config.AllowSelfScreenCapture;
+            UpdateVerifiedCaptureProtection();
 
             if (InAppCursorCloakCheckBox != null) InAppCursorCloakCheckBox.IsChecked = config.InAppCursorCloakEnabled;
             if (GlobalCursorCloakCheckBox != null) GlobalCursorCloakCheckBox.IsChecked = config.GlobalCursorCloakEnabled;
@@ -245,6 +251,7 @@ public partial class MainWindow
             if (TxtScreenshotDir != null) TxtScreenshotDir.Text = config.ScreenshotDirectory ?? "";
             if (ScreenshotClipboardCheckbox != null) ScreenshotClipboardCheckbox.IsChecked = config.ScreenshotAutoCopyClipboard;
             if (ScreenshotExcludeCheckbox != null) ScreenshotExcludeCheckbox.IsChecked = config.ScreenshotExcludeFromCapture;
+            if (ScreenshotOpenEditorCheckbox != null) ScreenshotOpenEditorCheckbox.IsChecked = config.ScreenshotOpenEditorAfterCapture;
 
             if (BlockVirtualDesktopHotkeysSettingsCheckBox != null) BlockVirtualDesktopHotkeysSettingsCheckBox.IsChecked = config.BlockVirtualDesktopHotkeys;
             _hotkeys.BlockVirtualDesktopHotkeys = config.BlockVirtualDesktopHotkeys;
@@ -254,16 +261,20 @@ public partial class MainWindow
             if (AutoStartShieldQuickCheckBox != null) AutoStartShieldQuickCheckBox.IsChecked = config.AutoStartShield;
             UpdateAutoStartShieldUiState(config.AutoStartShield);
 
+            if (SystemTrayIconCheckBox != null) SystemTrayIconCheckBox.IsChecked = config.EnableSystemTrayIcon;
+            ApplySystemTrayIconPreference(config.EnableSystemTrayIcon);
+
             // Snipping hotkey
             _snippingHotkey = string.IsNullOrWhiteSpace(config.SnippingHotkey) ? "Ctrl+Alt+S" : config.SnippingHotkey;
             _currentSnippingHotkey = _snippingHotkey;
             SyncSnippingHotkeyUi();
             RegisterSnippingHotkey();
 
-            // Language
+            // Language & Theme
             var lang = LocalizationService.NormalizeLanguage(config.Language);
             LocalizationService.Current.SetLanguage(lang);
             if (LanguageComboBox != null) LanguageComboBox.SelectedValue = lang;
+            ApplyAndSyncTheme(config.ThemeMode, save: false, showToast: false);
             RefreshTrayLanguage();
             UpdateAntigravityInstallerUiState();
             RefreshDiagnosticsLanguage();
@@ -290,7 +301,7 @@ public partial class MainWindow
             if (CaptionModeBilingualRadio != null) CaptionModeBilingualRadio.IsChecked = _captionSettings.TranslationMode == "Bilingual";
             if (CaptionModeVietnameseRadio != null) CaptionModeVietnameseRadio.IsChecked = _captionSettings.TranslationMode == "VietnameseOnly";
             if (CaptionCustomKeywordsTextBox != null) CaptionCustomKeywordsTextBox.Text = _captionSettings.CustomKeywords;
-            if (BtnCaptionClearKeywords != null) BtnCaptionClearKeywords.IsEnabled = !string.IsNullOrWhiteSpace(_captionSettings.CustomKeywords);
+            UpdateCaptionVocabularyButtonsState();
             UpdateCaptionCaptureStatus();
             _captionOverlay?.ApplySettings();
             _captionOverlay?.ResetPosition(useSaved: true);

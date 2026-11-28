@@ -57,16 +57,12 @@ public class ToastCard : Border
         Cursor = WpfCursors.Arrow;
         ClipToBounds = false; // Allow outer drop shadow to extend beyond border
 
-        var (accentColor, bgColor, borderColor, iconGeom) = GetTypePalette(notification.Type);
+        var (accentColor, bgResKey, borderResKey, bgFallback, borderFallback, iconGeom) = GetTypePalette(notification.Type);
         var accentBrush = new SolidColorBrush(accentColor);
         accentBrush.Freeze();
-        var bgBrush = new SolidColorBrush(bgColor);
-        bgBrush.Freeze();
-        var borderBrush = new SolidColorBrush(borderColor);
-        borderBrush.Freeze();
 
-        Background = bgBrush;
-        BorderBrush = borderBrush;
+        ApplyBrush(this, BackgroundProperty, bgResKey, bgFallback);
+        ApplyBrush(this, BorderBrushProperty, borderResKey, borderFallback);
         Effect = new DropShadowEffect
         {
             BlurRadius = 14,
@@ -136,7 +132,6 @@ public class ToastCard : Border
         _messageTextBlock = new TextBlock
         {
             Text = notification.Message,
-            Foreground = new SolidColorBrush(WpfColor.FromRgb(0xf1, 0xf5, 0xf9)),
             FontSize = 11.5,
             FontWeight = FontWeights.SemiBold,
             TextWrapping = TextWrapping.Wrap,
@@ -145,11 +140,14 @@ public class ToastCard : Border
             TextTrimming = TextTrimming.CharacterEllipsis,
             VerticalAlignment = VerticalAlignment.Center
         };
+        ApplyBrush(_messageTextBlock, TextBlock.ForegroundProperty, "ToastTextBrush", WpfColor.FromRgb(0xf1, 0xf5, 0xf9));
         textContainer.Children.Add(_messageTextBlock);
 
+        var badgeBgBrush = new SolidColorBrush(WpfColor.FromArgb(0x44, accentColor.R, accentColor.G, accentColor.B));
+        badgeBgBrush.Freeze();
         _repeatBadgeBorder = new Border
         {
-            Background = new SolidColorBrush(WpfColor.FromArgb(0x44, accentColor.R, accentColor.G, accentColor.B)),
+            Background = badgeBgBrush,
             BorderBrush = accentBrush,
             BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(5),
@@ -161,11 +159,18 @@ public class ToastCard : Border
         _repeatBadgeText = new TextBlock
         {
             Text = $"x{notification.RepeatCount}",
-            Foreground = accentBrush,
             FontSize = 10,
             FontWeight = FontWeights.Bold,
             VerticalAlignment = VerticalAlignment.Center
         };
+        var repeatTextKey = notification.Type switch
+        {
+            ToastType.Success => "SuccessTextBrush",
+            ToastType.Error => "DangerTextBrush",
+            ToastType.Warning => "WarningTextBrush",
+            _ => "InfoTextBrush"
+        };
+        ApplyBrush(_repeatBadgeText, TextBlock.ForegroundProperty, repeatTextKey, accentColor);
         _repeatBadgeBorder.Child = _repeatBadgeText;
         textContainer.Children.Add(_repeatBadgeBorder);
 
@@ -187,7 +192,6 @@ public class ToastCard : Border
         var closeCross = new Path
         {
             Data = Geometry.Parse("M5,5 L13,13 M13,5 L5,13"),
-            Stroke = new SolidColorBrush(WpfColor.FromRgb(0x94, 0xa3, 0xb8)),
             StrokeThickness = 1.6,
             StrokeStartLineCap = PenLineCap.Round,
             StrokeEndLineCap = PenLineCap.Round,
@@ -197,16 +201,17 @@ public class ToastCard : Border
             HorizontalAlignment = WpfHorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center
         };
+        ApplyBrush(closeCross, System.Windows.Shapes.Shape.StrokeProperty, "ToastCloseStrokeBrush", WpfColor.FromRgb(0x94, 0xa3, 0xb8));
         closeButton.Child = closeCross;
         closeButton.MouseEnter += (s, e) =>
         {
-            closeButton.Background = new SolidColorBrush(WpfColor.FromArgb(0x22, 0xff, 0xff, 0xff));
-            closeCross.Stroke = WpfBrushes.White;
+            ApplyBrush(closeButton, BackgroundProperty, "ToastCloseHoverBgBrush", WpfColor.FromArgb(0x22, 0xff, 0xff, 0xff));
+            ApplyBrush(closeCross, System.Windows.Shapes.Shape.StrokeProperty, "ToastTextBrush", Colors.White);
         };
         closeButton.MouseLeave += (s, e) =>
         {
             closeButton.Background = WpfBrushes.Transparent;
-            closeCross.Stroke = new SolidColorBrush(WpfColor.FromRgb(0x94, 0xa3, 0xb8));
+            ApplyBrush(closeCross, System.Windows.Shapes.Shape.StrokeProperty, "ToastCloseStrokeBrush", WpfColor.FromRgb(0x94, 0xa3, 0xb8));
         };
         closeButton.MouseLeftButtonDown += (s, e) =>
         {
@@ -222,10 +227,10 @@ public class ToastCard : Border
         // Row 1: Countdown bar
         var track = new Grid
         {
-            Background = new SolidColorBrush(WpfColor.FromArgb(0x18, 0xff, 0xff, 0xff)),
             HorizontalAlignment = WpfHorizontalAlignment.Stretch,
             Height = 2
         };
+        ApplyBrush(track, System.Windows.Controls.Panel.BackgroundProperty, "ToastTrackBgBrush", WpfColor.FromArgb(0x18, 0xff, 0xff, 0xff));
         _countdownBarScale = new ScaleTransform(1.0, 1.0);
         _countdownBar = new Border
         {
@@ -284,30 +289,51 @@ public class ToastCard : Border
         _timer.Start();
     }
 
-    private static (WpfColor Accent, WpfColor Bg, WpfColor Border, Geometry Icon) GetTypePalette(ToastType type)
+    private static void ApplyBrush(FrameworkElement target, DependencyProperty property, string resourceKey, WpfColor fallbackColor)
+    {
+        if (System.Windows.Application.Current != null && System.Windows.Application.Current.TryFindResource(resourceKey) != null)
+        {
+            target.SetResourceReference(property, resourceKey);
+            return;
+        }
+
+        var brush = new SolidColorBrush(fallbackColor);
+        brush.Freeze();
+        target.SetValue(property, brush);
+    }
+
+    private static (WpfColor Accent, string BgResKey, string BorderResKey, WpfColor BgFallback, WpfColor BorderFallback, Geometry Icon) GetTypePalette(ToastType type)
     {
         return type switch
         {
             ToastType.Success => (
                 WpfColor.FromRgb(0x10, 0xb9, 0x81), // #10b981
+                "ToastSuccessBgBrush",
+                "ToastSuccessBorderBrush",
                 WpfColor.FromArgb(0xf2, 0x0c, 0x1d, 0x1b), // Deep dark teal/green
                 WpfColor.FromArgb(0x44, 0x10, 0xb9, 0x81),
                 Geometry.Parse("M4,12 L9,17 L20,6") // Check
             ),
             ToastType.Error => (
                 WpfColor.FromRgb(0xf4, 0x3f, 0x5e), // #f43f5e
+                "ToastErrorBgBrush",
+                "ToastErrorBorderBrush",
                 WpfColor.FromArgb(0xf2, 0x24, 0x10, 0x15), // Deep dark rose/red
                 WpfColor.FromArgb(0x55, 0xf4, 0x3f, 0x5e),
                 Geometry.Parse("M12,2 L23,22 H1 Z M12,8 V14 M12,18 H12.1") // Alert
             ),
             ToastType.Warning => (
                 WpfColor.FromRgb(0xf5, 0x9e, 0x0b), // #f59e0b
+                "ToastWarningBgBrush",
+                "ToastWarningBorderBrush",
                 WpfColor.FromArgb(0xf2, 0x24, 0x1b, 0x0b), // Deep dark amber
                 WpfColor.FromArgb(0x55, 0xf5, 0x9e, 0x0b),
                 Geometry.Parse("M12,2 L23,22 H1 Z M12,8 V14 M12,18 H12.1") // Alert
             ),
             _ => (
                 WpfColor.FromRgb(0x38, 0xbd, 0xf8), // #38bdf8
+                "ToastInfoBgBrush",
+                "ToastInfoBorderBrush",
                 WpfColor.FromArgb(0xf2, 0x0c, 0x19, 0x29), // Deep dark cyan/blue
                 WpfColor.FromArgb(0x44, 0x38, 0xbd, 0xf8),
                 Geometry.Parse("M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 M12,11 V17 M12,7 H12.01") // Info

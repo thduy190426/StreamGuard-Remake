@@ -16,6 +16,7 @@ public partial class MainWindow
     private readonly DispatcherTimer _captureRiskTimer = new();
     private CaptureAssessment _captureAssessment = CaptureAssessment.Unknown;
     private CaptureAffinityResult? _lastCaptureAffinity;
+    private bool? _lastAllowSelfScreenCapture;
     private bool _captureScanInProgress;
     private bool _captureGuardPaused;
     private bool _captureCurtainHotkeyReady;
@@ -72,8 +73,18 @@ public partial class MainWindow
                         purged = true;
                     }
                 }
+                var envProxy = _aiTrafficProtection.CheckEnvironmentProxyStatus();
+                if (isShieldEnabled && (envProxy.HasRogueEnvVars || envProxy.HasTlsBypassOrCustomCa))
+                {
+                    if (_aiTrafficProtection.PurgeEnvironmentProxySettings())
+                    {
+                        envProxy = _aiTrafficProtection.CheckEnvironmentProxyStatus();
+                        purged = true;
+                    }
+                }
+                var winHttpProxy = _aiTrafficProtection.CheckWinHttpProxy();
                 var sniffers = ca.Tools.Where(t => t.Kind == CaptureToolKind.Sniffer).ToArray();
-                var ai = new AiTrafficAssessment(proxyStatus, certs, sniffers, hosts);
+                var ai = new AiTrafficAssessment(proxyStatus, certs, sniffers, hosts, envProxy, winHttpProxy);
                 return (ca, ai, purged);
             });
 
@@ -114,8 +125,36 @@ public partial class MainWindow
 
     private void UpdateVerifiedCaptureProtection()
     {
-        var result = _windowCaptureProtection.ApplyAndVerify(new WindowInteropHelper(this).Handle);
-        if (result == _lastCaptureAffinity) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        var allowSelfCapture = AllowSelfScreenCaptureCheckBox?.IsChecked ?? _config.AllowSelfScreenCapture;
+
+        if (allowSelfCapture)
+        {
+            if (hwnd != IntPtr.Zero)
+            {
+                try { SetWindowDisplayAffinity(hwnd, WDA_NONE); } catch { }
+            }
+
+            if (_lastAllowSelfScreenCapture == true) return;
+            _lastAllowSelfScreenCapture = true;
+            _lastCaptureAffinity = null;
+
+            LocalizationService.BindKey(CaptureBadgeText, TextBlock.TextProperty, "Capture.BadgeCaptureAllowed");
+            LocalizationService.BindKey(CaptureStatusBadge, FrameworkElement.ToolTipProperty, "Capture.AllowSelfScreenCaptureTip");
+            CaptureStatusDot.Fill = (System.Windows.Media.Brush)FindResource("InfoBrush");
+            if (CaptureStatusBadge != null)
+            {
+                CaptureStatusBadge.Background = (System.Windows.Media.Brush)FindResource("BlueBgSubtleBrush");
+                CaptureStatusBadge.BorderBrush = (System.Windows.Media.Brush)FindResource("InfoBrush");
+                if (CaptureBadgeText != null) CaptureBadgeText.Foreground = (System.Windows.Media.Brush)FindResource("InfoBrush");
+            }
+            LocalizationService.BindKey(CaptureAffinityText, TextBlock.TextProperty, "Capture.AffinityCaptureAllowed");
+            return;
+        }
+
+        var result = _windowCaptureProtection.ApplyAndVerify(hwnd);
+        if (_lastAllowSelfScreenCapture == false && result == _lastCaptureAffinity) return;
+        _lastAllowSelfScreenCapture = false;
         _lastCaptureAffinity = result;
         var key = result.Mode switch
         {
@@ -127,7 +166,7 @@ public partial class MainWindow
         LocalizationService.BindKey(CaptureStatusBadge, FrameworkElement.ToolTipProperty, "Capture.AffinityScope");
         CaptureStatusDot.Fill = result.Mode == CaptureAffinityMode.Excluded
             ? (System.Windows.Media.Brush)FindResource("SuccessBrush")
-            : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xfb, 0xbf, 0x24));
+            : (System.Windows.Media.Brush)FindResource("WarningBrush");
         if (CaptureStatusBadge != null)
         {
             if (result.Mode == CaptureAffinityMode.Excluded)
@@ -178,6 +217,21 @@ public partial class MainWindow
         BtnResumeCaptureGuard.IsEnabled = enabled && _captureGuardPaused;
         BtnManualCaptureCurtain.IsEnabled = _captureCurtainHotkeyReady;
         UpdateStopButtonState();
+    }
+
+    private void AllowSelfScreenCaptureCheckBox_Changed(object sender, RoutedEventArgs e)
+    {
+        if (_isLoadingConfig) return;
+        var allowed = AllowSelfScreenCaptureCheckBox?.IsChecked == true;
+        UpdateVerifiedCaptureProtection();
+        SaveConfig();
+        UpdateStatus(
+            LocalizationService.GetString(
+                allowed ? "Capture.SelfCaptureAllowedToast" : "Capture.SelfCaptureProtectedToast",
+                allowed
+                    ? "Đã cho phép quay/chụp màn hình cửa sổ Driver Booster"
+                    : "Đã bật lại ẩn cửa sổ Driver Booster khỏi quay/chụp màn hình"),
+            true);
     }
 
     private void CaptureGuardPreference_Changed(object sender, RoutedEventArgs e)
@@ -250,7 +304,7 @@ public partial class MainWindow
         LocalizationService.BindKey(GlobalCursorCloakStateText, TextBlock.TextProperty,
             active ? "Capture.GlobalCursorCloakOn" : "Capture.GlobalCursorCloakOff");
         GlobalCursorCloakStateText.Foreground = active
-            ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99))
+            ? (System.Windows.Media.Brush)FindResource("SuccessTextBrush")
             : (System.Windows.Media.Brush)FindResource("TextDimBrush");
     }
 

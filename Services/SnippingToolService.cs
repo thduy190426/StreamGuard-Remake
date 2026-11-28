@@ -19,8 +19,37 @@ namespace StreamGuard.Services
 
     public sealed class SnippingToolService
     {
+        public const string PreferredDefaultScreenshotDirectory = @"D:\Screenshoot";
+
         public static string DefaultScreenshotDirectory =>
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "DriverBooster_Screenshots");
+            Directory.Exists(@"D:\")
+                ? PreferredDefaultScreenshotDirectory
+                : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "DriverBooster_Screenshots");
+
+        public static string EnsureScreenshotDirectoryExists(string? targetDirectory = null)
+        {
+            var directory = string.IsNullOrWhiteSpace(targetDirectory)
+                ? DefaultScreenshotDirectory
+                : targetDirectory.Trim();
+
+            try
+            {
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+                return directory;
+            }
+            catch
+            {
+                var fallback = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "DriverBooster_Screenshots");
+                if (!Directory.Exists(fallback))
+                {
+                    Directory.CreateDirectory(fallback);
+                }
+                return fallback;
+            }
+        }
 
         public event Action<SnippingResult>? SnippingCompleted;
 
@@ -30,16 +59,15 @@ namespace StreamGuard.Services
         public bool StartSnipping(
             string? targetDirectory = null,
             bool autoCopyClipboard = true,
-            bool excludeFromCapture = true)
+            bool excludeFromCapture = true,
+            bool openEditor = false)
         {
             if (_isSnippingActive)
                 return false;
 
             _isSnippingActive = true;
 
-            var directory = string.IsNullOrWhiteSpace(targetDirectory)
-                ? DefaultScreenshotDirectory
-                : targetDirectory.Trim();
+            var directory = EnsureScreenshotDirectoryExists(targetDirectory);
 
             Bitmap? desktopSnapshot = null;
             try
@@ -69,6 +97,12 @@ namespace StreamGuard.Services
 
                 overlay.RegionSelected += (cropRect) =>
                 {
+                    if (openEditor)
+                    {
+                        OpenPostCaptureEditor(desktopSnapshot, cropRect, directory, autoCopyClipboard, excludeFromCapture);
+                        return;
+                    }
+
                     try
                     {
                         var result = ProcessSelectedRegion(desktopSnapshot, cropRect, directory, autoCopyClipboard);
@@ -104,6 +138,86 @@ namespace StreamGuard.Services
             }
         }
 
+        private void OpenPostCaptureEditor(
+            Bitmap desktopSnapshot,
+            System.Drawing.Rectangle cropRect,
+            string directory,
+            bool autoCopyClipboard,
+            bool excludeFromCapture)
+        {
+            Bitmap? cropped = null;
+            try
+            {
+                var fullBounds = new System.Drawing.Rectangle(0, 0, desktopSnapshot.Width, desktopSnapshot.Height);
+                cropRect.Intersect(fullBounds);
+                if (cropRect.Width < 4 || cropRect.Height < 4)
+                {
+                    desktopSnapshot.Dispose();
+                    _isSnippingActive = false;
+                    SnippingCompleted?.Invoke(new SnippingResult(false, null, 0, 0, "Selected area was too small"));
+                    return;
+                }
+
+                cropped = desktopSnapshot.Clone(cropRect, PixelFormat.Format32bppArgb);
+                desktopSnapshot.Dispose();
+
+                var editor = new Views.SnippingEditorWindow(cropped, excludeFromCapture);
+                editor.SaveRequested += (editedBitmap) =>
+                {
+                    try
+                    {
+                        var result = SaveBitmapToDirectory(editedBitmap, directory, autoCopyClipboard);
+                        SnippingCompleted?.Invoke(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        SnippingCompleted?.Invoke(new SnippingResult(false, null, 0, 0, $"Error saving screenshot: {ex.Message}"));
+                    }
+                    finally
+                    {
+                        editedBitmap.Dispose();
+                        cropped?.Dispose();
+                        _isSnippingActive = false;
+                    }
+                };
+
+                editor.CopyOnlyRequested += (editedBitmap) =>
+                {
+                    try
+                    {
+                        TrySetClipboardImage(editedBitmap);
+                        SnippingCompleted?.Invoke(new SnippingResult(true, null, editedBitmap.Width, editedBitmap.Height, "Clipboard"));
+                    }
+                    catch (Exception ex)
+                    {
+                        SnippingCompleted?.Invoke(new SnippingResult(false, null, 0, 0, $"Error copying screenshot: {ex.Message}"));
+                    }
+                    finally
+                    {
+                        editedBitmap.Dispose();
+                        cropped?.Dispose();
+                        _isSnippingActive = false;
+                    }
+                };
+
+                editor.Canceled += () =>
+                {
+                    cropped?.Dispose();
+                    _isSnippingActive = false;
+                    SnippingCompleted?.Invoke(new SnippingResult(false, null, 0, 0, "Screenshot capture canceled"));
+                };
+
+                editor.Show();
+            }
+            catch (Exception ex)
+            {
+                cropped?.Dispose();
+                desktopSnapshot.Dispose();
+                _isSnippingActive = false;
+                SnippingCompleted?.Invoke(new SnippingResult(false, null, 0, 0, $"Could not open screenshot editor: {ex.Message}"));
+            }
+        }
+
         internal static SnippingResult ProcessSelectedRegion(
             Bitmap fullSnapshot,
             System.Drawing.Rectangle cropRect,
@@ -118,7 +232,14 @@ namespace StreamGuard.Services
                 return new SnippingResult(false, null, 0, 0, "Selected area was too small");
 
             using var cropped = fullSnapshot.Clone(cropRect, fullSnapshot.PixelFormat);
+            return SaveBitmapToDirectory(cropped, targetDirectory, autoCopyClipboard);
+        }
 
+        internal static SnippingResult SaveBitmapToDirectory(
+            Bitmap bitmap,
+            string targetDirectory,
+            bool autoCopyClipboard)
+        {
             // Ensure destination directory exists
             Directory.CreateDirectory(targetDirectory);
 
@@ -133,14 +254,14 @@ namespace StreamGuard.Services
                 fullPath = Path.Combine(targetDirectory, fileName);
             }
 
-            cropped.Save(fullPath, ImageFormat.Png);
+            bitmap.Save(fullPath, ImageFormat.Png);
 
             if (autoCopyClipboard)
             {
-                TrySetClipboardImage(cropped);
+                TrySetClipboardImage(bitmap);
             }
 
-            return new SnippingResult(true, fullPath, cropRect.Width, cropRect.Height, fileName);
+            return new SnippingResult(true, fullPath, bitmap.Width, bitmap.Height, fileName);
         }
 
         public static BitmapSource? ConvertBitmapToBitmapSource(Bitmap? bitmap)

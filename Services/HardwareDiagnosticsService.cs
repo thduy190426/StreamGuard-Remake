@@ -493,70 +493,93 @@ public sealed class HardwareDiagnosticsService
         score = Math.Clamp(score, 0, 100);
 
         // Feature Matrix Items
+        bool isVi = LocalizationService.Current.Language == "vi";
         var featureMatrix = new List<FeatureReadinessItem>();
 
         // Feature 1: Window Capture Protection (WDA Stealth)
+        string wdaName = isVi
+            ? "Bảo vệ cửa sổ chống quay chụp (WDA)"
+            : "Window Stealth Capture Protection (WDA)";
         if (os.Is64Bit && os.BuildNumber >= 19041)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureWda",
-                "Window Stealth Capture Protection (WDA)",
+                wdaName,
                 ReadinessTier.Optimal,
-                "WDA_EXCLUDEFROMCAPTURE Supported (100% Stealth)",
-                $"Windows 10/11 Build {os.BuildNumber} (64-bit) provides full stealth capture exclusion. Windows will completely hide protected windows from screen recorders, Discord, OBS, and capture tools."
+                isVi ? "Hỗ trợ WDA_EXCLUDEFROMCAPTURE (Tàng hình 100%)" : "WDA_EXCLUDEFROMCAPTURE Supported (100% Stealth)",
+                isVi
+                    ? $"Windows 10/11 Build {os.BuildNumber} (64-bit) hỗ trợ loại trừ ghi hình hoàn toàn. Hệ thống sẽ ẩn triệt để các cửa sổ được bảo vệ khỏi phần mềm quay màn hình, Discord, OBS và công cụ chụp."
+                    : $"Windows 10/11 Build {os.BuildNumber} (64-bit) provides full stealth capture exclusion. Windows will completely hide protected windows from screen recorders, Discord, OBS, and capture tools."
             ));
         }
         else if (os.BuildNumber >= 10240)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureWda",
-                "Window Stealth Capture Protection (WDA)",
+                wdaName,
                 ReadinessTier.Good,
-                "WDA_MONITOR Only (Blackout Mode)",
-                $"Current Windows build ({os.BuildNumber}) does not support complete exclusion. Windows will render a blackout window instead of transparent stealth."
+                isVi ? "Chỉ hỗ trợ WDA_MONITOR (Chế độ màn đen)" : "WDA_MONITOR Only (Blackout Mode)",
+                isVi
+                    ? $"Bản dựng Windows hiện tại ({os.BuildNumber}) chưa hỗ trợ ẩn hoàn toàn. Hệ thống sẽ hiển thị khung đen thay vì tàng hình trong suốt."
+                    : $"Current Windows build ({os.BuildNumber}) does not support complete exclusion. Windows will render a blackout window instead of transparent stealth."
             ));
         }
         else
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureWda",
-                "Window Stealth Capture Protection (WDA)",
+                wdaName,
                 ReadinessTier.Warning,
-                "Limited Capture Affinity",
-                "Operating system build is too old to guarantee hardware-level capture protection."
+                isVi ? "Giới hạn khả năng chống ghi hình" : "Limited Capture Affinity",
+                isVi
+                    ? "Phiên bản hệ điều hành quá cũ để đảm bảo bảo vệ chống quay chụp ở mức phần cứng."
+                    : "Operating system build is too old to guarantee hardware-level capture protection."
             ));
         }
 
         // Feature 2: Live Captions & Whisper AI
+        string captionsName = isVi
+            ? "Phụ đề trực tiếp & Dịch AI thời gian thực (Whisper)"
+            : "Live Captions & Real-time AI Translation (Whisper)";
         if (cpu.HasAvx2 && ram.TotalGigabytes >= 7.5 && audio.HasInputDevice)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureCaptions",
-                "Live Captions & Real-time AI Translation (Whisper)",
+                captionsName,
                 ReadinessTier.Optimal,
-                "Optimal Real-time AI Acceleration",
-                $"CPU AVX2 SIMD vector extensions enabled with {ram.TotalGigabytes:F1} GB RAM and active microphone. Real-time Whisper AI operates with low latency and high accuracy."
+                isVi ? "Tăng tốc AI thời gian thực tối ưu" : "Optimal Real-time AI Acceleration",
+                isVi
+                    ? $"CPU hỗ trợ tập lệnh vector AVX2 cùng {ram.TotalGigabytes:F1} GB RAM và micro đang hoạt động. Whisper AI nhận dạng thời gian thực với độ trễ thấp và độ chính xác cao."
+                    : $"CPU AVX2 SIMD vector extensions enabled with {ram.TotalGigabytes:F1} GB RAM and active microphone. Real-time Whisper AI operates with low latency and high accuracy."
             ));
         }
         else if ((cpu.HasAvx || cpu.HasAvx2) && ram.TotalGigabytes >= 3.5 && audio.HasInputDevice)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureCaptions",
-                "Live Captions & Real-time AI Translation (Whisper)",
+                captionsName,
                 ReadinessTier.Good,
-                "Capable AI Performance",
-                "Hardware meets core Whisper AI transcription requirements. Voice-to-text operates reliably."
+                isVi ? "Hiệu năng AI đáp ứng tốt" : "Capable AI Performance",
+                isVi
+                    ? "Phần cứng đáp ứng đầy đủ yêu cầu cốt lõi để Whisper AI nhận dạng giọng nói thành văn bản ổn định."
+                    : "Hardware meets core Whisper AI transcription requirements. Voice-to-text operates reliably."
             ));
         }
         else
         {
-            string summary = !audio.HasInputDevice ? "Microphone Required" : "CPU/Memory Limited";
+            string summary = !audio.HasInputDevice
+                ? (isVi ? "Cần kết nối Micro" : "Microphone Required")
+                : (isVi ? "Giới hạn CPU / RAM" : "CPU/Memory Limited");
             string detail = !audio.HasInputDevice
-                ? "No microphone detected. Real-time voice captions require an active audio input device."
-                : "CPU lacks AVX2 instruction support or system RAM is below 4 GB. Transcription may experience latency under high load.";
+                ? (isVi
+                    ? "Chưa phát hiện thiết bị micro. Tính năng phụ đề giọng nói trực tiếp cần thiết bị thu âm đang hoạt động."
+                    : "No microphone detected. Real-time voice captions require an active audio input device.")
+                : (isVi
+                    ? "CPU thiếu tập lệnh AVX2 hoặc RAM hệ thống dưới 4 GB. Tốc độ tạo phụ đề có thể chậm hơn khi tải cao."
+                    : "CPU lacks AVX2 instruction support or system RAM is below 4 GB. Transcription may experience latency under high load.");
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureCaptions",
-                "Live Captions & Real-time AI Translation (Whisper)",
+                captionsName,
                 ReadinessTier.Warning,
                 summary,
                 detail
@@ -564,68 +587,89 @@ public sealed class HardwareDiagnosticsService
         }
 
         // Feature 3: Virtual Desktop Cloak
+        string vdName = isVi
+            ? "Khiên Desktop ảo & Ẩn không gian làm việc"
+            : "Virtual Desktop Shield & Workspace Cloaking";
         if (virtualDesktopAvailable)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureVd",
-                "Virtual Desktop Shield & Workspace Cloaking",
+                vdName,
                 ReadinessTier.Optimal,
-                "COM Desktop Manager Active",
-                "IVirtualDesktopManager API is fully functional. Instant workspace cloaking and hotkey shielding are enabled."
+                isVi ? "COM Desktop Manager đang hoạt động" : "COM Desktop Manager Active",
+                isVi
+                    ? "API IVirtualDesktopManager hoạt động đầy đủ. Tính năng ẩn không gian làm việc tức thì và khóa phím tắt đã sẵn sàng."
+                    : "IVirtualDesktopManager API is fully functional. Instant workspace cloaking and hotkey shielding are enabled."
             ));
         }
         else
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureVd",
-                "Virtual Desktop Shield & Workspace Cloaking",
+                vdName,
                 ReadinessTier.Good,
-                "Fallback Hide Mode",
-                "Virtual desktop COM API unavailable or restricted. Fallback stealth hide mechanism is active."
+                isVi ? "Chế độ ẩn dự phòng" : "Fallback Hide Mode",
+                isVi
+                    ? "COM API quản lý Desktop ảo chưa khả dụng hoặc bị hạn chế. Đã tự động chuyển sang cơ chế ẩn cửa sổ dự phòng."
+                    : "Virtual desktop COM API unavailable or restricted. Fallback stealth hide mechanism is active."
             ));
         }
 
         // Feature 4: AI Traffic Shield & Proxy Purge
+        string aiTrafficName = isVi
+            ? "Khiên lưu lượng AI & Chống chặn bắt Proxy"
+            : "AI Traffic Shield & Proxy Anti-Interception";
         if (os.IsAdministrator)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureAiTraffic",
-                "AI Traffic Shield & Proxy Anti-Interception",
+                aiTrafficName,
                 ReadinessTier.Optimal,
-                "Full Administrator Shield",
-                "Elevated process execution active. Full authority to purge rogue loopback proxies, sniffers, and system MITM certificates."
+                isVi ? "Toàn quyền bảo vệ Administrator" : "Full Administrator Shield",
+                isVi
+                    ? "Ứng dụng đang chạy với quyền Quản trị viên. Đủ thẩm quyền tự động xóa proxy loopback, phát hiện sniffer và chứng chỉ MITM hệ thống."
+                    : "Elevated process execution active. Full authority to purge rogue loopback proxies, sniffers, and system MITM certificates."
             ));
         }
         else
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureAiTraffic",
-                "AI Traffic Shield & Proxy Anti-Interception",
+                aiTrafficName,
                 ReadinessTier.Warning,
-                "User Mode (Monitoring & Alerting)",
-                "Running as standard user. StreamGuard can detect rogue proxies and alert you, but clearing system-level proxies requires Administrator elevation."
+                isVi ? "Chế độ người dùng thường (Giám sát & Cảnh báo)" : "User Mode (Monitoring & Alerting)",
+                isVi
+                    ? "Đang chạy với quyền người dùng chuẩn. Driver Booster vẫn phát hiện và xóa proxy cấp User, nhưng dọn proxy cấp hệ thống cần quyền Administrator."
+                    : "Running as standard user. StreamGuard can detect rogue proxies and alert you, but clearing system-level proxies requires Administrator elevation."
             ));
         }
 
         // Feature 5: Embedded Stealth Browser (WebView2)
+        string browserName = isVi
+            ? "Trình duyệt bảo vệ nhúng sẵn (WebView2)"
+            : "Stealth Embedded Web Browser (WebView2)";
         if (hasWebView2)
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureBrowser",
-                "Stealth Embedded Web Browser (WebView2)",
+                browserName,
                 ReadinessTier.Optimal,
-                "WebView2 Runtime Active",
-                $"Microsoft Edge WebView2 Runtime version {webView2Version} detected. Embedded stealth browser is fully operational."
+                isVi ? "WebView2 Runtime đang hoạt động" : "WebView2 Runtime Active",
+                isVi
+                    ? $"Đã nhận diện Microsoft Edge WebView2 Runtime phiên bản {webView2Version}. Trình duyệt bảo vệ nhúng sẵn hoạt động đầy đủ."
+                    : $"Microsoft Edge WebView2 Runtime version {webView2Version} detected. Embedded stealth browser is fully operational."
             ));
         }
         else
         {
             featureMatrix.Add(new FeatureReadinessItem(
                 "Diagnostics.FeatureBrowser",
-                "Stealth Embedded Web Browser (WebView2)",
+                browserName,
                 ReadinessTier.Warning,
-                "Runtime Not Installed",
-                "Microsoft Edge WebView2 Runtime is missing. Install the Evergreen runtime to enable the embedded stealth browser."
+                isVi ? "Chưa cài đặt Runtime" : "Runtime Not Installed",
+                isVi
+                    ? "Thiếu Microsoft Edge WebView2 Runtime. Hãy cài đặt bản Evergreen Runtime để bật trình duyệt bảo vệ nhúng sẵn."
+                    : "Microsoft Edge WebView2 Runtime is missing. Install the Evergreen runtime to enable the embedded stealth browser."
             ));
         }
 

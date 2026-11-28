@@ -47,19 +47,31 @@ public partial class MainWindow
         if (CaptionCustomKeywordsTextBox != null)
         {
             CaptionCustomKeywordsTextBox.Text = _captionSettings.CustomKeywords;
-            if (BtnCaptionClearKeywords != null)
-                BtnCaptionClearKeywords.IsEnabled = !string.IsNullOrWhiteSpace(_captionSettings.CustomKeywords);
+            UpdateCaptionVocabularyButtonsState();
         }
         RegisterCaptionTranslationHotkey();
         _captionUiReady = true; UpdateCaptionUi();
         InitializeTranscriptReader();
     }
+    private void UpdateCaptionVocabularyButtonsState()
+    {
+        var rawText = CaptionCustomKeywordsTextBox?.Text;
+        var hasText = !string.IsNullOrWhiteSpace(rawText);
+        if (BtnCaptionClearKeywords != null)
+            BtnCaptionClearKeywords.IsEnabled = hasText;
+
+        if (BtnCaptionSaveKeywords != null)
+        {
+            var isValid = CaptionVocabularyService.TryValidateKeywords(rawText, out _, out var errKey);
+            BtnCaptionSaveKeywords.IsEnabled = isValid;
+            BtnCaptionSaveKeywords.ToolTip = isValid
+                ? LocalizationService.GetString("Captions.SaveVocabularyTooltip", "Lưu từ điển từ khóa hợp lệ để chuẩn hóa phụ đề và bản dịch")
+                : LocalizationService.GetString(errKey, "Vui lòng nhập từ khóa hợp lệ (không để trống, mỗi từ >= 2 ký tự, cách nhau bằng dấu phẩy)");
+        }
+    }
     private void CaptionCustomKeywordsTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (BtnCaptionClearKeywords != null && CaptionCustomKeywordsTextBox != null)
-        {
-            BtnCaptionClearKeywords.IsEnabled = !string.IsNullOrWhiteSpace(CaptionCustomKeywordsTextBox.Text);
-        }
+        UpdateCaptionVocabularyButtonsState();
     }
     private void BtnCaptionClearKeywords_Click(object sender, RoutedEventArgs e)
     {
@@ -68,18 +80,24 @@ public partial class MainWindow
         _captionSettings.CustomKeywords = string.Empty;
         _captionVocabulary.UpdateKeywords(string.Empty);
         SaveCaptionSettings();
-        if (BtnCaptionClearKeywords != null)
-            BtnCaptionClearKeywords.IsEnabled = false;
+        UpdateCaptionVocabularyButtonsState();
         UpdateStatus(LocalizationService.GetString("Captions.KeywordsClearedNotice", "Đã xóa toàn bộ từ điển từ khóa và thuật ngữ riêng"), true);
     }
     private void BtnCaptionSaveKeywords_Click(object sender, RoutedEventArgs e)
     {
         if (_cleanupDone || CaptionCustomKeywordsTextBox == null) return;
-        _captionSettings.CustomKeywords = CaptionCustomKeywordsTextBox.Text;
+        if (!CaptionVocabularyService.TryValidateKeywords(CaptionCustomKeywordsTextBox.Text, out var normalized, out var errKey))
+        {
+            UpdateCaptionVocabularyButtonsState();
+            UpdateStatus(LocalizationService.GetString(errKey, "Từ điển không hợp lệ hoặc đang để trống."), false);
+            return;
+        }
+        _captionSettings.CustomKeywords = normalized;
+        if (CaptionCustomKeywordsTextBox.Text != normalized)
+            CaptionCustomKeywordsTextBox.Text = normalized;
         _captionVocabulary.UpdateKeywords(_captionSettings.CustomKeywords);
         SaveCaptionSettings();
-        if (BtnCaptionClearKeywords != null)
-            BtnCaptionClearKeywords.IsEnabled = !string.IsNullOrWhiteSpace(_captionSettings.CustomKeywords);
+        UpdateCaptionVocabularyButtonsState();
         UpdateStatus(LocalizationService.GetString("Captions.KeywordsSavedNotice", "Đã lưu từ điển từ khóa chuyên ngành cho phụ đề"), true);
     }
     private void RegisterCaptionTranslationHotkey()
@@ -225,7 +243,11 @@ public partial class MainWindow
         if (!_cleanupDone) UpdateCaptionUi();
     }
     private async void BtnCaptionStop_Click(object sender, RoutedEventArgs e)
-    { if (!_cleanupDone) await StopCaptionsAsync(); }
+    {
+        if (_cleanupDone) return;
+        try { await StopCaptionsAsync(); }
+        catch (Exception ex) { if (!_cleanupDone) UpdateStatus($"Caption stop error: {ex.Message}", false); }
+    }
     private void ToggleCaptionPause()
     { if (!_cleanupDone && _captions != null) _captions.SetPaused(!_captions.RequestedPaused); }
     private void BtnCaptionPause_Click(object sender, RoutedEventArgs e) => ToggleCaptionPause();

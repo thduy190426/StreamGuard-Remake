@@ -167,6 +167,23 @@ internal static class DiagnosticsChecks
         check(enReport.Contains("[SYSTEM SPECIFICATIONS]"), "English specifications section present");
         check(enReport.Contains("[FEATURE READINESS MATRIX]"), "English feature matrix section present");
         check(enReport.Contains("[SMART OPTIMIZATION RECOMMENDATIONS]"), "English recommendations section present");
+
+        // Verify all FeatureMatrix items translate into Vietnamese when Language == "vi"
+        var prevLang = LocalizationService.Current.Language;
+        try
+        {
+            LocalizationService.Current.SetLanguage("vi");
+            var viEvaluated = service.EvaluateReadiness(
+                result.Timestamp, result.Cpu, result.Ram, result.Gpus, result.Os, result.Storage, result.Audio,
+                result.WebView2Version, true);
+            check(viEvaluated.FeatureMatrix.Count == 5, "Evaluated FeatureMatrix contains 5 items");
+            check(viEvaluated.FeatureMatrix.All(f => !f.FeatureName.Contains("Window Stealth") && !f.Detail.Contains("provides full stealth")),
+                "Vietnamese FeatureMatrix translates all FeatureName and Detail strings into Vietnamese");
+        }
+        finally
+        {
+            LocalizationService.Current.SetLanguage(prevLang);
+        }
     }
 
     internal static void RunUiChecks(MainWindow window, Action<bool, string> check)

@@ -84,6 +84,7 @@ namespace StreamGuard
 
         [DllImport("user32.dll")] static extern bool GetCursorPos(out POINT lpPoint);
         [DllImport("user32.dll")] static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+        [DllImport("user32.dll", SetLastError = true)] static extern bool DestroyIcon(IntPtr hIcon);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct POINT { public int X; public int Y; }
@@ -127,7 +128,9 @@ namespace StreamGuard
         private bool _isRefreshingAvailableWindows = false;
         private bool _physicalOutputCurtainActive = false;
         private DateTime _lastAvailableWindowsRefresh = DateTime.MinValue;
-        private static readonly bool ShowTrayIcon = false;
+        private bool _showTrayIcon = false;
+        private IntPtr _generatedTrayHIcon = IntPtr.Zero;
+        private int _themeTransitionGeneration = 0;
         private static readonly bool KillEnabledAppsOnExit = false;
         private bool _forceKillOnExit = false;
         private const bool EnableWrapperProtection = true;
@@ -272,6 +275,7 @@ namespace StreamGuard
             // the privacy curtain during startup and could crash native WPF/DWM.
             _threatBlocker.StatusChanged += OnThreatBlockerStatusChanged;
             _snippingTool.SnippingCompleted += OnSnippingCompleted;
+            SnippingToolService.EnsureScreenshotDirectoryExists(_config.ScreenshotDirectory);
             AddHandler(UIElement.PreviewMouseLeftButtonDownEvent,
                 new System.Windows.Input.MouseButtonEventHandler(OnWindowPreviewMouseLeftButtonDownForSwitchCooldown),
                 false);
@@ -301,8 +305,8 @@ namespace StreamGuard
             EnsureDefaultAppHotkeys();
             RebuildAppHotkeys();
 
-            if (ShowTrayIcon)
-                InitTray();
+            if (_showTrayIcon)
+                ApplySystemTrayIconPreference(true);
 
             // Kiểm tra và hiển thị trạng thái Virtual Desktop
             UpdateDesktopAvailabilityUi();
@@ -356,34 +360,164 @@ namespace StreamGuard
         }
 
         // ── System Tray ───────────────────────────────────────────────────────
-        private void InitTray()
+        private System.Drawing.Icon CreateAppTrayIcon()
         {
-            // Tạo icon đơn giản (16x16 màu indigo) vì không có file .ico
-            var bmp = new Bitmap(16, 16);
-            using (var g = Graphics.FromImage(bmp))
+            try
             {
-                g.Clear(System.Drawing.Color.Transparent);
-                g.FillEllipse(new SolidBrush(System.Drawing.Color.FromArgb(0x81, 0x8c, 0xf8)), 1, 1, 14, 14);
+                var uri = new Uri("pack://application:,,,/Driver%20Booster;component/Assets/AppIcon.ico", UriKind.Absolute);
+                var streamInfo = System.Windows.Application.GetResourceStream(uri);
+                if (streamInfo?.Stream != null)
+                {
+                    using (streamInfo.Stream)
+                    {
+                        return new System.Drawing.Icon(streamInfo.Stream, 32, 32);
+                    }
+                }
+            }
+            catch
+            {
             }
 
+            using var bmp = new Bitmap(16, 16);
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.Clear(System.Drawing.Color.Transparent);
+                using var fill = new SolidBrush(System.Drawing.Color.FromArgb(0x63, 0x66, 0xf1));
+                g.FillEllipse(fill, 1, 1, 14, 14);
+            }
+            _generatedTrayHIcon = bmp.GetHicon();
+            return System.Drawing.Icon.FromHandle(_generatedTrayHIcon);
+        }
+
+        private void InitTray()
+        {
+            if (_trayIcon != null) return;
+
             var menu = new ContextMenuStrip { ShowItemToolTips = false, Cursor = System.Windows.Forms.Cursors.Default };
-            menu.Items.Add("Show / Hide",  null, (_, _) => ToggleVisibility());
+            var showItem = menu.Items.Add("Show / Hide", null, (_, _) => ToggleVisibility());
+            showItem.Font = new System.Drawing.Font(menu.Font, System.Drawing.FontStyle.Bold);
             menu.Items.Add("Privacy Curtain", null, (_, _) => TogglePrivacyCurtain());
             menu.Items.Add("Take Screenshot", null, (_, _) => TriggerSnippingTool());
             menu.Items.Add("-");
             menu.Items.Add("Panic — Show All", null, (_, _) => PanicRestoreAll());
+            menu.Items.Add("Hide tray icon", null, (_, _) => HideSystemTrayFromMenu());
             menu.Items.Add("-");
             menu.Items.Add("Exit", null, (_, _) => RequestExit());
 
             _trayIcon = new NotifyIcon
             {
-                Icon             = System.Drawing.Icon.FromHandle(bmp.GetHicon()),
-                Text             = "",
+                Icon = CreateAppTrayIcon(),
+                Text = "Driver Booster",
                 ContextMenuStrip = menu,
-                Visible          = true
+                Visible = false
             };
             _trayIcon.DoubleClick += (_, _) => ToggleVisibility();
             RefreshTrayLanguage();
+        }
+
+        private void HideSystemTrayFromMenu()
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                var wasLoading = _isLoadingConfig;
+                _isLoadingConfig = true;
+                try
+                {
+                    if (SystemTrayIconCheckBox != null)
+                        SystemTrayIconCheckBox.IsChecked = false;
+                }
+                finally
+                {
+                    _isLoadingConfig = wasLoading;
+                }
+
+                ApplySystemTrayIconPreference(false);
+                if (!SaveConfig())
+                    UpdateStatus("System tray setting changed, but could not be saved.", false);
+            });
+        }
+
+        private void ApplySystemTrayIconPreference(bool enabled)
+        {
+            _showTrayIcon = enabled;
+            if (enabled)
+            {
+                InitTray();
+                if (_trayIcon != null)
+                {
+                    _trayIcon.Visible = true;
+                    RefreshTrayLanguage();
+                }
+            }
+            else if (_trayIcon != null)
+            {
+                _trayIcon.Visible = false;
+            }
+
+            if (SystemTrayIconStatusText != null)
+            {
+                LocalizationService.BindKey(
+                    SystemTrayIconStatusText,
+                    System.Windows.Controls.TextBlock.TextProperty,
+                    enabled ? "Settings.TrayIconStatusOn" : "Settings.TrayIconStatusOff");
+                SystemTrayIconStatusText.SetResourceReference(
+                    System.Windows.Controls.TextBlock.ForegroundProperty,
+                    enabled ? "SuccessTextBrush" : "TextDimBrush");
+            }
+            if (IconTrayPath != null)
+            {
+                IconTrayPath.SetResourceReference(
+                    System.Windows.Shapes.Shape.StrokeProperty,
+                    enabled ? "AccentBrush" : "TextDimBrush");
+            }
+            if (TrayActiveDot != null)
+            {
+                TrayActiveDot.Visibility = enabled ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private void BtnToggleTray_Click(object sender, RoutedEventArgs e)
+        {
+            var nextState = !_showTrayIcon;
+            var wasLoading = _isLoadingConfig;
+            _isLoadingConfig = true;
+            try
+            {
+                if (SystemTrayIconCheckBox != null)
+                    SystemTrayIconCheckBox.IsChecked = nextState;
+            }
+            finally
+            {
+                _isLoadingConfig = wasLoading;
+            }
+
+            ApplySystemTrayIconPreference(nextState);
+            if (!SaveConfig())
+                UpdateStatus("System tray setting changed for this session, but could not be saved.", false);
+            else
+                ShowToast(
+                    LocalizationService.GetString(
+                        nextState ? "Settings.TrayIconStatusOn" : "Settings.TrayIconStatusOff",
+                        nextState ? "System tray icon enabled" : "System tray icon hidden"),
+                    ToastType.Info,
+                    2200);
+        }
+
+        private void SystemTrayIconCheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            if (_isLoadingConfig) return;
+            var enabled = SystemTrayIconCheckBox?.IsChecked == true;
+            ApplySystemTrayIconPreference(enabled);
+            if (!SaveConfig())
+                UpdateStatus("System tray setting changed for this session, but could not be saved.", false);
+            else
+                ShowToast(
+                    LocalizationService.GetString(
+                        enabled ? "Settings.TrayIconStatusOn" : "Settings.TrayIconStatusOff",
+                        enabled ? "System tray icon enabled" : "System tray icon hidden"),
+                    ToastType.Info,
+                    2200);
         }
 
         // ── Config ────────────────────────────────────────────────────────────
@@ -411,6 +545,8 @@ namespace StreamGuard
             _passiveFocusMode = _config.PassiveFocusMode;
             CaptureGuardCheckBox.IsChecked = _config.CaptureGuardEnabled;
             CaptureMultiPurposeCheckBox.IsChecked = _config.CaptureGuardIncludeMultiPurpose;
+            if (AllowSelfScreenCaptureCheckBox != null)
+                AllowSelfScreenCaptureCheckBox.IsChecked = _config.AllowSelfScreenCapture;
             if (InAppCursorCloakCheckBox != null)
                 InAppCursorCloakCheckBox.IsChecked = _config.InAppCursorCloakEnabled;
             if (GlobalCursorCloakCheckBox != null)
@@ -430,7 +566,7 @@ namespace StreamGuard
             MuteAntigravityNotificationsCheckBox.IsChecked = _config.MuteAntigravityNotifications;
             UpdateAntigravityNotificationsUiState(_config.MuteAntigravityNotifications);
             UpdateAntigravityInstallerUiState();
-            _antigravityInstaller.InstallationChanged += (_, _) => Dispatcher.Invoke(UpdateAntigravityInstallerUiState);
+            _antigravityInstaller.InstallationChanged += OnAntigravityInstallationChanged;
             EnableCursorShieldCheckBox.IsChecked = _config.EnableCursorShield;
             UpdateCursorShieldUiState(_config.EnableCursorShield);
             EnableAiTrafficShieldCheckBox.IsChecked = _config.EnableAiTrafficShield;
@@ -438,6 +574,8 @@ namespace StreamGuard
             TxtScreenshotDir.Text = _config.ScreenshotDirectory;
             ScreenshotClipboardCheckbox.IsChecked = _config.ScreenshotAutoCopyClipboard;
             ScreenshotExcludeCheckbox.IsChecked = _config.ScreenshotExcludeFromCapture;
+            if (ScreenshotOpenEditorCheckbox != null)
+                ScreenshotOpenEditorCheckbox.IsChecked = _config.ScreenshotOpenEditorAfterCapture;
             if (BlockVirtualDesktopHotkeysSettingsCheckBox != null)
                 BlockVirtualDesktopHotkeysSettingsCheckBox.IsChecked = _config.BlockVirtualDesktopHotkeys;
             _hotkeys.BlockVirtualDesktopHotkeys = _config.BlockVirtualDesktopHotkeys;
@@ -451,8 +589,12 @@ namespace StreamGuard
             if (AutoStartShieldQuickCheckBox != null)
                 AutoStartShieldQuickCheckBox.IsChecked = _config.AutoStartShield;
             UpdateAutoStartShieldUiState(_config.AutoStartShield);
+            if (SystemTrayIconCheckBox != null)
+                SystemTrayIconCheckBox.IsChecked = _config.EnableSystemTrayIcon;
+            ApplySystemTrayIconPreference(_config.EnableSystemTrayIcon);
             LocalizationService.Current.SetLanguage(_config.Language);
             LanguageComboBox.SelectedValue = LocalizationService.Current.Language;
+            ApplyAndSyncTheme(_config.ThemeMode, save: false, showToast: false, animate: false);
             UpdateAntigravityInstallerUiState();
             _isLoadingConfig = false;
         }
@@ -475,11 +617,271 @@ namespace StreamGuard
             screenshotDirectory: TxtScreenshotDir?.Text,
             screenshotAutoCopyClipboard: ScreenshotClipboardCheckbox?.IsChecked,
             screenshotExcludeFromCapture: ScreenshotExcludeCheckbox?.IsChecked,
+            screenshotOpenEditorAfterCapture: ScreenshotOpenEditorCheckbox?.IsChecked,
             enableCursorShield: EnableCursorShieldCheckBox?.IsChecked ?? _config.EnableCursorShield,
             snippingHotkey: _snippingHotkey,
             enableAiTrafficShield: EnableAiTrafficShieldCheckBox?.IsChecked ?? _config.EnableAiTrafficShield,
             blockVirtualDesktopHotkeys: BlockVirtualDesktopHotkeysSettingsCheckBox?.IsChecked ?? _config.BlockVirtualDesktopHotkeys,
-            autoStartShield: AutoStartShieldCheckBox?.IsChecked ?? AutoStartShieldQuickCheckBox?.IsChecked ?? _config.AutoStartShield);
+            autoStartShield: AutoStartShieldCheckBox?.IsChecked ?? AutoStartShieldQuickCheckBox?.IsChecked ?? _config.AutoStartShield,
+            allowSelfScreenCapture: AllowSelfScreenCaptureCheckBox?.IsChecked ?? _config.AllowSelfScreenCapture,
+            themeMode: Services.ThemeService.Instance.CurrentTheme,
+            enableSystemTrayIcon: SystemTrayIconCheckBox?.IsChecked ?? _config.EnableSystemTrayIcon);
+
+        private void BtnToggleTheme_Click(object sender, RoutedEventArgs e)
+        {
+            var nextTheme = Services.ThemeService.Instance.IsDark
+                ? Services.ThemeService.LightMode
+                : Services.ThemeService.DarkMode;
+            ApplyAndSyncTheme(nextTheme, save: true, showToast: true, animate: true);
+        }
+
+        private void ThemeModeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (_isLoadingConfig || e.AddedItems.Count == 0 ||
+                e.AddedItems[0] is not System.Windows.Controls.ComboBoxItem { Tag: string themeMode }) return;
+            ApplyAndSyncTheme(themeMode, save: true, showToast: true, animate: true);
+        }
+
+        private void ApplyAndSyncTheme(string? themeMode, bool save, bool showToast, bool animate = false)
+        {
+            var previousTheme = Services.ThemeService.Instance.CurrentTheme;
+            var normalizedTarget = Services.ThemeService.NormalizeTheme(themeMode);
+            var targetIsDark = normalizedTarget == Services.ThemeService.DarkMode;
+            var themeChanged = !string.Equals(previousTheme, normalizedTarget, StringComparison.OrdinalIgnoreCase);
+
+            int transitionGen = _themeTransitionGeneration;
+            bool startedSnapshotCrossFade = false;
+
+            if (animate && themeChanged)
+            {
+                transitionGen = ++_themeTransitionGeneration;
+                startedSnapshotCrossFade = TryPrepareThemeCrossFadeSnapshot(targetIsDark);
+                AnimateThemeToggleButton(targetIsDark);
+            }
+
+            var normalized = Services.ThemeService.Instance.ApplyTheme(themeMode);
+            var isDark = normalized == Services.ThemeService.DarkMode;
+
+            var wasLoading = _isLoadingConfig;
+            _isLoadingConfig = true;
+            try
+            {
+                if (ThemeModeComboBox != null)
+                    ThemeModeComboBox.SelectedValue = normalized;
+            }
+            finally
+            {
+                _isLoadingConfig = wasLoading;
+            }
+
+            UpdateThemeToggleIcon(isDark);
+            ApplyWindowThemeChrome(isDark);
+            SyncBrowserColorScheme();
+            RefreshThemeDependentStates();
+
+            if (startedSnapshotCrossFade)
+            {
+                RunThemeCrossFadeAnimation(transitionGen);
+            }
+
+            if (save && !SaveConfig())
+                UpdateStatus("Theme changed for this session, but could not be saved.", false);
+
+            if (showToast)
+            {
+                var toastKey = isDark ? "Theme.SwitchedToDark" : "Theme.SwitchedToLight";
+                var fallback = isDark ? "Switched to Dark Mode" : "Switched to Light Mode";
+                ShowToast(LocalizationService.GetString(toastKey, fallback), ToastType.Info, 2500);
+            }
+        }
+
+        private bool TryPrepareThemeCrossFadeSnapshot(bool targetIsDark)
+        {
+            if (!IsLoaded || !IsVisible || ThemeTransitionOverlay == null || ThemeTransitionImage == null ||
+                RootGrid == null || RootGrid.ActualWidth < 8 || RootGrid.ActualHeight < 8)
+            {
+                return false;
+            }
+
+            try
+            {
+                ThemeTransitionOverlay.BeginAnimation(OpacityProperty, null);
+                ThemeTransitionOverlay.Visibility = Visibility.Collapsed;
+                if (ThemeTransitionSheen != null)
+                {
+                    ThemeTransitionSheen.BeginAnimation(OpacityProperty, null);
+                    ThemeTransitionSheen.Opacity = 0;
+                }
+
+                var dpi = VisualTreeHelper.GetDpi(RootGrid);
+                int pixelWidth = Math.Max(1, (int)Math.Ceiling(RootGrid.ActualWidth * dpi.DpiScaleX));
+                int pixelHeight = Math.Max(1, (int)Math.Ceiling(RootGrid.ActualHeight * dpi.DpiScaleY));
+
+                var snapshot = new System.Windows.Media.Imaging.RenderTargetBitmap(
+                    pixelWidth,
+                    pixelHeight,
+                    dpi.PixelsPerInchX,
+                    dpi.PixelsPerInchY,
+                    PixelFormats.Pbgra32);
+                snapshot.Render(RootGrid);
+                snapshot.Freeze();
+
+                ThemeTransitionImage.Source = snapshot;
+                ThemeTransitionOverlay.Opacity = 1.0;
+
+                if (ThemeTransitionSheen != null)
+                {
+                    var sheen = targetIsDark
+                        ? new LinearGradientBrush(
+                            System.Windows.Media.Color.FromArgb(0x28, 0x63, 0x66, 0xf1),
+                            System.Windows.Media.Color.FromArgb(0x14, 0x0f, 0x17, 0x2a),
+                            new System.Windows.Point(0, 0),
+                            new System.Windows.Point(1, 1))
+                        : new LinearGradientBrush(
+                            System.Windows.Media.Color.FromArgb(0x28, 0xfe, 0xf3, 0xc7),
+                            System.Windows.Media.Color.FromArgb(0x1c, 0x38, 0xbd, 0xf8),
+                            new System.Windows.Point(0, 0),
+                            new System.Windows.Point(1, 1));
+                    sheen.Freeze();
+                    ThemeTransitionSheen.Background = sheen;
+                }
+
+                ThemeTransitionOverlay.Visibility = Visibility.Visible;
+                return true;
+            }
+            catch
+            {
+                ThemeTransitionOverlay.Visibility = Visibility.Collapsed;
+                ThemeTransitionImage.Source = null;
+                return false;
+            }
+        }
+
+        private void RunThemeCrossFadeAnimation(int generation)
+        {
+            if (ThemeTransitionOverlay == null) return;
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
+            {
+                if (generation != _themeTransitionGeneration || ThemeTransitionOverlay == null) return;
+
+                var duration = TimeSpan.FromMilliseconds(360);
+                var ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
+                var fadeOut = new DoubleAnimation(1.0, 0.0, duration)
+                {
+                    EasingFunction = ease,
+                    FillBehavior = FillBehavior.Stop
+                };
+
+                fadeOut.Completed += (_, _) =>
+                {
+                    if (generation != _themeTransitionGeneration || ThemeTransitionOverlay == null) return;
+                    ThemeTransitionOverlay.BeginAnimation(OpacityProperty, null);
+                    ThemeTransitionOverlay.Visibility = Visibility.Collapsed;
+                    ThemeTransitionOverlay.Opacity = 1.0;
+                    if (ThemeTransitionImage != null)
+                        ThemeTransitionImage.Source = null;
+                    if (ThemeTransitionSheen != null)
+                    {
+                        ThemeTransitionSheen.BeginAnimation(OpacityProperty, null);
+                        ThemeTransitionSheen.Opacity = 0;
+                    }
+                };
+
+                if (ThemeTransitionSheen != null)
+                {
+                    var sheenAnim = new DoubleAnimationUsingKeyFrames();
+                    sheenAnim.KeyFrames.Add(new LinearDoubleKeyFrame(0.0, KeyTime.FromTimeSpan(TimeSpan.Zero)));
+                    sheenAnim.KeyFrames.Add(new EasingDoubleKeyFrame(0.9, KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(120)),
+                        new QuadraticEase { EasingMode = EasingMode.EaseOut }));
+                    sheenAnim.KeyFrames.Add(new EasingDoubleKeyFrame(0.0, KeyTime.FromTimeSpan(duration),
+                        new QuadraticEase { EasingMode = EasingMode.EaseIn }));
+                    ThemeTransitionSheen.BeginAnimation(OpacityProperty, sheenAnim);
+                }
+
+                ThemeTransitionOverlay.BeginAnimation(OpacityProperty, fadeOut);
+            }));
+        }
+
+        private void AnimateThemeToggleButton(bool targetIsDark)
+        {
+            if (IconThemeRotate == null || IconThemeScale == null) return;
+
+            try
+            {
+                var duration = TimeSpan.FromMilliseconds(380);
+                var ease = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.35 };
+                var startAngle = targetIsDark ? -95.0 : 95.0;
+
+                var rotateAnim = new DoubleAnimation(startAngle, 0.0, duration) { EasingFunction = ease };
+                var scaleXAnim = new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease };
+                var scaleYAnim = new DoubleAnimation(0.72, 1.0, duration) { EasingFunction = ease };
+
+                IconThemeRotate.BeginAnimation(RotateTransform.AngleProperty, rotateAnim);
+                IconThemeScale.BeginAnimation(ScaleTransform.ScaleXProperty, scaleXAnim);
+                IconThemeScale.BeginAnimation(ScaleTransform.ScaleYProperty, scaleYAnim);
+            }
+            catch
+            {
+            }
+        }
+
+        private void UpdateThemeToggleIcon(bool isDark)
+        {
+            if (IconThemePath == null) return;
+            // Sun icon when Dark Mode is active (click to switch to Light); Moon crescent when Light Mode is active.
+            const string sunGeometry = "M12,3 V5 M12,19 V21 M4.22,4.22 L5.64,5.64 M18.36,18.36 L19.78,19.78 M3,12 H5 M19,12 H21 M4.22,19.78 L5.64,18.36 M18.36,5.64 L19.78,4.22 M12,8 A4,4 0 1,0 12,16 A4,4 0 1,0 12,8 Z";
+            const string moonGeometry = "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z";
+            IconThemePath.Data = System.Windows.Media.Geometry.Parse(isDark ? sunGeometry : moonGeometry);
+        }
+
+        private void ApplyWindowThemeChrome(bool isDark)
+        {
+            try
+            {
+                var hwnd = new WindowInteropHelper(this).Handle;
+                if (hwnd == IntPtr.Zero) return;
+                int darkMode = isDark ? 1 : 0;
+                DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkMode, sizeof(int));
+            }
+            catch
+            {
+            }
+        }
+
+        private void RefreshThemeDependentStates()
+        {
+            try
+            {
+                _lastAllowSelfScreenCapture = null;
+                UpdateVerifiedCaptureProtection();
+                UpdateCursorCloakUiState();
+                UpdateCursorShieldUiState(EnableCursorShieldCheckBox?.IsChecked ?? _config.EnableCursorShield);
+                UpdateSystemToolsUiState(BlockSystemToolsCheckBox?.IsChecked ?? _config.BlockSystemTools);
+                UpdateAntigravityNotificationsUiState(MuteAntigravityNotificationsCheckBox?.IsChecked ?? _config.MuteAntigravityNotifications);
+                UpdateAntigravityInstallerUiState();
+                UpdateAiTrafficShieldUiState(EnableAiTrafficShieldCheckBox?.IsChecked ?? _config.EnableAiTrafficShield);
+                UpdateVirtualDesktopHotkeysUiState(_hotkeys.BlockVirtualDesktopHotkeys);
+                UpdateDesktopAvailabilityUi();
+                RefreshDiagnosticsLanguage();
+                if (StatusBanner != null)
+                {
+                    var isActive = StatusPulse != null && StatusPulse.Opacity > 0.25;
+                    var dotBrush = (System.Windows.Media.Brush)FindResource(isActive ? "SuccessBrush" : "TextDimBrush");
+                    if (StatusText != null) StatusText.Foreground = dotBrush;
+                    if (StatusDot != null) StatusDot.Fill = dotBrush;
+                    if (StatusPulse != null) StatusPulse.Fill = dotBrush;
+                    StatusBanner.BorderBrush = (System.Windows.Media.Brush)FindResource(isActive ? "SuccessBorderBrush" : "BorderBrush2");
+                }
+                if (ThreatBanner != null)
+                {
+                    ThreatBanner.Background = (System.Windows.Media.Brush)FindResource("SuccessBgSubtleBrush");
+                }
+            }
+            catch
+            {
+            }
+        }
 
         private void LanguageComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
@@ -500,7 +902,7 @@ namespace StreamGuard
         private void RefreshTrayLanguage()
         {
             var items = _trayIcon?.ContextMenuStrip?.Items;
-            if (items == null || items.Count < 7) return;
+            if (items == null || items.Count < 8) return;
             items[0].Text = LocalizationService.Current.Translate("Show / Hide");
             items[1].Text = LocalizationService.Current.Translate("Privacy Curtain");
 
@@ -511,7 +913,8 @@ namespace StreamGuard
                 : $"{actionTake} ({_snippingHotkey})";
 
             items[4].Text = LocalizationService.Current.Translate("Panic — Show All");
-            items[6].Text = LocalizationService.Current.Translate("Exit");
+            items[5].Text = LocalizationService.GetString("Tray.HideIcon", LocalizationService.Current.Language == "vi" ? "Ẩn biểu tượng khay" : "Hide tray icon");
+            items[7].Text = LocalizationService.Current.Translate("Exit");
         }
 
         private void EnsureDefaultAppHotkeys()
@@ -959,25 +1362,50 @@ namespace StreamGuard
             _ = RefreshAvailableWindowsAsync(force: true);
         }
 
+        private void OnAntigravityInstallationChanged(object? sender, AntigravityInstallationInfo e)
+        {
+            if (_cleanupDone || Dispatcher.HasShutdownStarted) return;
+            Dispatcher.BeginInvoke(() =>
+            {
+                if (!_cleanupDone && !Dispatcher.HasShutdownStarted)
+                    UpdateAntigravityInstallerUiState();
+            });
+        }
+
         // ── Add / Remove ──────────────────────────────────────────────────────
         private async void RefreshApps_Click(object sender, RoutedEventArgs e)
         {
-            await RefreshAvailableWindowsAsync(force: true);
-            UpdateStatus($"Available apps refreshed: {_availableWindows.Count}", false);
+            try
+            {
+                await RefreshAvailableWindowsAsync(force: true);
+                if (!_cleanupDone)
+                    UpdateStatus($"Available apps refreshed: {_availableWindows.Count}", false);
+            }
+            catch (Exception ex)
+            {
+                if (!_cleanupDone) UpdateStatus($"Refresh error: {ex.Message}", false);
+            }
         }
 
         private async void AddApp_Click(object sender, RoutedEventArgs e)
         {
-            var app = AddSelectedProcessToGuardedApps();
-            if (app == null)
+            try
             {
-                await RefreshAvailableWindowsAsync(force: true);
-                UpdateStatus("Select an app in Available Apps, then click Add Selected", false);
-                return;
-            }
+                var app = AddSelectedProcessToGuardedApps();
+                if (app == null)
+                {
+                    await RefreshAvailableWindowsAsync(force: true);
+                    if (!_cleanupDone) UpdateStatus("Select an app in Available Apps, then click Add Selected", false);
+                    return;
+                }
 
-            ScrubSelectionSurface();
-            UpdateStatus($"Ready to protect {app.ProcessName}", false);
+                ScrubSelectionSurface();
+                UpdateStatus($"Ready to protect {app.ProcessName}", false);
+            }
+            catch (Exception ex)
+            {
+                if (!_cleanupDone) UpdateStatus($"Add app error: {ex.Message}", false);
+            }
         }
 
         private void AvailableWindowsListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1261,16 +1689,10 @@ namespace StreamGuard
         {
             if (tb.Parent is System.Windows.Controls.StackPanel sp && sp.Parent is System.Windows.Controls.Border badge)
             {
-                badge.BorderBrush = isRecording
-                    ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x81, 0x8c, 0xf8))
-                    : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x31, 0x2e, 0x81));
-                badge.Background = isRecording
-                    ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x1e, 0x1b, 0x4b))
-                    : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x13, 0x19, 0x2b));
+                badge.SetResourceReference(System.Windows.Controls.Border.BorderBrushProperty, isRecording ? "AccentBrush" : "IndigoCardBorderBrush");
+                badge.SetResourceReference(System.Windows.Controls.Border.BackgroundProperty, isRecording ? "IndigoCardBgBrush" : "IndigoBgSubtleBrush");
             }
-            tb.Foreground = isRecording
-                ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xf4, 0x72, 0xb6))
-                : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xc7, 0xd2, 0xfe));
+            tb.SetResourceReference(System.Windows.Controls.Control.ForegroundProperty, isRecording ? "DangerTextBrush" : "AccentTextBrush");
         }
 
         private static bool TryConvertWpfKeyToKeyName(Key key, out string keyName)
@@ -1587,11 +2009,16 @@ namespace StreamGuard
             return false;
         }
 
-        private System.Collections.Generic.List<WindowInfo> GetCandidateWindows(GuardedApp app)
+        private System.Collections.Generic.List<WindowInfo> GetCandidateWindows(GuardedApp app) =>
+            GetCandidateWindowsFromSnapshot(app, null);
+
+        private System.Collections.Generic.List<WindowInfo> GetCandidateWindowsFromSnapshot(
+            GuardedApp app,
+            System.Collections.Generic.IReadOnlyList<WindowInfo>? openWindowsSnapshot)
         {
             if (!IsManageableApp(app)) return new();
             // Dùng FindAllIncludingHiddenByProcessName để bắt cả hidden/background apps
-            var windows = WindowEnumerator.FindAllIncludingHiddenByProcessName(app.ProcessName)
+            var windows = WindowEnumerator.FindAllIncludingHiddenByProcessName(app.ProcessName, openWindowsSnapshot)
                 .Where(window => IsAppWindow(app, window.Handle, window.ProcessId))
                 .GroupBy(w => w.Handle)
                 .Select(g => g.First())
@@ -2089,9 +2516,7 @@ namespace StreamGuard
         private void UpdateVirtualDesktopHotkeysUiState(bool enabled)
         {
             var statusKey = enabled ? "VirtualDesktop.StatusOn" : "VirtualDesktop.StatusOff";
-            var brush = enabled
-                ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99))
-                : (SolidColorBrush)FindResource("TextDimBrush");
+            var brush = (System.Windows.Media.Brush)FindResource(enabled ? "SuccessTextBrush" : "TextDimBrush");
 
             if (VirtualDesktopHotkeysSettingsStatusText != null)
             {
@@ -2108,23 +2533,23 @@ namespace StreamGuard
                 if (_hotkeys.BlockVirtualDesktopHotkeys)
                 {
                     LocalizationService.BindKey(DesktopAvailText, System.Windows.Controls.TextBlock.TextProperty, "VirtualDesktop.HeaderOffLocked");
-                    DesktopAvailText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xfb, 0xbf, 0x24));
+                    DesktopAvailText.Foreground = (System.Windows.Media.Brush)FindResource("WarningTextBrush");
                 }
                 else
                 {
                     LocalizationService.BindKey(DesktopAvailText, System.Windows.Controls.TextBlock.TextProperty, "Message.001");
-                    DesktopAvailText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xfb, 0xbf, 0x24));
+                    DesktopAvailText.Foreground = (System.Windows.Media.Brush)FindResource("WarningTextBrush");
                 }
             }
             else if (_hotkeys.BlockVirtualDesktopHotkeys)
             {
                 LocalizationService.BindKey(DesktopAvailText, System.Windows.Controls.TextBlock.TextProperty, "VirtualDesktop.HeaderLocked");
-                DesktopAvailText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x38, 0xbd, 0xf8));
+                DesktopAvailText.Foreground = (System.Windows.Media.Brush)FindResource("InfoTextBrush");
             }
             else
             {
                 LocalizationService.BindKey(DesktopAvailText, System.Windows.Controls.TextBlock.TextProperty, "Message.002");
-                DesktopAvailText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99));
+                DesktopAvailText.Foreground = (System.Windows.Media.Brush)FindResource("SuccessTextBrush");
             }
         }
 
@@ -2166,9 +2591,7 @@ namespace StreamGuard
                 CursorShieldStatusText,
                 System.Windows.Controls.TextBlock.TextProperty,
                 enabled ? "CursorShield.StatusOn" : "CursorShield.StatusOff");
-            CursorShieldStatusText.Foreground = enabled
-                ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99))
-                : (SolidColorBrush)FindResource("TextDimBrush");
+            CursorShieldStatusText.Foreground = (System.Windows.Media.Brush)FindResource(enabled ? "SuccessTextBrush" : "TextDimBrush");
         }
 
         private void BtnRestoreCursors_Click(object sender, RoutedEventArgs e)
@@ -2217,24 +2640,36 @@ namespace StreamGuard
 
         private async void BlockHostsCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            if (_isLoadingConfig) return;
-
-            await ApplyWebsiteBlockPreferenceAsync(
-                BlockRaiaHostCheckBox.IsChecked == true,
-                BlockPortalHostCheckBox.IsChecked == true,
-                saveConfig: true,
-                showProgress: true);
+            if (_isLoadingConfig || _cleanupDone) return;
+            try
+            {
+                await ApplyWebsiteBlockPreferenceAsync(
+                    BlockRaiaHostCheckBox.IsChecked == true,
+                    BlockPortalHostCheckBox.IsChecked == true,
+                    saveConfig: true,
+                    showProgress: true);
+            }
+            catch (Exception ex)
+            {
+                if (!_cleanupDone) UpdateStatus($"Website block error: {ex.Message}", false);
+            }
         }
 
         private async void DevicePrivacyCheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            if (_isLoadingConfig) return;
-
-            await ApplyDevicePrivacyPreferenceAsync(
-                BlockCameraAccessCheckBox.IsChecked == true,
-                BlockMicrophoneAccessCheckBox.IsChecked == true,
-                saveConfig: true,
-                showProgress: true);
+            if (_isLoadingConfig || _cleanupDone) return;
+            try
+            {
+                await ApplyDevicePrivacyPreferenceAsync(
+                    BlockCameraAccessCheckBox.IsChecked == true,
+                    BlockMicrophoneAccessCheckBox.IsChecked == true,
+                    saveConfig: true,
+                    showProgress: true);
+            }
+            catch (Exception ex)
+            {
+                if (!_cleanupDone) UpdateStatus($"Device privacy error: {ex.Message}", false);
+            }
         }
 
         private void PassiveFocusCheckBox_Changed(object sender, RoutedEventArgs e)
@@ -2277,9 +2712,7 @@ namespace StreamGuard
                 SystemToolsStatusText,
                 System.Windows.Controls.TextBlock.TextProperty,
                 enabled ? "SystemTools.StatusOn" : "SystemTools.StatusOff");
-            SystemToolsStatusText.Foreground = enabled
-                ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99))
-                : (SolidColorBrush)FindResource("TextDimBrush");
+            SystemToolsStatusText.Foreground = (System.Windows.Media.Brush)FindResource(enabled ? "SuccessTextBrush" : "TextDimBrush");
         }
 
         private void BtnEmergencyUnlockSystemTools_Click(object sender, RoutedEventArgs e)
@@ -2395,9 +2828,7 @@ namespace StreamGuard
                 AntigravityNotificationsStatusText,
                 System.Windows.Controls.TextBlock.TextProperty,
                 muted ? "AgyNotify.StatusOn" : "AgyNotify.StatusOff");
-            AntigravityNotificationsStatusText.Foreground = muted
-                ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99))
-                : (SolidColorBrush)FindResource("TextDimBrush");
+            AntigravityNotificationsStatusText.Foreground = (System.Windows.Media.Brush)FindResource(muted ? "SuccessTextBrush" : "TextDimBrush");
         }
 
         private void UpdateAntigravityInstallerUiState()
@@ -2411,8 +2842,8 @@ namespace StreamGuard
             if (info.IsInstalled)
             {
                 AntigravityStatusBadgeText.Text = LocalizationService.GetString("AgyInstall.BadgeInstalled", "ĐÃ CÀI ĐẶT");
-                AntigravityStatusBadgeBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x06, 0x4e, 0x3b));
-                AntigravityStatusBadgeText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x34, 0xd3, 0x99));
+                AntigravityStatusBadgeBorder.Background = (System.Windows.Media.Brush)FindResource("SuccessBgSubtleBrush");
+                AntigravityStatusBadgeText.Foreground = (System.Windows.Media.Brush)FindResource("SuccessTextBrush");
 
                 AntigravityNotInstalledPanel.Visibility = Visibility.Collapsed;
                 AntigravityInstalledPanel.Visibility = Visibility.Visible;
@@ -2435,8 +2866,8 @@ namespace StreamGuard
             else
             {
                 AntigravityStatusBadgeText.Text = LocalizationService.GetString("AgyInstall.BadgeNotInstalled", "CHƯA CÀI ĐẶT");
-                AntigravityStatusBadgeBorder.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x45, 0x1a, 0x03));
-                AntigravityStatusBadgeText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xfb, 0xbf, 0x24));
+                AntigravityStatusBadgeBorder.Background = (System.Windows.Media.Brush)FindResource("WarningBgSubtleBrush");
+                AntigravityStatusBadgeText.Foreground = (System.Windows.Media.Brush)FindResource("WarningTextBrush");
 
                 AntigravityNotInstalledPanel.Visibility = Visibility.Visible;
                 AntigravityInstalledPanel.Visibility = Visibility.Collapsed;
@@ -2466,12 +2897,14 @@ namespace StreamGuard
 
         private async void BtnInstallAntigravity_Click(object sender, RoutedEventArgs e)
         {
-            await ExecuteAntigravityInstallAsync(silent: false);
+            try { await ExecuteAntigravityInstallAsync(silent: false); }
+            catch (Exception ex) { if (!_cleanupDone) UpdateStatus($"Install error: {ex.Message}", false); }
         }
 
         private async void BtnSilentInstallAntigravity_Click(object sender, RoutedEventArgs e)
         {
-            await ExecuteAntigravityInstallAsync(silent: true);
+            try { await ExecuteAntigravityInstallAsync(silent: true); }
+            catch (Exception ex) { if (!_cleanupDone) UpdateStatus($"Silent install error: {ex.Message}", false); }
         }
 
         private async Task ExecuteAntigravityInstallAsync(bool silent)
@@ -2596,26 +3029,48 @@ namespace StreamGuard
 
             if (enabled)
             {
-                var proxy = _aiTrafficProtection.CheckProxyStatus();
-                if (proxy.IsRogueProxy)
-                {
-                    var purged = _aiTrafficProtection.PurgeProxySettings();
-                    UpdateAiTrafficShieldUiState(true);
-                    if (purged)
-                    {
-                        if (updateBanner)
-                            UpdateStatus(LocalizationService.GetString("AiTraffic.AutoPurgedBanner", "Rogue proxy intercepted and purged automatically to protect AI traffic!"), true);
-                        return;
-                    }
-                }
+                _ = ApplyAiTrafficShieldEnableAsync(updateBanner);
+                return;
             }
 
             if (updateBanner)
             {
-                var msg = enabled
-                    ? LocalizationService.GetString("AiTraffic.ToggleEnabledBanner", "AI Traffic Shield activated: Auto-purging loopback proxy and monitoring sniffers")
-                    : LocalizationService.GetString("AiTraffic.ToggleDisabledBanner", "AI Traffic Shield paused: Auto-purge disabled");
-                UpdateStatus(msg, enabled);
+                var msg = LocalizationService.GetString("AiTraffic.ToggleDisabledBanner", "AI Traffic Shield paused: Auto-purge disabled");
+                UpdateStatus(msg, false);
+            }
+        }
+
+        private async Task ApplyAiTrafficShieldEnableAsync(bool updateBanner)
+        {
+            var (purged, assessment) = await Task.Run(() =>
+            {
+                var proxy = _aiTrafficProtection.CheckProxyStatus();
+                var anyPurged = false;
+                if (proxy.IsRogueProxy)
+                    anyPurged |= _aiTrafficProtection.PurgeProxySettings();
+
+                var envProxy = _aiTrafficProtection.CheckEnvironmentProxyStatus();
+                if (envProxy.HasRogueEnvVars || envProxy.HasTlsBypassOrCustomCa)
+                    anyPurged |= _aiTrafficProtection.PurgeEnvironmentProxySettings();
+
+                var hosts = _aiTrafficProtection.CheckAiHostsProtection();
+                if (hosts.IsTampered)
+                    anyPurged |= _aiTrafficProtection.PurgeAiHostsHijacks();
+
+                return (anyPurged, _aiTrafficProtection.ScanAll(_captureAssessment));
+            });
+
+            if (_cleanupDone || Dispatcher.HasShutdownStarted) return;
+            UpdateAiTrafficShieldUiState(true, null, assessment);
+
+            if (!updateBanner) return;
+            if (purged)
+            {
+                UpdateStatus(LocalizationService.GetString("AiTraffic.AutoPurgedBanner", "Rogue proxy intercepted and purged automatically to protect AI traffic!"), true);
+            }
+            else
+            {
+                UpdateStatus(LocalizationService.GetString("AiTraffic.ToggleEnabledBanner", "AI Traffic Shield activated: Auto-purging loopback proxy and monitoring sniffers"), true);
             }
         }
 
@@ -2625,6 +3080,8 @@ namespace StreamGuard
 
             var proxy = aiAssessment?.Proxy ?? _aiTrafficProtection.CheckProxyStatus();
             var hosts = aiAssessment?.Hosts ?? _aiTrafficProtection.CheckAiHostsProtection();
+            var envProxy = aiAssessment?.EnvProxy ?? _aiTrafficProtection.CheckEnvironmentProxyStatus();
+            var winHttpProxy = aiAssessment?.WinHttpProxy ?? _aiTrafficProtection.CheckWinHttpProxy();
             if (proxy.IsRogueProxy)
             {
                 if (AiTrafficProxyDot != null)
@@ -2632,6 +3089,23 @@ namespace StreamGuard
                 var proxyDetail = !string.IsNullOrWhiteSpace(proxy.ProxyServer) ? proxy.ProxyServer : (proxy.AutoConfigUrl ?? "127.0.0.1");
                 LocalizationService.BindText(AiTrafficProxyStatusText, System.Windows.Controls.TextBlock.TextProperty,
                     string.Format(LocalizationService.GetString("AiTraffic.ProxyStatusRogue", "Proxy: Hijacked! Rogue loopback proxy detected ({0})"), proxyDetail));
+                AiTrafficProxyStatusText.Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush");
+            }
+            else if (envProxy.HasRogueEnvVars || envProxy.HasTlsBypassOrCustomCa)
+            {
+                if (AiTrafficProxyDot != null)
+                    AiTrafficProxyDot.Fill = (System.Windows.Media.Brush)FindResource("DangerBrush");
+                var envDetail = envProxy.DetectedVariables.Count > 0 ? string.Join(", ", envProxy.DetectedVariables) : "ENV";
+                LocalizationService.BindText(AiTrafficProxyStatusText, System.Windows.Controls.TextBlock.TextProperty,
+                    string.Format(LocalizationService.GetString("AiTraffic.EnvProxyWarning", "Proxy/TLS Env Warning: {0}"), envDetail));
+                AiTrafficProxyStatusText.Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush");
+            }
+            else if (winHttpProxy.IsRogueWinHttpProxy)
+            {
+                if (AiTrafficProxyDot != null)
+                    AiTrafficProxyDot.Fill = (System.Windows.Media.Brush)FindResource("DangerBrush");
+                LocalizationService.BindText(AiTrafficProxyStatusText, System.Windows.Controls.TextBlock.TextProperty,
+                    string.Format(LocalizationService.GetString("AiTraffic.WinHttpProxyWarning", "WinHTTP Proxy Warning: {0}"), winHttpProxy.ProxyServer ?? "loopback"));
                 AiTrafficProxyStatusText.Foreground = (System.Windows.Media.Brush)FindResource("DangerBrush");
             }
             else if (hosts.IsTampered)
@@ -2653,10 +3127,10 @@ namespace StreamGuard
             if (certs.Count > 0)
             {
                 if (AiTrafficCertDot != null)
-                    AiTrafficCertDot.Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xf5, 0x9e, 0x0b));
+                    AiTrafficCertDot.Fill = (System.Windows.Media.Brush)FindResource("WarningBrush");
                 LocalizationService.BindText(AiTrafficCertStatusText, System.Windows.Controls.TextBlock.TextProperty,
                     string.Format(LocalizationService.GetString("AiTraffic.CertStatusWarning", "Root CA Warning: {0} suspicious MITM certificate(s) detected!"), certs.Count));
-                AiTrafficCertStatusText.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xf5, 0x9e, 0x0b));
+                AiTrafficCertStatusText.Foreground = (System.Windows.Media.Brush)FindResource("WarningTextBrush");
             }
             else
             {
@@ -2685,22 +3159,41 @@ namespace StreamGuard
             }
         }
 
-        private void BtnPurgeProxy_Click(object sender, RoutedEventArgs e)
+        private async void BtnPurgeProxy_Click(object sender, RoutedEventArgs e)
         {
-            var purged = _aiTrafficProtection.PurgeProxySettings();
-            var hostsAssessment = _aiTrafficProtection.CheckAiHostsProtection();
-            if (hostsAssessment.IsTampered)
+            BtnPurgeProxy.IsEnabled = false;
+            try
             {
-                _aiTrafficProtection.PurgeAiHostsHijacks();
+                var (purged, result) = await Task.Run(() =>
+                {
+                    var winInetPurged = _aiTrafficProtection.PurgeProxySettings();
+                    var envPurged = _aiTrafficProtection.PurgeEnvironmentProxySettings();
+                    var hostsAssessment = _aiTrafficProtection.CheckAiHostsProtection();
+                    if (hostsAssessment.IsTampered)
+                    {
+                        _aiTrafficProtection.PurgeAiHostsHijacks();
+                    }
+                    return (winInetPurged || envPurged, _aiTrafficProtection.ScanAll(_captureAssessment));
+                });
+
+                if (_cleanupDone || Dispatcher.HasShutdownStarted) return;
+                UpdateAiTrafficShieldUiState(EnableAiTrafficShieldCheckBox?.IsChecked ?? _config.EnableAiTrafficShield, null, result);
+                if (purged)
+                {
+                    UpdateStatus(LocalizationService.GetString("AiTraffic.PurgeSuccessBanner", "Proxy settings purged successfully. Direct connection restored."), true);
+                }
+                else
+                {
+                    UpdateStatus(LocalizationService.GetString("AiTraffic.PurgeFailedBanner", "Could not purge proxy settings from registry."), false);
+                }
             }
-            UpdateAiTrafficShieldUiState(EnableAiTrafficShieldCheckBox?.IsChecked ?? _config.EnableAiTrafficShield);
-            if (purged)
+            catch (Exception ex)
             {
-                UpdateStatus(LocalizationService.GetString("AiTraffic.PurgeSuccessBanner", "Proxy settings purged successfully. Direct connection restored."), true);
+                UpdateStatus($"Proxy purge error: {ex.Message}", false);
             }
-            else
+            finally
             {
-                UpdateStatus(LocalizationService.GetString("AiTraffic.PurgeFailedBanner", "Could not purge proxy settings from registry."), false);
+                BtnPurgeProxy.IsEnabled = true;
             }
         }
 
@@ -2719,6 +3212,8 @@ namespace StreamGuard
                 {
                     var issues = new List<string>();
                     if (result.Proxy.IsRogueProxy) issues.Add("Rogue Proxy");
+                    if (result.EnvProxy?.HasRogueEnvVars == true || result.EnvProxy?.HasTlsBypassOrCustomCa == true) issues.Add("Env Proxy/TLS Override");
+                    if (result.WinHttpProxy?.IsRogueWinHttpProxy == true) issues.Add("WinHTTP Proxy");
                     if (result.RogueCertificates.Count > 0) issues.Add($"{result.RogueCertificates.Count} MITM Root Cert(s)");
                     if (result.ActiveSniffers.Count > 0) issues.Add(string.Join(", ", result.ActiveSniffers.Select(s => s.Name)));
                     if (result.Hosts.IsTampered) issues.Add("AI Hosts hijacked");
@@ -2748,8 +3243,9 @@ namespace StreamGuard
 
             bool autoCopy = ScreenshotClipboardCheckbox?.IsChecked ?? _config.ScreenshotAutoCopyClipboard;
             bool excludeCapture = ScreenshotExcludeCheckbox?.IsChecked ?? _config.ScreenshotExcludeFromCapture;
+            bool openEditor = ScreenshotOpenEditorCheckbox?.IsChecked ?? _config.ScreenshotOpenEditorAfterCapture;
 
-            _snippingTool.StartSnipping(saveDir, autoCopy, excludeCapture);
+            _snippingTool.StartSnipping(saveDir, autoCopy, excludeCapture, openEditor);
         }
 
         private void BtnStartSnipping_Click(object sender, RoutedEventArgs e)
@@ -2828,9 +3324,17 @@ namespace StreamGuard
             {
                 if (result.Success)
                 {
-                    var format = LocalizationService.GetString("Snipping.Success", "Đã lưu ảnh chụp vào {0} ({1}×{2} px)");
-                    var msg = string.Format(format, result.FilePath, result.Width, result.Height);
-                    UpdateStatus(msg, true);
+                    if (string.IsNullOrWhiteSpace(result.FilePath))
+                    {
+                        var copyFmt = LocalizationService.GetString("Snipping.CopiedSuccess", "Đã sao chép ảnh vào Clipboard ({0}×{1} px)");
+                        UpdateStatus(string.Format(copyFmt, result.Width, result.Height), true);
+                    }
+                    else
+                    {
+                        var format = LocalizationService.GetString("Snipping.Success", "Đã lưu ảnh chụp vào {0} ({1}×{2} px)");
+                        var msg = string.Format(format, result.FilePath, result.Width, result.Height);
+                        UpdateStatus(msg, true);
+                    }
                 }
                 else
                 {
@@ -3085,9 +3589,7 @@ namespace StreamGuard
         {
             if (tb.Parent is System.Windows.Controls.StackPanel sp && sp.Parent is System.Windows.Controls.Border badge)
             {
-                badge.BorderBrush = isRecording
-                    ? new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x81, 0x8c, 0xf8))
-                    : new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x31, 0x2e, 0x81));
+                badge.SetResourceReference(System.Windows.Controls.Border.BorderBrushProperty, isRecording ? "AccentBrush" : "IndigoCardBorderBrush");
             }
         }
 
@@ -3112,6 +3614,12 @@ namespace StreamGuard
 
         private void BtnCopyBookmarklet_Click(object sender, RoutedEventArgs e) =>
             CopyBrowserScript(BrowserScriptService.GetAntiBlurBookmarklet(), "Clipboard.CopiedBookmarklet");
+
+        private void BtnCopyKeystrokeGuardScript_Click(object sender, RoutedEventArgs e) =>
+            CopyBrowserScript(BrowserScriptService.GetKeystrokeGuardScript(), "Clipboard.CopiedConsole");
+
+        private void BtnCopyKeystrokeGuardBookmarklet_Click(object sender, RoutedEventArgs e) =>
+            CopyBrowserScript(BrowserScriptService.GetKeystrokeGuardBookmarklet(), "Clipboard.CopiedBookmarklet");
 
         private void BtnCopyPasteScript_Click(object sender, RoutedEventArgs e) =>
             CopyBrowserScript(BrowserScriptService.GetCopyPasteScript(), "Clipboard.CopiedConsole");
@@ -3446,7 +3954,7 @@ namespace StreamGuard
                 var hwnd = new WindowInteropHelper(this).Handle;
                 if (hwnd == IntPtr.Zero) return;
 
-                int darkMode = 1;
+                int darkMode = Services.ThemeService.Instance.IsDark ? 1 : 0;
                 DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkMode, sizeof(int));
 
                 int cornerPreference = DWMWCP_ROUND;
@@ -3749,6 +4257,7 @@ namespace StreamGuard
             try
             {
                 var enabledApps = _apps.Where(a => a.IsEnabled && IsManageableApp(a)).ToList();
+                var openWindowsSnapshot = enabledApps.Count > 0 ? WindowEnumerator.GetOpenWindows() : null;
                 foreach (var app in enabledApps)
                 {
                     // Dọn dẹp các handle đã chết hoặc cửa sổ đã bị đóng
@@ -3792,7 +4301,7 @@ namespace StreamGuard
                     }
 
                     var currentHwnds = new HashSet<IntPtr>(app.ProtectedWindows.Select(s => s.Handle));
-                    var newWindows = GetCandidateWindows(app)
+                    var newWindows = GetCandidateWindowsFromSnapshot(app, openWindowsSnapshot)
                         .Where(w => w.Handle != IntPtr.Zero && !currentHwnds.Contains(w.Handle) && WindowEnumerator.IsValidCandidateWindow(w.Handle))
                         .ToList();
 
@@ -3977,22 +4486,18 @@ namespace StreamGuard
             }
 
             LocalizationService.BindText(StatusText, System.Windows.Controls.TextBlock.TextProperty, msg);
-            var color = active
-                ? System.Windows.Media.Color.FromRgb(0x10, 0xb9, 0x81)
-                : System.Windows.Media.Color.FromRgb(0x94, 0xa3, 0xb8);
-            StatusText.Foreground = new SolidColorBrush(color);
-            StatusDot.Fill        = new SolidColorBrush(color);
+            var statusBrush = (System.Windows.Media.Brush)FindResource(active ? "SuccessBrush" : "TextDimBrush");
+            StatusText.Foreground = statusBrush;
+            StatusDot.Fill        = statusBrush;
 
             if (StatusPulse != null)
             {
-                StatusPulse.Fill = new SolidColorBrush(color);
+                StatusPulse.Fill = statusBrush;
                 StatusPulse.Opacity = active ? 0.35 : 0.15;
             }
             if (StatusBanner != null)
             {
-                StatusBanner.BorderBrush = active
-                    ? new SolidColorBrush(System.Windows.Media.Color.FromArgb(0xaa, 0x10, 0xb9, 0x81))
-                    : (SolidColorBrush)FindResource("BorderBrush2");
+                StatusBanner.BorderBrush = (System.Windows.Media.Brush)FindResource(active ? "SuccessBorderBrush" : "BorderBrush2");
             }
 
             if (!string.IsNullOrWhiteSpace(msg))
@@ -4272,10 +4777,8 @@ namespace StreamGuard
                 LocalizationService.BindText(ThreatStatusText, System.Windows.Controls.TextBlock.TextProperty, containedNow ? "RAIA contained" : "RAIA containment active");
                 LocalizationService.BindText(ThreatDetailText, System.Windows.Controls.TextBlock.TextProperty, $"{status.Message}. Total contained: {status.TotalContained}");
 
-                var bannerColor = containedNow
-                    ? System.Windows.Media.Color.FromRgb(0x7f, 0x1d, 0x1d)
-                    : System.Windows.Media.Color.FromRgb(0x16, 0x3b, 0x35);
-                ThreatBanner.Background = new SolidColorBrush(bannerColor);
+                ThreatBanner.Background = (System.Windows.Media.Brush)FindResource(
+                    containedNow ? "DangerBgSubtleBrush" : "SuccessBgSubtleBrush");
             });
         }
 
@@ -4741,6 +5244,9 @@ namespace StreamGuard
             try { _vdService.Dispose(); } catch { }
             try { _antigravityAuthBridge.Dispose(); } catch { }
             try { CleanupBrowser(); } catch { }
+            try { _antigravityInstaller.InstallationChanged -= OnAntigravityInstallationChanged; } catch { }
+            try { _cursorCaptureProtection.GlobalCloakStateChanged -= OnGlobalCloakStateChanged; } catch { }
+            try { _cursorCaptureProtection.EmergencyEscapeTriggered -= OnEmergencyEscapeTriggered; } catch { }
             try { _threatBlocker.StatusChanged -= OnThreatBlockerStatusChanged; } catch { }
             try { _snippingTool.SnippingCompleted -= OnSnippingCompleted; } catch { }
             try { if (_recovery != null) _recovery.Changed -= UpdateRecoveryCenter; } catch { }
@@ -4767,7 +5273,14 @@ namespace StreamGuard
                 if (_trayIcon != null)
                 {
                     _trayIcon.Visible = false;
+                    _trayIcon.Icon?.Dispose();
                     _trayIcon.Dispose();
+                    _trayIcon = null;
+                }
+                if (_generatedTrayHIcon != IntPtr.Zero)
+                {
+                    DestroyIcon(_generatedTrayHIcon);
+                    _generatedTrayHIcon = IntPtr.Zero;
                 }
             }
             catch { }

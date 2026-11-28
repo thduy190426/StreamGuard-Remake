@@ -56,7 +56,12 @@ public sealed class CaptureRiskService
         new CaptureTool("mitmproxy", "mitmproxy", CaptureToolKind.Sniffer, "mitmproxy", "mitmdump", "mitmweb"),
         new CaptureTool("httpdebugger", "HTTP Debugger Pro", CaptureToolKind.Sniffer, "HTTPDebuggerPro", "HTTPDebuggerUI", "HTTPDebuggerService"),
         new CaptureTool("proxifier", "Proxifier", CaptureToolKind.Sniffer, "Proxifier"),
-        new CaptureTool("burpsuite", "Burp Suite", CaptureToolKind.Sniffer, "burpsuite")
+        new CaptureTool("burpsuite", "Burp Suite", CaptureToolKind.Sniffer, "burpsuite"),
+        new CaptureTool("reqable", "Reqable Proxy", CaptureToolKind.Sniffer, "reqable", "reqable-cli"),
+        new CaptureTool("proxyman", "Proxyman", CaptureToolKind.Sniffer, "proxyman"),
+        new CaptureTool("whistle", "Whistle Proxy", CaptureToolKind.Sniffer, "whistle"),
+        new CaptureTool("networkminer", "NetworkMiner", CaptureToolKind.Sniffer, "NetworkMiner"),
+        new CaptureTool("smartsniff", "SmartSniff", CaptureToolKind.Sniffer, "smsniff")
     });
 
     public static CaptureAssessment Assess(IEnumerable<string> processNames, bool scanSucceeded = true)

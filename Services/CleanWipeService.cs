@@ -496,7 +496,7 @@ foreach ($device in $devices) {
                 return false;
 
             var dirName = Path.GetFileName(full);
-            return Regex.IsMatch(dirName, @"(?i)(driver[\s_]?booster|stream[\s_]?guard|screenshot)");
+            return Regex.IsMatch(dirName, @"(?i)(driver[\s_]?booster|stream[\s_]?guard|screensho+t)");
         }
         catch
         {

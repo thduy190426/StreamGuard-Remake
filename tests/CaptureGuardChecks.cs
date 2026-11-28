@@ -101,6 +101,23 @@ internal static class CaptureGuardChecks
         var reqDismiss = typeof(PrivacyCurtainService).GetMethod("RequestDismiss", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
         reqDismiss.Invoke(curtainSvc, null);
         check(dismissCalls == 1, "PrivacyCurtainService dismiss button raises DismissRequested");
+
+        // ConfigService AllowSelfScreenCapture defaults to false and persists roundtrip
+        var selfCapCfgPath = Path.Combine(Path.GetTempPath(), "self_capture_cfg_" + Guid.NewGuid().ToString("N") + ".json");
+        try
+        {
+            var cfg = new ConfigService(selfCapCfgPath);
+            cfg.Load();
+            check(!cfg.AllowSelfScreenCapture, "AllowSelfScreenCapture defaults to false (protected)");
+            cfg.Save(Array.Empty<StreamGuard.Models.GuardedApp>(), allowSelfScreenCapture: true);
+            var reloaded = new ConfigService(selfCapCfgPath);
+            reloaded.Load();
+            check(reloaded.AllowSelfScreenCapture, "AllowSelfScreenCapture=true persists across save/load");
+        }
+        finally
+        {
+            try { if (File.Exists(selfCapCfgPath)) File.Delete(selfCapCfgPath); } catch { }
+        }
     }
 
     private sealed class AffinityApi : IWindowCaptureApi

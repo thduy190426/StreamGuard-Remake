@@ -59,7 +59,14 @@ namespace StreamGuard.Helpers
         static extern int GetWindowLong32(IntPtr hWnd, int nIndex);
         [DllImport("dwmapi.dll")]
         static extern int DwmGetWindowAttribute(IntPtr hwnd, int dwAttribute, out int pvAttribute, int cbAttribute);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        static extern bool QueryFullProcessImageName(IntPtr hProcess, uint dwFlags, StringBuilder lpExeName, ref int lpdwSize);
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool CloseHandle(IntPtr hObject);
 
+        private const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
         private const int GWL_STYLE = -16;
         private const int GWL_EXSTYLE = -20;
         private const nint WS_CHILD = 0x40000000;
@@ -156,9 +163,33 @@ namespace StreamGuard.Helpers
             return true;
         }
 
+        public static string TryGetExecutablePathFast(int pid)
+        {
+            if (pid <= 0) return "";
+            var handle = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, pid);
+            if (handle == IntPtr.Zero) return "";
+            try
+            {
+                var sb = new StringBuilder(512);
+                var len = sb.Capacity;
+                return QueryFullProcessImageName(handle, 0, sb, ref len) && len > 0
+                    ? sb.ToString(0, len)
+                    : "";
+            }
+            catch
+            {
+                return "";
+            }
+            finally
+            {
+                CloseHandle(handle);
+            }
+        }
+
         public static List<WindowInfo> GetOpenWindows()
         {
             var result = new List<WindowInfo>();
+            var pidCache = new Dictionary<uint, (string ProcName, string ExePath)>();
 
             EnumWindows((hWnd, _) =>
             {
@@ -171,26 +202,37 @@ namespace StreamGuard.Helpers
                 if (string.IsNullOrWhiteSpace(title)) return true;
 
                 GetWindowThreadProcessId(hWnd, out uint pid);
-                string procName = "";
-                string exePath = "";
-                try
+                if (!pidCache.TryGetValue(pid, out var procInfo))
                 {
-                    using var proc = Process.GetProcessById((int)pid);
-                    procName = proc.ProcessName;
-                    if (ExcludedProcesses.Contains(procName)) return true;
-                    try { exePath = proc.MainModule?.FileName ?? ""; } catch { }
+                    string procName = "";
+                    string exePath = TryGetExecutablePathFast((int)pid);
+                    if (!string.IsNullOrEmpty(exePath))
+                    {
+                        procName = System.IO.Path.GetFileNameWithoutExtension(exePath);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            using var proc = Process.GetProcessById((int)pid);
+                            procName = proc.ProcessName;
+                        }
+                        catch { }
+                    }
+                    procInfo = (procName, exePath);
+                    pidCache[pid] = procInfo;
                 }
-                catch { }
 
-                if (string.IsNullOrWhiteSpace(procName)) return true;
+                if (string.IsNullOrWhiteSpace(procInfo.ProcName) || ExcludedProcesses.Contains(procInfo.ProcName))
+                    return true;
 
                 result.Add(new WindowInfo
                 {
                     Handle = hWnd,
                     Title = title,
-                    ProcessName = procName,
+                    ProcessName = procInfo.ProcName,
                     ProcessId = (int)pid,
-                    ExecutablePath = exePath
+                    ExecutablePath = procInfo.ExePath
                 });
                 return true;
             }, IntPtr.Zero);
@@ -201,14 +243,14 @@ namespace StreamGuard.Helpers
         /// <summary>
         /// Tìm tất cả cửa sổ của process kể cả hidden/background.
         /// </summary>
-        public static List<WindowInfo> FindAllIncludingHiddenByProcessName(string processName)
+        public static List<WindowInfo> FindAllIncludingHiddenByProcessName(string processName, IReadOnlyList<WindowInfo>? openWindowsSnapshot = null)
         {
             var result = new List<WindowInfo>();
             if (ProcessSafetyService.IsProtectedIdentity(processName)) return result;
             var seenHandles = new HashSet<IntPtr>();
 
-            // 1. Visible windows trước (qua EnumWindows)
-            foreach (var w in GetOpenWindows())
+            // 1. Visible windows trước (qua EnumWindows hoặc snapshot dùng chung)
+            foreach (var w in openWindowsSnapshot ?? GetOpenWindows())
             {
                 if (w.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase)
                     && seenHandles.Add(w.Handle))
@@ -230,8 +272,7 @@ namespace StreamGuard.Helpers
                             if (hwnd != IntPtr.Zero && IsWindow(hwnd) && IsValidCandidateWindow(hwnd) && seenHandles.Add(hwnd))
                             {
                                 var title = proc.MainWindowTitle;
-                                var exePath = "";
-                                try { exePath = proc.MainModule?.FileName ?? ""; } catch { }
+                                var exePath = TryGetExecutablePathFast(proc.Id);
                                 result.Add(new WindowInfo
                                 {
                                     Handle = hwnd,

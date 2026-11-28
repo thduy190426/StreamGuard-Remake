@@ -17,6 +17,7 @@ namespace StreamGuard.Services
 
         private readonly object _syncLock = new();
         private readonly Func<string?>? _customClipboardReader;
+        private readonly Action? _customClipboardClearer;
         private readonly Action<int>? _customProcessTerminator;
         private readonly Action<Action>? _uiDispatcher;
 
@@ -43,9 +44,11 @@ namespace StreamGuard.Services
         public AntigravityAuthBridgeService(
             Func<string?>? customClipboardReader = null,
             Action<int>? customProcessTerminator = null,
-            Action<Action>? uiDispatcher = null)
+            Action<Action>? uiDispatcher = null,
+            Action? customClipboardClearer = null)
         {
             _customClipboardReader = customClipboardReader;
+            _customClipboardClearer = customClipboardClearer;
             _customProcessTerminator = customProcessTerminator;
             _uiDispatcher = uiDispatcher;
         }
@@ -139,6 +142,7 @@ namespace StreamGuard.Services
             var extracted = ExtractAuthUrl(initialClipboard);
             if (!string.IsNullOrEmpty(extracted))
             {
+                ClearClipboardSafe();
                 TriggerUrlCaptured(extracted, onUrlCaptured);
                 StopListening();
                 return true;
@@ -248,6 +252,7 @@ namespace StreamGuard.Services
                             var url = ExtractAuthUrl(text);
                             if (!string.IsNullOrEmpty(url))
                             {
+                                ClearClipboardSafe();
                                 TriggerUrlCaptured(url, onUrlCaptured);
                                 StopListening();
                                 break;
@@ -373,6 +378,40 @@ namespace StreamGuard.Services
             }
 
             return null;
+        }
+
+        private void ClearClipboardSafe()
+        {
+            if (_customClipboardClearer != null)
+            {
+                try { _customClipboardClearer(); } catch { }
+                return;
+            }
+
+            for (var attempt = 0; attempt < 3; attempt++)
+            {
+                try
+                {
+                    var app = System.Windows.Application.Current;
+                    if (app?.Dispatcher != null && !app.Dispatcher.CheckAccess())
+                    {
+                        app.Dispatcher.Invoke(System.Windows.Clipboard.Clear);
+                    }
+                    else
+                    {
+                        System.Windows.Clipboard.Clear();
+                    }
+                    return;
+                }
+                catch (ExternalException)
+                {
+                    Thread.Sleep(30);
+                }
+                catch
+                {
+                    return;
+                }
+            }
         }
 
         private void TerminateProcessSafe(int pid)

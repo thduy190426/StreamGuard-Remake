@@ -32,8 +32,10 @@ namespace StreamGuard.Services
         public bool BlockMicrophoneAccess { get; private set; } = true;
         public bool PassiveFocusMode { get; private set; } = true;
         public string Language { get; private set; } = "en";
+        public string ThemeMode { get; private set; } = ThemeService.DarkMode;
         public bool CaptureGuardEnabled { get; private set; } = true;
         public bool CaptureGuardIncludeMultiPurpose { get; private set; }
+        public bool AllowSelfScreenCapture { get; private set; } = false;
         public bool InAppCursorCloakEnabled { get; private set; } = true;
         public bool GlobalCursorCloakEnabled { get; private set; } = false;
         public bool BlockSystemTools { get; private set; } = false;
@@ -41,11 +43,13 @@ namespace StreamGuard.Services
         public string ScreenshotDirectory { get; private set; } = "";
         public bool ScreenshotAutoCopyClipboard { get; private set; } = true;
         public bool ScreenshotExcludeFromCapture { get; private set; } = true;
+        public bool ScreenshotOpenEditorAfterCapture { get; private set; } = true;
         public bool EnableCursorShield { get; private set; } = false;
         public bool EnableAiTrafficShield { get; private set; } = true;
         public string SnippingHotkey { get; private set; } = "Ctrl+Alt+S";
         public bool BlockVirtualDesktopHotkeys { get; private set; } = false;
         public bool AutoStartShield { get; private set; } = false;
+        public bool EnableSystemTrayIcon { get; private set; } = false;
 
         public List<GuardedAppConfig> Load()
         {
@@ -100,8 +104,10 @@ namespace StreamGuard.Services
             BlockMicrophoneAccess = config.BlockMicrophoneAccess;
             PassiveFocusMode = config.PassiveFocusMode;
             Language = Localization.LocalizationService.NormalizeLanguage(config.Language);
+            ThemeMode = ThemeService.NormalizeTheme(config.ThemeMode);
             CaptureGuardEnabled = config.CaptureGuardEnabled;
             CaptureGuardIncludeMultiPurpose = config.CaptureGuardIncludeMultiPurpose;
+            AllowSelfScreenCapture = config.AllowSelfScreenCapture;
             InAppCursorCloakEnabled = config.InAppCursorCloakEnabled;
             GlobalCursorCloakEnabled = config.GlobalCursorCloakEnabled;
             BlockSystemTools = config.BlockSystemTools;
@@ -109,11 +115,13 @@ namespace StreamGuard.Services
             ScreenshotDirectory = config.ScreenshotDirectory ?? "";
             ScreenshotAutoCopyClipboard = config.ScreenshotAutoCopyClipboard;
             ScreenshotExcludeFromCapture = config.ScreenshotExcludeFromCapture;
+            ScreenshotOpenEditorAfterCapture = config.ScreenshotOpenEditorAfterCapture;
             EnableCursorShield = config.EnableCursorShield;
             EnableAiTrafficShield = config.EnableAiTrafficShield;
             SnippingHotkey = string.IsNullOrWhiteSpace(config.SnippingHotkey) ? "Ctrl+Alt+S" : config.SnippingHotkey;
             BlockVirtualDesktopHotkeys = config.BlockVirtualDesktopHotkeys;
             AutoStartShield = config.AutoStartShield;
+            EnableSystemTrayIcon = config.EnableSystemTrayIcon;
         }
 
         private static List<GuardedAppConfig> SafeApps(IEnumerable<GuardedAppConfig>? apps) =>
@@ -144,11 +152,15 @@ namespace StreamGuard.Services
             string? screenshotDirectory = null,
             bool? screenshotAutoCopyClipboard = null,
             bool? screenshotExcludeFromCapture = null,
+            bool? screenshotOpenEditorAfterCapture = null,
             bool? enableCursorShield = null,
             string? snippingHotkey = null,
             bool? enableAiTrafficShield = null,
             bool? blockVirtualDesktopHotkeys = null,
-            bool? autoStartShield = null)
+            bool? autoStartShield = null,
+            bool? allowSelfScreenCapture = null,
+            string? themeMode = null,
+            bool? enableSystemTrayIcon = null)
         {
             lock (_gate)
             {
@@ -178,6 +190,7 @@ namespace StreamGuard.Services
                         BlockMicrophoneAccess = blockMicrophoneAccess,
                         PassiveFocusMode = passiveFocusMode,
                         Language = Localization.LocalizationService.NormalizeLanguage(language ?? Language),
+                        ThemeMode = ThemeService.NormalizeTheme(themeMode ?? ThemeMode),
                         CaptureGuardEnabled = captureGuardEnabled ?? CaptureGuardEnabled,
                         CaptureGuardIncludeMultiPurpose = captureGuardIncludeMultiPurpose ?? CaptureGuardIncludeMultiPurpose,
                         InAppCursorCloakEnabled = inAppCursorCloakEnabled ?? InAppCursorCloakEnabled,
@@ -187,11 +200,14 @@ namespace StreamGuard.Services
                         ScreenshotDirectory = screenshotDirectory ?? ScreenshotDirectory,
                         ScreenshotAutoCopyClipboard = screenshotAutoCopyClipboard ?? ScreenshotAutoCopyClipboard,
                         ScreenshotExcludeFromCapture = screenshotExcludeFromCapture ?? ScreenshotExcludeFromCapture,
+                        ScreenshotOpenEditorAfterCapture = screenshotOpenEditorAfterCapture ?? ScreenshotOpenEditorAfterCapture,
                         EnableCursorShield = enableCursorShield ?? EnableCursorShield,
                         EnableAiTrafficShield = enableAiTrafficShield ?? EnableAiTrafficShield,
                         SnippingHotkey = string.IsNullOrWhiteSpace(snippingHotkey) ? (string.IsNullOrWhiteSpace(SnippingHotkey) ? "Ctrl+Alt+S" : SnippingHotkey) : snippingHotkey,
                         BlockVirtualDesktopHotkeys = blockVirtualDesktopHotkeys ?? BlockVirtualDesktopHotkeys,
-                        AutoStartShield = autoStartShield ?? AutoStartShield
+                        AutoStartShield = autoStartShield ?? AutoStartShield,
+                        AllowSelfScreenCapture = allowSelfScreenCapture ?? AllowSelfScreenCapture,
+                        EnableSystemTrayIcon = enableSystemTrayIcon ?? EnableSystemTrayIcon
                     };
                     var json = JsonConvert.SerializeObject(config, Formatting.Indented);
                     if (System.Text.Encoding.UTF8.GetByteCount(json) > MaximumConfigBytes) return false;
@@ -229,8 +245,10 @@ namespace StreamGuard.Services
         public bool BlockMicrophoneAccess { get; set; } = true;
         public bool PassiveFocusMode { get; set; } = true;
         public string Language { get; set; } = "en";
+        public string ThemeMode { get; set; } = ThemeService.DarkMode;
         public bool CaptureGuardEnabled { get; set; } = true;
         public bool CaptureGuardIncludeMultiPurpose { get; set; }
+        public bool AllowSelfScreenCapture { get; set; } = false;
         public bool InAppCursorCloakEnabled { get; set; } = true;
         public bool GlobalCursorCloakEnabled { get; set; } = false;
         public bool BlockSystemTools { get; set; } = false;
@@ -238,11 +256,13 @@ namespace StreamGuard.Services
         public string ScreenshotDirectory { get; set; } = "";
         public bool ScreenshotAutoCopyClipboard { get; set; } = true;
         public bool ScreenshotExcludeFromCapture { get; set; } = true;
+        public bool ScreenshotOpenEditorAfterCapture { get; set; } = true;
         public bool EnableCursorShield { get; set; } = false;
         public bool EnableAiTrafficShield { get; set; } = true;
         public string SnippingHotkey { get; set; } = "Ctrl+Alt+S";
         public bool BlockVirtualDesktopHotkeys { get; set; } = false;
         public bool AutoStartShield { get; set; } = false;
+        public bool EnableSystemTrayIcon { get; set; } = false;
     }
 
     public class GuardedAppConfig

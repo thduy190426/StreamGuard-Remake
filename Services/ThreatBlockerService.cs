@@ -87,7 +87,13 @@ namespace StreamGuard.Services
         public ThreatBlockerService()
         {
             _scanTimer.AutoReset = true;
-            _scanTimer.Elapsed += (_, _) => BlockNow();
+            _scanTimer.Elapsed += (_, _) =>
+            {
+                if (_disposed || !IsActive) return;
+                if (!Monitor.TryEnter(_scanLock)) return;
+                try { BlockNow(); }
+                finally { Monitor.Exit(_scanLock); }
+            };
         }
 
         public void SetWindowMinimized(bool minimized)
@@ -322,7 +328,11 @@ namespace StreamGuard.Services
 
         private static string? TryGetProcessPath(Process process)
         {
-            try { return process.MainModule?.FileName; }
+            try
+            {
+                var path = StreamGuard.Helpers.WindowEnumerator.TryGetExecutablePathFast(process.Id);
+                return string.IsNullOrEmpty(path) ? null : path;
+            }
             catch { return null; }
         }
 

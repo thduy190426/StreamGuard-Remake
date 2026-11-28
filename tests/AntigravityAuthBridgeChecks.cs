@@ -194,6 +194,17 @@ namespace StreamGuard.Tests
                 .GetMethod("IsTargetBrowserProcess", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!
                 .Invoke(null, new object[] { "notepad.exe" })!;
             check(!isNotepad, "notepad.exe is not treated as target browser process");
+
+            // Verify clipboard clearer is invoked when OAuth URL is captured from clipboard
+            var clipboardCleared = false;
+            string? capturedUrl = null;
+            const string oauthUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123&redirect_uri=http://127.0.0.1:4200/callback&response_type=code";
+            using var clearBridge = new AntigravityAuthBridgeService(
+                customClipboardReader: () => oauthUrl,
+                customClipboardClearer: () => clipboardCleared = true);
+            clearBridge.StartListening(url => capturedUrl = url);
+            check(capturedUrl == oauthUrl, "Clipboard OAuth URL captured immediately");
+            check(clipboardCleared, "Clipboard cleared immediately after capturing OAuth URL to prevent snooping");
         }
 
         private static void TestLocalizationStrings(Action<bool, string> check)

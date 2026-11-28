@@ -18,6 +18,7 @@ public partial class MainWindow
     private uint _browserProcessId;
     private string? _copyPasteScriptId;
     private string? _antiBlurScriptId;
+    private string? _keystrokeGuardScriptId;
     private string? _pendingNavigateUrl;
 
     private async Task EnsureBrowserInitializedAsync()
@@ -49,6 +50,7 @@ public partial class MainWindow
             }
 
             HookBrowserEvents();
+            SyncBrowserColorScheme();
             await ApplyActiveBrowserScriptsAsync();
 
             var targetUrl = !string.IsNullOrWhiteSpace(_pendingNavigateUrl)
@@ -214,6 +216,12 @@ public partial class MainWindow
                 _antiBlurScriptId = await BrowserControl.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
                 await BrowserControl.CoreWebView2.ExecuteScriptAsync(script);
             }
+            if (ToggleBrowserKeystrokeGuard?.IsChecked == true && _keystrokeGuardScriptId == null)
+            {
+                var script = BrowserScriptService.GetKeystrokeGuardScript();
+                _keystrokeGuardScriptId = await BrowserControl.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
+                await BrowserControl.CoreWebView2.ExecuteScriptAsync(script);
+            }
         }
         catch { }
     }
@@ -353,6 +361,41 @@ public partial class MainWindow
         }
     }
 
+    private async void ToggleBrowserKeystrokeGuard_Checked(object sender, RoutedEventArgs e)
+    {
+        if (BrowserControl?.CoreWebView2 == null) return;
+        try
+        {
+            var script = BrowserScriptService.GetKeystrokeGuardScript();
+            _keystrokeGuardScriptId = await BrowserControl.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
+            await BrowserControl.CoreWebView2.ExecuteScriptAsync(script);
+            UpdateStatus(LocalizationService.GetString("Browser.KeystrokeGuardEnabledNotice", "Keystroke privacy guard active on this page."), true);
+        }
+        catch (Exception ex)
+        {
+            UpdateStatus(ex.Message, false);
+        }
+    }
+
+    private async void ToggleBrowserKeystrokeGuard_Unchecked(object sender, RoutedEventArgs e)
+    {
+        if (BrowserControl?.CoreWebView2 == null) return;
+        try
+        {
+            if (_keystrokeGuardScriptId != null)
+            {
+                BrowserControl.CoreWebView2.RemoveScriptToExecuteOnDocumentCreated(_keystrokeGuardScriptId);
+                _keystrokeGuardScriptId = null;
+            }
+            await BrowserControl.CoreWebView2.ExecuteScriptAsync(BrowserScriptService.GetDisableKeystrokeGuardScript());
+            UpdateStatus(LocalizationService.GetString("Browser.KeystrokeGuardDisabledNotice", "Keystroke privacy guard disabled. Reload page to restore normal key listeners."), true);
+        }
+        catch (Exception ex)
+        {
+            UpdateStatus(ex.Message, false);
+        }
+    }
+
     private void BtnBrowserDevTools_Click(object sender, RoutedEventArgs e)
     {
         if (BrowserControl?.CoreWebView2 != null)
@@ -403,5 +446,21 @@ public partial class MainWindow
     private void BtnBrowserAntigravityLogin_Click(object sender, RoutedEventArgs e)
     {
         StartAntigravitySecureLoginFlow();
+    }
+
+    internal void SyncBrowserColorScheme()
+    {
+        try
+        {
+            if (BrowserControl?.CoreWebView2?.Profile != null)
+            {
+                BrowserControl.CoreWebView2.Profile.PreferredColorScheme = Services.ThemeService.Instance.IsDark
+                    ? CoreWebView2PreferredColorScheme.Dark
+                    : CoreWebView2PreferredColorScheme.Light;
+            }
+        }
+        catch
+        {
+        }
     }
 }

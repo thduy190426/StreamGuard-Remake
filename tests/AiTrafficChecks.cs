@@ -19,6 +19,10 @@ internal static class AiTrafficChecks
         TestConcurrentHostsAccess(check, artifactDirectory);
         TestSnifferCatalog(check);
         TestConfigPersistence(check, artifactDirectory);
+        TestEnvironmentProxyAndTlsShield(check);
+        TestWinHttpProxyDetection(check);
+        TestAntigravitySanitizedLaunch(check);
+        TestExpandedEndpointsAndMitmKeywords(check);
     }
 
     private static void TestRogueProxyDetection(Action<bool, string> check)
@@ -271,5 +275,92 @@ internal static class AiTrafficChecks
         {
             try { if (File.Exists(configPath)) File.Delete(configPath); } catch { }
         }
+    }
+
+    private static void TestEnvironmentProxyAndTlsShield(Action<bool, string> check)
+    {
+        var svc = new AiTrafficProtectionService();
+        var env = new System.Collections.Generic.Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["HTTP_PROXY"] = "http://127.0.0.1:8888",
+            ["HTTPS_PROXY"] = "http://localhost:8080",
+            ["NODE_EXTRA_CA_CERTS"] = @"C:\temp\mitmproxy-ca.pem",
+            ["NODE_TLS_REJECT_UNAUTHORIZED"] = "0",
+            ["PATH"] = @"C:\Windows\System32"
+        };
+
+        var assessment = svc.CheckEnvironmentProxyStatus(env);
+        check(assessment.HasRogueEnvVars, "CheckEnvironmentProxyStatus detects rogue HTTP_PROXY/HTTPS_PROXY env vars");
+        check(assessment.HasTlsBypassOrCustomCa, "CheckEnvironmentProxyStatus detects NODE_EXTRA_CA_CERTS and NODE_TLS_REJECT_UNAUTHORIZED=0");
+        check(assessment.DetectedVariables.Count == 4, $"Expected 4 detected env overrides, got {assessment.DetectedVariables.Count}");
+
+        var purged = svc.PurgeEnvironmentProxySettings(env);
+        check(purged, "PurgeEnvironmentProxySettings removes rogue env overrides");
+        check(!env.ContainsKey("HTTP_PROXY") && !env.ContainsKey("HTTPS_PROXY"), "Proxy env vars removed after purge");
+        check(!env.ContainsKey("NODE_EXTRA_CA_CERTS") && !env.ContainsKey("NODE_TLS_REJECT_UNAUTHORIZED"), "TLS/CA override env vars removed after purge");
+        check(env.ContainsKey("PATH"), "Unrelated PATH env var preserved");
+
+        var after = svc.CheckEnvironmentProxyStatus(env);
+        check(!after.HasRogueEnvVars && !after.HasTlsBypassOrCustomCa, "Environment is clean after purge");
+    }
+
+    private static void TestWinHttpProxyDetection(Action<bool, string> check)
+    {
+        var svc = new AiTrafficProtectionService();
+
+        // Direct connection WinHTTP binary blob (flags = 0x01)
+        var directBlob = new byte[16];
+        BitConverter.GetBytes(0x01).CopyTo(directBlob, 8);
+        var clean = svc.CheckWinHttpProxy(directBlob);
+        check(!clean.IsRogueWinHttpProxy, "Direct WinHTTP settings reported clean");
+
+        // Named loopback proxy WinHTTP binary blob (flags = 0x03, server = "127.0.0.1:8888")
+        var serverBytes = System.Text.Encoding.ASCII.GetBytes("127.0.0.1:8888");
+        var proxyBlob = new byte[16 + serverBytes.Length];
+        BitConverter.GetBytes(0x03).CopyTo(proxyBlob, 8);
+        BitConverter.GetBytes(serverBytes.Length).CopyTo(proxyBlob, 12);
+        serverBytes.CopyTo(proxyBlob, 16);
+
+        var rogue = svc.CheckWinHttpProxy(proxyBlob);
+        check(rogue.IsRogueWinHttpProxy && rogue.ProxyServer == "127.0.0.1:8888",
+            $"WinHTTP loopback proxy detected accurately (server={rogue.ProxyServer})");
+    }
+
+    private static void TestAntigravitySanitizedLaunch(Action<bool, string> check)
+    {
+        var prevHttp = Environment.GetEnvironmentVariable("HTTP_PROXY");
+        var prevCa = Environment.GetEnvironmentVariable("NODE_EXTRA_CA_CERTS");
+        try
+        {
+            Environment.SetEnvironmentVariable("HTTP_PROXY", "http://127.0.0.1:8888");
+            Environment.SetEnvironmentVariable("NODE_EXTRA_CA_CERTS", @"C:\mitm.pem");
+
+            var psi = AntigravityInstallerService.CreateSanitizedLaunchStartInfo(@"C:\Dummy\Antigravity.exe", @"C:\Dummy");
+            check(!psi.UseShellExecute, "Sanitized launch uses UseShellExecute=false to override child environment");
+            check(!psi.EnvironmentVariables.ContainsKey("HTTP_PROXY"), "HTTP_PROXY stripped from Antigravity child environment");
+            check(!psi.EnvironmentVariables.ContainsKey("NODE_EXTRA_CA_CERTS"), "NODE_EXTRA_CA_CERTS stripped from Antigravity child environment");
+            check(psi.EnvironmentVariables["NO_PROXY"] == "*", "NO_PROXY=* set on Antigravity child environment");
+        }
+        finally
+        {
+            Environment.SetEnvironmentVariable("HTTP_PROXY", prevHttp);
+            Environment.SetEnvironmentVariable("NODE_EXTRA_CA_CERTS", prevCa);
+        }
+    }
+
+    private static void TestExpandedEndpointsAndMitmKeywords(Action<bool, string> check)
+    {
+        check(AiTrafficProtectionService.ProtectedAiEndpoints.Contains("cloudcode-pa.googleapis.com"),
+            "ProtectedAiEndpoints includes Antigravity cloudcode-pa.googleapis.com");
+        check(AiTrafficProtectionService.ProtectedAiEndpoints.Contains("oauth2.googleapis.com"),
+            "ProtectedAiEndpoints includes oauth2.googleapis.com");
+        check(AiTrafficProtectionService.KnownMitmKeywords.Contains("reqable") &&
+              AiTrafficProtectionService.KnownMitmKeywords.Contains("proxyman") &&
+              AiTrafficProtectionService.KnownMitmKeywords.Contains("whistle"),
+            "KnownMitmKeywords includes reqable, proxyman, and whistle");
+
+        var snifferCatalog = CaptureRiskService.Assess(new[] { "reqable.exe", "proxyman.exe", "whistle.exe" });
+        check(snifferCatalog.Tools.Count == 3 && snifferCatalog.Tools.All(t => t.Kind == CaptureToolKind.Sniffer),
+            $"CaptureRiskService identifies Reqable, Proxyman, and Whistle as Sniffers (count={snifferCatalog.Tools.Count})");
     }
 }

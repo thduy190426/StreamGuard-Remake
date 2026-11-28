@@ -24,6 +24,7 @@ namespace StreamGuard.Tests
             TestDpiCoordinateConversion(check);
             TestSnapshotBackgroundBinding(check);
             TestEscapeHookAndNoActivateProtection(check);
+            TestImageProcessorAndEditorWorkflow(check, tempDir);
         }
 
         private static void TestDefaultDirectory(Action<bool, string> check)
@@ -31,7 +32,31 @@ namespace StreamGuard.Tests
             var defaultDir = SnippingToolService.DefaultScreenshotDirectory;
             check(!string.IsNullOrWhiteSpace(defaultDir), "Default screenshot directory should not be empty");
             check(Path.IsPathRooted(defaultDir), "Default screenshot directory should be an absolute path");
-            check(defaultDir.Contains("DriverBooster_Screenshots"), "Default screenshot directory should end with DriverBooster_Screenshots");
+            if (Directory.Exists(@"D:\"))
+            {
+                check(string.Equals(defaultDir, @"D:\Screenshoot", StringComparison.OrdinalIgnoreCase),
+                    $"Default screenshot directory should be D:\\Screenshoot when D:\\ exists (actual={defaultDir})");
+            }
+            else
+            {
+                check(defaultDir.Contains("DriverBooster_Screenshots"), "Fallback screenshot directory should end with DriverBooster_Screenshots");
+            }
+
+            var probeDir = Path.Combine(Path.GetTempPath(), "StreamGuard-Screenshoot-Test-" + Guid.NewGuid().ToString("N"));
+            try
+            {
+                check(!Directory.Exists(probeDir), "Probe screenshot directory does not exist before EnsureScreenshotDirectoryExists");
+                var created = SnippingToolService.EnsureScreenshotDirectoryExists(probeDir);
+                check(created == probeDir && Directory.Exists(probeDir), "EnsureScreenshotDirectoryExists creates missing directory");
+
+                // Calling again when already present must keep it intact without error
+                var existing = SnippingToolService.EnsureScreenshotDirectoryExists(probeDir);
+                check(existing == probeDir && Directory.Exists(probeDir), "EnsureScreenshotDirectoryExists succeeds idempotently when directory already exists");
+            }
+            finally
+            {
+                try { if (Directory.Exists(probeDir)) Directory.Delete(probeDir, true); } catch { }
+            }
         }
 
         private static void TestRegionCropping(Action<bool, string> check, string tempDir)
@@ -370,6 +395,166 @@ namespace StreamGuard.Tests
             finally
             {
                 overlay.Close();
+            }
+        }
+
+        private static void TestImageProcessorAndEditorWorkflow(Action<bool, string> check, string tempDir)
+        {
+            using var source = new Bitmap(80, 40, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(source))
+            {
+                g.Clear(Color.FromArgb(255, 20, 40, 80));
+                using var redBrush = new SolidBrush(Color.FromArgb(255, 220, 30, 30));
+                g.FillRectangle(redBrush, 20, 10, 30, 20);
+            }
+
+            // 1. Crop
+            using (var cropped = ScreenshotImageProcessor.Crop(source, new Rectangle(20, 10, 30, 20)))
+            {
+                check(cropped.Width == 30 && cropped.Height == 20, $"Crop produces exact 30x20 bitmap (got {cropped.Width}x{cropped.Height})");
+                var px = cropped.GetPixel(5, 5);
+                check(px.R > 200 && px.G < 50, "Cropped bitmap preserves inner red region pixel");
+            }
+
+            // 2. Rotate 90 & Flip
+            using (var rotated = ScreenshotImageProcessor.RotateFlip(source, RotateFlipType.Rotate90FlipNone))
+            {
+                check(rotated.Width == 40 && rotated.Height == 80, $"Rotate90 swaps dimensions to 40x80 (got {rotated.Width}x{rotated.Height})");
+            }
+            using (var flipped = ScreenshotImageProcessor.RotateFlip(source, RotateFlipType.RotateNoneFlipX))
+            {
+                check(flipped.Width == 80 && flipped.Height == 40, "FlipX preserves 80x40 dimensions");
+                // Original red was x=[20..49]; flipped red is x=[30..59], so x=55 should be red
+                var flippedPx = flipped.GetPixel(55, 15);
+                check(flippedPx.R > 200, "FlipX mirrors pixel horizontally");
+            }
+
+            // 3. Resize
+            using (var resized = ScreenshotImageProcessor.Resize(source, 40, 20))
+            {
+                check(resized.Width == 40 && resized.Height == 20, $"Resize produces exact 40x20 bitmap (got {resized.Width}x{resized.Height})");
+            }
+
+            // 4. Region Blur (Mosaic & Box) preserves outside pixels and blurs boundary
+            using (var checker = new Bitmap(40, 40, PixelFormat.Format32bppArgb))
+            {
+                for (int y = 0; y < 40; y++)
+                    for (int x = 0; x < 40; x++)
+                        checker.SetPixel(x, y, ((x + y) % 2 == 0) ? Color.White : Color.Black);
+
+                using var mosaic = ScreenshotImageProcessor.ApplyRegionBlur(checker, new Rectangle(10, 10, 20, 20), strength: 8, pixelate: true);
+                check(mosaic.GetPixel(0, 0).ToArgb() == Color.White.ToArgb(), "Mosaic blur leaves pixels outside region untouched");
+                var mInside = mosaic.GetPixel(15, 15);
+                check(mInside.R > 50 && mInside.R < 205, $"Mosaic blur averages pixels inside region (R={mInside.R})");
+
+                using var boxBlur = ScreenshotImageProcessor.ApplyRegionBlur(checker, new Rectangle(10, 10, 20, 20), strength: 6, pixelate: false);
+                check(boxBlur.GetPixel(0, 0).ToArgb() == Color.White.ToArgb(), "Box blur leaves pixels outside region untouched");
+                var bInside = boxBlur.GetPixel(15, 15);
+                check(bInside.R > 50 && bInside.R < 205, $"Box blur smooths pixels inside region (R={bInside.R})");
+
+                using var fullBlur = ScreenshotImageProcessor.ApplyFullBlur(checker, strength: 6, pixelate: false);
+                check(fullBlur.Width == 40 && fullBlur.Height == 40, "ApplyFullBlur preserves dimensions");
+            }
+
+            // 5. ConfigService persistence for ScreenshotOpenEditorAfterCapture
+            var cfgPath = Path.Combine(tempDir, "editor_cfg_" + Guid.NewGuid().ToString("N") + ".json");
+            try
+            {
+                var cfg = new ConfigService(cfgPath);
+                cfg.Load();
+                check(cfg.ScreenshotOpenEditorAfterCapture, "ScreenshotOpenEditorAfterCapture defaults to true");
+                cfg.Save(Array.Empty<GuardedApp>(), screenshotOpenEditorAfterCapture: false);
+                var reloaded = new ConfigService(cfgPath);
+                reloaded.Load();
+                check(!reloaded.ScreenshotOpenEditorAfterCapture, "ScreenshotOpenEditorAfterCapture=false persists across save/load");
+            }
+            finally
+            {
+                try { if (File.Exists(cfgPath)) File.Delete(cfgPath); } catch { }
+            }
+
+            // 6. Editor window instantiation + localization keys
+            var editor = new SnippingEditorWindow(source, excludeFromCapture: false);
+            bool editorCanceled = false;
+            editor.Canceled += () => editorCanceled = true;
+            editor.Close();
+            check(editorCanceled, "SnippingEditorWindow fires Canceled on close");
+
+            var l = Localization.LocalizationService.Current;
+            foreach (var k in new[]
+            {
+                "Snipping.OpenEditorToggle",
+                "Snipping.CopiedSuccess",
+                "SnippingEditor.Title",
+                "SnippingEditor.ModeCrop",
+                "SnippingEditor.ModeBlurRegion",
+                "SnippingEditor.ApplyCrop",
+                "SnippingEditor.RotateLeft",
+                "SnippingEditor.RotateRight",
+                "SnippingEditor.FlipHorizontal",
+                "SnippingEditor.FlipVertical",
+                "SnippingEditor.Undo",
+                "SnippingEditor.Redo",
+                "SnippingEditor.Reset",
+                "SnippingEditor.ResizeLabel",
+                "SnippingEditor.LockAspect",
+                "SnippingEditor.ApplyResize",
+                "SnippingEditor.BlurStrength",
+                "SnippingEditor.MosaicMode",
+                "SnippingEditor.BlurAll",
+                "SnippingEditor.Save",
+                "SnippingEditor.CopyOnly",
+                "SnippingEditor.Cancel",
+                "SnippingEditor.ZoomOutTip",
+                "SnippingEditor.ZoomInTip",
+                "SnippingEditor.ZoomResetTip",
+                "SnippingEditor.Magnifier",
+                "SnippingEditor.MagnifierTip",
+                "SnippingEditor.BlurAllTooltip",
+                "SnippingEditor.BlurCooldownWarning",
+                "SnippingEditor.BlurLimitReached"
+            })
+            {
+                l.SetLanguage("en");
+                var en = l[k];
+                l.SetLanguage("vi");
+                var vi = l[k];
+                check(!string.IsNullOrWhiteSpace(en) && en != k, $"Key '{k}' exists in English");
+                check(!string.IsNullOrWhiteSpace(vi) && vi != k, $"Key '{k}' exists in Vietnamese");
+                check(en != vi, $"Key '{k}' differs between English and Vietnamese");
+            }
+
+            // 7. Full-blur cooldown, max limit (3x), Undo recovery, and zoom factor bounds
+            long now = 50_000;
+            var guardedEditor = new SnippingEditorWindow(source, excludeFromCapture: false, nowProvider: () => now);
+            try
+            {
+                check(SnippingEditorWindow.ClampZoomFactor(0.05) == SnippingEditorWindow.MinZoomFactor, "Zoom clamps lower bound to 0.25x");
+                check(SnippingEditorWindow.ClampZoomFactor(10.0) == SnippingEditorWindow.MaxZoomFactor, "Zoom clamps upper bound to 5.0x");
+                check(guardedEditor.CurrentZoomFactor == 1.0, "Default editor zoom starts at 1.0 (100%)");
+
+                check(guardedEditor.TryApplyFullBlur(8, true) && guardedEditor.CurrentFullBlurCount == 1, "1st full blur succeeds");
+                now += 200;
+                check(!guardedEditor.TryApplyFullBlur(8, true) && guardedEditor.CurrentFullBlurCount == 1, "Rapid 2nd full blur within cooldown is blocked");
+
+                now += 800;
+                check(guardedEditor.TryApplyFullBlur(8, true) && guardedEditor.CurrentFullBlurCount == 2, "2nd full blur after cooldown succeeds");
+
+                now += 1000;
+                check(guardedEditor.TryApplyFullBlur(8, true) && guardedEditor.CurrentFullBlurCount == 3, "3rd full blur reaches max limit");
+
+                now += 2000;
+                check(!guardedEditor.TryApplyFullBlur(8, true) && guardedEditor.CurrentFullBlurCount == 3, "4th full blur beyond max limit is blocked");
+
+                guardedEditor.PerformUndo();
+                check(guardedEditor.CurrentFullBlurCount == 2, "Undo decrements active full blur count to 2");
+
+                now += 1000;
+                check(guardedEditor.TryApplyFullBlur(8, true) && guardedEditor.CurrentFullBlurCount == 3, "Full blur allowed again after Undo restores budget");
+            }
+            finally
+            {
+                guardedEditor.Close();
             }
         }
     }
