@@ -12,23 +12,27 @@ Logo chiếc khiên tím đặc trưng được nhúng trực tiếp vào tệp 
 
 1. [Yêu cầu hệ thống & Độ tương thích](#1-yêu-cầu-hệ-thống--độ-tương-thích)
 2. [Hai vị trí chạy chính thức](#2-hai-vị-trí-chạy-chính-thức)
-3. [Giao diện & Thiết kế thanh bên (Sidebar)](#3-giao-diện--thiết-kế-thanh-bên-sidebar)
+3. [Giao diện, Thanh bên (Sidebar), Light/Dark Mode & System Tray](#3-giao-diện-thanh-bên-sidebar-lightdark-mode--system-tray)
 4. [Đa ngôn ngữ (Language Support)](#4-đa-ngôn-ngữ-language-support)
-5. [Chi tiết 7 Phân hệ chức năng chính](#5-chi-tiết-7-phân-hệ-chức-năng-chính)
+5. [Chi tiết 8 Phân hệ chức năng chính](#5-chi-tiết-8-phân-hệ-chức-năng-chính)
    - [5.1 Bảng bảo vệ (Shield Dashboard)](#51-bảng-bảo-vệ-shield-dashboard)
    - [5.2 Ứng dụng khả dụng (Running Explorer)](#52-ứng-dụng-khả-dụng-running-explorer)
    - [5.3 Mối đe dọa (Threat Shield & Dual-Engine Firewall)](#53-mối-đe-dọa-threat-shield--dual-engine-firewall)
    - [5.4 Riêng tư & Bảo mật (Privacy & Security)](#54-riêng-tư--bảo-mật-privacy--security)
-     - [Bảo vệ lưu lượng AI & Chống soi gói tin (AI Traffic Shield)](#bảo-vệ-lưu-lượng-ai--chống-soi-gói-tin-ai-traffic-shield)
+     - [Bảo vệ lưu lượng AI & Chống soi gói tin (AI Traffic Shield & Proxy Hardening)](#bảo-vệ-lưu-lượng-ai--chống-soi-gói-tin-ai-traffic-shield--proxy-hardening)
      - [Tích hợp bộ cài đặt Antigravity Desktop Offline](#tích-hợp-bộ-cài-đặt-antigravity-desktop-offline)
      - [Cầu nối đăng nhập Antigravity tự động & bảo mật (Antigravity Secure Login Bridge)](#cầu-nối-đăng-nhập-antigravity-tự-động--bảo-mật-antigravity-secure-login-bridge)
      - [Khóa công cụ quản trị hệ thống (System Tools Lock)](#khóa-công-cụ-quản-trị-hệ-thống-system-tools-lock)
-     - [Khiên con trỏ chuột (Cursor Shield / Ghost Cursor)](#khiên-con-trỏ-chuột-cursor-shield--ghost-cursor)
+     - [Khiên con trỏ chuột & Tàng hình chuột (Cursor Shield & Cursor Cloak)](#khiên-con-trỏ-chuột--tàng-hình-chuột-cursor-shield--cursor-cloak)
      - [Mở khóa sao chép & dán trang web (Copy & Paste Unlocker)](#mở-khóa-sao-chép--dán-trang-web-copy--paste-unlocker)
-     - [Chụp màn hình bảo mật (Secure Snipping Tool)](#chụp-màn-hình-bảo-mật-secure-snipping-tool)
+     - [Chụp màn hình bảo mật & Trình chỉnh sửa ảnh tích hợp (Secure Snipping Tool & Editor)](#chụp-màn-hình-bảo-mật--trình-chỉnh-sửa-ảnh-tích-hợp-secure-snipping-tool--editor)
+     - [An toàn thao tác & Vùng nguy hiểm (Passive Focus, Switch Cooldown & Confirmation)](#an-toàn-thao-tác--vùng-nguy-hiểm-passive-focus-switch-cooldown--confirmation)
+     - [Khiên khóa phím tắt Desktop ảo (Virtual Desktop Hotkeys Shield)](#khiên-khóa-phím-tắt-desktop-ảo-virtual-desktop-hotkeys-shield)
    - [5.5 Trung tâm khôi phục (Recovery Center)](#55-trung-tâm-khôi-phục-recovery-center)
-   - [5.6 Phụ đề trực tiếp (Live Captions)](#56-phụ-đề-trực-tiếp-live-captions)
+   - [5.6 Phụ đề trực tiếp & Dịch thời gian thực (Live Captions & Real-time Translation)](#56-phụ-đề-trực-tiếp--dịch-thời-gian-thực-live-captions--real-time-translation)
    - [5.7 Trình duyệt bảo vệ (Protected Chromium Browser - Local Sandbox)](#57-trình-duyệt-bảo-vệ-protected-chromium-browser---local-sandbox)
+   - [5.8 Chẩn đoán Hệ thống & Ma trận Đánh giá Tính năng Cốt lõi (Diagnostics)](#58-chẩn-đoán-hệ-thống--ma-trận-đánh-giá-tính-năng-cốt-lõi-diagnostics)
+   - [5.9 Cài đặt Hệ thống, Giao diện, Khay hệ thống & Sao lưu (Settings)](#59-cài-đặt-hệ-thống-giao-diện-khay-hệ-thống--sao-lưu-settings)
 6. [Bảng phím tắt toàn cầu (Global Hotkeys)](#6-bảng-phím-tắt-toàn-cầu-global-hotkeys)
 7. [Cơ chế an toàn & Cứu hộ khẩn cấp](#7-cơ-chế-an-toàn--cứu-hộ-khẩn-cấp)
 8. [Cấu trúc thư mục dữ liệu & Cấu hình](#8-cấu-trúc-thư-mục-dữ-liệu--cấu-hình)
@@ -46,209 +50,166 @@ Logo chiếc khiên tím đặc trưng được nhúng trực tiếp vào tệp 
 - **Trình duyệt nhúng**: Microsoft Edge WebView2 Runtime (được tích hợp sẵn mặc định trên Windows 11 và hầu hết Windows 10; **hoàn toàn không yêu cầu phải cài Google Chrome**).
 - **Quyền hạn**:
   - Không bắt buộc quyền Administrator cho các tác vụ ẩn cửa sổ, phụ đề, bắt đăng nhập và trình duyệt bảo vệ.
-  - Khuyến nghị chạy với quyền Administrator (`Run as administrator`) để kích hoạt đầy đủ Tường lửa dự phòng kép (`Dual-Engine Firewall`), chỉnh sửa hosts cách ly và khóa cổng phần cứng Camera/Microphone.
+  - Khuyến nghị chạy với quyền Administrator (`Run as administrator`) để kích hoạt đầy đủ Tường lửa dự phòng kép (`Dual-Engine Firewall`), chỉnh sửa hosts cách ly AI, triệt tiêu WinHTTP Proxy và khóa cổng phần cứng Camera/Microphone.
 
 ---
 
 ## 2. Hai vị trí chạy chính thức
 
-Theo quy chuẩn cập nhật bắt buộc tại [AGENTS.md](file:///c:/Users/VirusBetaTester/Downloads/PalStatus/StreamGuard/AGENTS.md), mỗi khi build hoặc nâng cấp chức năng, ứng dụng luôn được cập nhật đồng bộ tại **cả hai vị trí**:
+Theo quy chuẩn cập nhật bắt buộc tại [`AGENTS.md`](AGENTS.md), mỗi khi build hoặc nâng cấp chức năng, ứng dụng luôn được cập nhật đồng bộ tại **cả hai vị trí**:
 
 1. **Bản Publish Độc Lập (Single-File Standalone)**:
-   - Thư mục: [`C:\Users\VirusBetaTester\Downloads\PalStatus\release`](file:///C:/Users/VirusBetaTester/Downloads/PalStatus/release)
-   - Tệp chạy: `Driver Booster.exe` (~406 MB). Đã đóng gói toàn bộ .NET runtime, WPF, thư viện native, font và tài nguyên trong một tệp duy nhất, có thể chạy ngay trên máy mới mà không cần cài thêm .NET.
-   - Thư mục kèm theo: `installers\AntigravitySetup.exe` (~199.6 MB) phục vụ cài đặt offline.
+   - Thư mục: [`C:\Users\VirusBetaTester\Downloads\PalStatus\release`](file:///c:/Users/VirusBetaTester/Downloads/PalStatus/release)
+   - Tệp chạy: `Driver Booster.exe` (~407 MB). Đã đóng gói toàn bộ .NET runtime, WPF, thư viện native, font và tài nguyên trong một tệp duy nhất, có thể chạy ngay trên máy mới mà không cần cài thêm .NET.
+   - Thư mục kèm theo: `installers\AntigravitySetup.exe` phục vụ cài đặt offline và `WebView2Loader.dll`.
 2. **Bản Build Đầy Đủ Thư Viện (Unpacked Assembly)**:
-   - Thư mục: [`C:\Users\VirusBetaTester\Downloads\PalStatus\StreamGuard\bin\Release\net8.0-windows`](file:///C:/Users/VirusBetaTester/Downloads/PalStatus/StreamGuard/bin/Release/net8.0-windows)
-   - Tệp chạy: `Driver Booster.exe` và `Driver Booster.dll`, đi kèm các tệp `.deps.json`, `.runtimeconfig.json`, runtimes nền tảng và `installers\AntigravitySetup.exe`.
+   - Thư mục: [`C:\Users\VirusBetaTester\Downloads\PalStatus\StreamGuard\bin\Release\net8.0-windows`](file:///c:/Users/VirusBetaTester/Downloads/PalStatus/StreamGuard/bin/Release/net8.0-windows)
+   - Tệp chạy: `Driver Booster.exe` và `Driver Booster.dll`, đi kèm các tệp `.deps.json`, `.runtimeconfig.json`, `WebView2Loader.dll` và runtimes nền tảng.
 
 > [!IMPORTANT]
-> Toàn bộ quy trình phát hành tuyệt đối **không tự động nén thành tệp `.zip`**. Bản chạy mới luôn được kiểm tra và ghi đè an toàn khi không bị hệ thống khóa.
+> Quy trình cập nhật mặc định giữ hai bản chạy đồng bộ trực tiếp tại đĩa (chỉ đóng gói `.zip` khi người dùng yêu cầu). Bản chạy mới luôn được kiểm tra phù hợp sau khi dọn cache biên dịch (`obj`, `tests\obj`, `tests\bin`).
 
 ---
 
-## 3. Giao diện & Thiết kế thanh bên (Sidebar)
+## 3. Giao diện, Thanh bên (Sidebar), Light/Dark Mode & System Tray
 
-- **Bộ biểu tượng vector đồng bộ**: Sử dụng toàn bộ icon vector sắc nét, tự đổi màu theo trạng thái (Active / Inactive / Warning / Muted).
-- **Độ co giãn thông minh (Responsive Sidebar)**:
-  - Rê chuột và kéo mép phải của thanh bên để điều chỉnh bề rộng tùy ý từ **200 px đến 300 px**.
-  - Kéo về dưới 160 px để thu gọn thành dạng mini **60 px** (chỉ hiển thị biểu tượng, tối ưu không gian làm việc).
-  - Cửa sổ tự động thu gọn thanh bên khi kích thước cửa sổ hẹp và tự phục hồi kích thước ưa thích khi mở rộng cửa sổ.
-  - Nút biểu tượng Hamburger (☰) hỗ trợ bật/tắt thu gọn nhanh.
-- **Hỗ trợ bàn phím đầy đủ**: Dùng phím `Tab` để di chuyển đến vạch điều chỉnh, phím `Mũi tên Trái / Phải` để thay đổi độ rộng, `Home` để thu gọn về icon, `End` để mở rộng tối đa, và `Esc` để hủy thao tác kéo.
-- **Giao diện sạch (Clean UI)**: Không gây phiền toái bởi các tooltip nổi che khuất tầm nhìn, không hiện balloon notification khó chịu ở khay hệ thống.
+- **Light Mode & Dark Mode với hiệu ứng chuyển đổi GPU mượt mà**:
+  - Hỗ trợ đầy đủ hai bộ giao diện tương phản cao (`Themes/DarkTheme.xaml` và `Themes/LightTheme.xaml`), chuyển đổi tức thì qua nút **Mặt trời / Mặt trăng (`BtnToggleTheme`)** trên thanh tiêu đề hoặc mục chọn trong Cài đặt (`ThemeModeComboBox`).
+  - Hiệu ứng chuyển đổi hiện đại ở 60fps: chụp snapshot khung hình cũ theo đúng DPI bằng `RenderTargetBitmap`, chạy cross-fade `CubicEase` (`360ms`) qua lớp phủ không chặn chuột (`ThemeTransitionOverlay`), kèm ánh sáng chuyển sắc (`ThemeTransitionSheen`) và hiệu ứng xoay/nảy (`BackEase`, `380ms`) trên biểu tượng toggle; đồng thời cập nhật tiêu đề Windows DWM (`DWMWA_USE_IMMERSIVE_DARK_MODE`) và giao diện `PreferredColorScheme` của WebView2.
+- **Biểu tượng System Tray linh hoạt (Bật/Tắt khi cần thiết)**:
+  - Mặc định tắt (`EnableSystemTrayIcon = false`) để tối ưu tính kín đáo khi chia sẻ màn hình.
+  - Khi cần thiết, người dùng có thể bật/tắt ngay trong **1 cú nhấp** qua nút `BtnToggleTray` (kèm chấm báo trạng thái) trên thanh tiêu đề hoặc công tắc trong Cài đặt. Icon dùng biểu tượng chính `Assets/AppIcon.ico`, hỗ trợ double-click để ẩn/hiện và menu chuột phải song ngữ gồm mục `Ẩn biểu tượng khay` (`Hide tray icon`).
+- **Hệ thống thông báo Toast trong ứng dụng (`ToastCard` & `ToastNotificationService`)**:
+  - Thông báo trượt nổi gọn gàng (tối đa 3 thẻ đồng thời), gộp nhóm thông báo lặp (`x2`, `x3`), tăng tốc thu gọn khi có nhiều sự kiện (Notification Storm), hỗ trợ kéo chuột sang ngang để đóng, tạm dừng đếm ngược khi rê chuột và chuyển tiếp cuộn chuột xuống nội dung bên dưới.
+- **Bộ biểu tượng vector & Thanh bên co giãn thông minh**:
+  - Kéo mép phải thanh bên từ **200 px đến 300 px**, kéo dưới 160 px để thu gọn dạng mini **60 px** (chỉ hiện icon), tự thu gọn/mở rộng khi đổi kích thước cửa sổ, nút Hamburger (☰), và điều khiển đầy đủ bằng bàn phím (`Tab`, `Trái/Phải`, `Home`, `End`, `Esc`).
 
 ---
 
 ## 4. Đa ngôn ngữ (Language Support)
 
 - Hỗ trợ song ngữ hoàn chỉnh: **Tiếng Việt (`vi-VN`)** và **English (`en-US`)**.
-- **Chuyển đổi tức thì**: Có thể đổi ngôn ngữ ngay trong ứng dụng qua phím tắt **F4** hoặc vào mục cài đặt. Toàn bộ chuỗi giao diện, tiêu đề, trạng thái, hộp thoại và thông báo banner được cập nhật ngay lập tức mà không cần khởi động lại.
-- **Độc lập dữ liệu**: Việc đổi ngôn ngữ chỉ tác động đến lớp hiển thị; toàn bộ danh sách tiến trình, cấu hình bảo vệ, trạng thái phím tắt và nhật ký khôi phục được giữ nguyên vẹn.
-- Tùy chọn ngôn ngữ được lưu tự động trong trường `Language` của `%APPDATA%\StreamGuard\config.json`.
+- **Chuyển đổi tức thì**: Đổi ngôn ngữ ngay qua phím tắt **F4** hoặc trong Cài đặt (`LanguageComboBox`). Toàn bộ giao diện, thanh điều hướng, bảng chẩn đoán, trình chỉnh sửa ảnh, menu System Tray, phụ đề và Toast đều cập nhật ngay lập tức.
+- **Độc lập dữ liệu**: Đổi ngôn ngữ không làm gián đoạn ứng dụng đang được bảo vệ hoặc phím tắt đã đăng ký.
+- Lưu tự động tại trường `Language` trong `%APPDATA%\StreamGuard\config.json`.
 
 ---
 
-## 5. Chi tiết 7 Phân hệ chức năng chính
+## 5. Chi tiết 8 Phân hệ chức năng chính
 
 ### 5.1 Bảng bảo vệ (Shield Dashboard)
-- **Quản lý danh sách ứng dụng được bảo vệ**: Hiển thị trực quan từng cửa sổ đang được ẩn/bảo vệ, biểu tượng ứng dụng, PID và chế độ hoạt động.
+- **Quản lý danh sách ứng dụng được bảo vệ**: Hiển thị trực quan từng cửa sổ đang được ẩn/bảo vệ, biểu tượng ứng dụng, PID, phím tắt bảo vệ riêng và chế độ hoạt động.
 - **Cơ chế ẩn màn hình ảo (Virtual Desktop Cloak)**:
   - Tự động di chuyển ứng dụng được bảo vệ sang một Virtual Desktop độc lập (`IVirtualDesktopManager::MoveWindowToDesktop`).
-  - Ứng dụng biến mất hoàn toàn khỏi Desktop 1 (màn hình đang chia sẻ/livestream) nhưng vẫn tiếp tục chạy mượt mà ở Desktop 2.
-  - Người dùng có thể dùng tổ hợp phím `Win + Ctrl + Mũi tên Trái/Phải` để chuyển qua lại làm việc khi cần.
+  - Ứng dụng biến mất hoàn toàn khỏi Desktop 1 nhưng vẫn chạy mượt mà ở Desktop 2; hỗ trợ chuyển qua lại bằng `Win + Ctrl + Trái/Phải` khi cần.
 - **Cơ chế dự phòng tự động (Automatic Fallback)**:
-  - Nếu Windows không hỗ trợ Virtual Desktop COM hoặc xảy ra lỗi môi trường, hệ thống tự động chuyển sang chế độ **WDA In-place Wrapper** (`SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)`) hoặc Win32 Hide để đảm bảo ứng dụng không bao giờ bị văng hoặc gián đoạn.
-- **Nút Khẩn Cấp (Panic Restore)**: Bấm nút `Panic: Khôi phục tất cả` hoặc phím tắt `Ctrl+Shift+Alt+H` để đưa toàn bộ ứng dụng trở về màn hình chính ngay tức khắc.
+  - Nếu môi trường không hỗ trợ Virtual Desktop COM, tự động chuyển sang **WDA In-place Wrapper** (`SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)`) hoặc Win32 Hide.
+- **Tối ưu hiệu năng quét nền**: Dùng `WindowEnumerator.TryGetExecutablePathFast` (`QueryFullProcessImageNameW` qua `PROCESS_QUERY_LIMITED_INFORMATION`) và dùng chung một snapshot cửa sổ mỗi chu kỳ kiểm tra 1 giây trong `ReconcileProtectedWindows`, loại bỏ hoàn toàn tình trạng duyệt danh sách DLL (`Process.MainModule`) gây nghẽn UI thread.
+- **Nút Khẩn Cấp (Panic Restore)**: Bấm `Panic: Khôi phục tất cả` hoặc nhấn `Ctrl+Shift+Alt+H` để đưa toàn bộ ứng dụng về Desktop chính ngay tức khắc.
 
 ### 5.2 Ứng dụng khả dụng (Running Explorer)
-- Quét và liệt kê danh sách toàn bộ các cửa sổ và tiến trình ứng dụng đang mở trên máy tính.
-- **Bộ lọc an toàn tiến trình hệ thống (Process Safety Filter)**:
-  - Tự động nhận diện và ẩn đi các tiến trình cốt lõi của Windows, thành phần `SystemApps`, `servicing`, thư mục `System32`/`SysWOW64`, các dịch vụ Session 0 và tiến trình đánh dấu Critical.
-  - Ngăn ngừa hoàn toàn nguy cơ vô tình can thiệp làm treo hoặc hỏng hệ điều hành. Các ứng dụng văn phòng, trình duyệt, Notepad, Calculator, Paint... vẫn được nhận diện bình thường.
-- **Thao tác đơn giản**: Chọn ứng dụng từ danh sách và bấm `+ Add` hoặc kéo thả trực tiếp tệp `.exe` vào cửa sổ để bắt đầu quản lý.
+- Quét và liệt kê toàn bộ các cửa sổ và tiến trình ứng dụng đang mở với truy vấn tên thực thi tốc độ cao và cache theo PID.
+- **Bộ lọc an toàn tiến trình hệ thống (`ProcessSafetyService`)**: Tự động nhận diện và loại trừ tiến trình lõi Windows (`SystemApps`, `servicing`, `System32`/`SysWOW64`, Session 0, Critical processes) khỏi nguy cơ thao tác nhầm.
+- **Thao tác nhanh**: Chọn từ danh sách, bấm `+ Add` hoặc kéo thả trực tiếp tệp `.exe` vào ứng dụng.
 
 ### 5.3 Mối đe dọa (Threat Shield & Dual-Engine Firewall)
-- **Nhận diện 33+ nhóm công cụ giám sát**: Quét theo thời gian thực các phần mềm ghi hình, chụp ảnh, họp trực tuyến và điều khiển từ xa (OBS Studio, Discord, Camtasia, Bandicam, Zoom, Microsoft Teams, TeamViewer, AnyDesk, v.v.).
-- **Rèm che bảo mật tự động (Privacy Curtain)**:
-  - Tự động phủ màn che đen bảo vệ trên toàn bộ các màn hình ngay khi phát hiện tiến trình giám sát hoặc khi người dùng kích hoạt thủ công.
-  - Phím tắt `Ctrl+Shift+Alt+C` cho phép gỡ và tạm dừng rèm che khẩn cấp.
-- **Tường lửa dự phòng kép (Dual-Engine Firewall)**:
-  - Kết hợp hai tầng thực thi: PowerShell script và lệnh hệ thống native `netsh advfirewall`.
-  - Trong các môi trường bị hạn chế PowerShell (bởi chính sách AppLocker, WDAC hoặc Constrained Language Mode), hệ thống tự động chuyển sang engine native `netsh` để cách ly và chặn kết nối ra ngoài của tiến trình nghi vấn.
-- **Khóa thiết bị phần cứng**: Hỗ trợ ngắt quyền truy cập Microphone và Camera ở cấp hệ thống để chống nghe lén/ghi hình bí mật.
-- **Điều tiết chu kỳ quét (Adaptive Polling)**:
-  - Tự động giãn chu kỳ quét lên 5 giây khi ứng dụng thu nhỏ xuống khay hệ thống (giảm tải CPU xuống mức gần 0% và tiết kiệm pin laptop).
-  - Tự động tăng tốc chu kỳ quét về 2 giây khi phát hiện nguy cơ hoặc khi mở lại cửa sổ.
+- **Nhận diện 33+ nhóm công cụ giám sát**: Quét thời gian thực các phần mềm ghi hình, chụp ảnh, họp trực tuyến và điều khiển từ xa (OBS Studio, Discord, Camtasia, Bandicam, Zoom, Microsoft Teams, TeamViewer, AnyDesk, v.v.).
+- **Rèm che bảo mật tự động (`Privacy Curtain`)**: Phủ rèm che khi phát hiện rủi ro hoặc kích hoạt thủ công; nhấn `Ctrl+Shift+Alt+C` để gỡ/tạm dừng khẩn cấp.
+- **Tường lửa dự phòng kép (`Dual-Engine Firewall`)**: Kết hợp PowerShell và `netsh advfirewall` (tự động fallback khi môi trường khóa PowerShell).
+- **Khóa thiết bị phần cứng**: Ngắt quyền truy cập Microphone và Camera cấp hệ thống khi cần.
+- **Điều tiết chu kỳ quét (`Adaptive Polling`)**: Tự giãn lên 5 giây khi thu nhỏ xuống nền và rút về 2 giây khi hoạt động hoặc phát hiện rủi ro; bổ sung khóa chống chồng chéo nhịp quét (`Monitor.TryEnter`).
 
 ---
 
 ### 5.4 Riêng tư & Bảo mật (Privacy & Security)
 
-#### Bảo vệ lưu lượng AI & Chống soi gói tin (AI Traffic Shield)
-Phân hệ chuyên dụng bảo vệ toàn vẹn nội dung câu hỏi (prompts) và câu trả lời (responses) khi người dùng tương tác với các mô hình AI (như Antigravity, Gemini, Antigravity IDE, ChatGPT...):
-- **Cơ chế Tự động triệt tiêu Proxy (Auto-Purge Rogue Loopback Proxy)**:
-  - Khi phát hiện bất kỳ phần mềm bắt gói tin nào (Fiddler, Charles Proxy, mitmproxy, Proxyman, Burp Suite, v.v.) tự động bật cờ Proxy loopback (`127.0.0.1:8888`, `127.0.0.1:8080`, `localhost`), Driver Booster lập tức can thiệp xóa sạch thiết lập proxy trong Registry Windows (`Software\Microsoft\Windows\CurrentVersion\Internet Settings`), khôi phục kết nối mạng trực tiếp (Direct Connection) để ngăn chặn rò rỉ dữ liệu AI.
-- **Quét chứng chỉ Root CA giả mạo MITM**: Tự động rà soát kho chứng chỉ gốc đáng tin cậy của Windows (`LocalMachine\Root` và `CurrentUser\Root`) để phát hiện và cảnh báo các chứng chỉ giả mạo được các công cụ phân tích cài lén nhằm giải mã HTTPS.
-- **Giám sát công cụ Sniffer mạng**: Theo dõi sự hiện diện của Wireshark, Process Hacker, HTTP Debugger Pro, v.v.
-- **Bảo vệ tệp hosts cho AI APIs**: Giám sát file `C:\Windows\System32\drivers\etc\hosts`, ngăn chặn hành vi giả mạo DNS hoặc chuyển hướng các endpoint AI chính thức của Google (`generativelanguage.googleapis.com`, `gemini.google.com`, `aiplatform.googleapis.com`).
+#### Bảo vệ lưu lượng AI & Chống soi gói tin (AI Traffic Shield & Proxy Hardening)
+Phân hệ chuyên dụng bảo vệ toàn vẹn prompts/responses khi tương tác với các AI và AI Agent (Antigravity, Gemini, ChatGPT...):
+- **Tự động triệt tiêu WinInet Rogue Proxy**: Phát hiện và xóa cờ Proxy loopback (`127.0.0.1:8888`, `8080`, `localhost`, PAC URL đáng ngờ) trong Registry `Internet Settings`, phát tín hiệu làm mới WinInet ngay lập tức.
+- **Kiểm tra WinHTTP Proxy**: Đọc khóa `WinHttpSettings` phát hiện cấu hình proxy hệ thống mức dịch vụ để cảnh báo sớm nếu bị ép chuyển hướng lưu lượng.
+- **Kiểm tra & dọn biến môi trường Proxy / TLS Bypass (`EnvProxyAssessment`)**: Giám sát và xử lý các biến môi trường `HTTP_PROXY`, `HTTPS_PROXY`, `ALL_PROXY`, `NODE_TLS_REJECT_UNAUTHORIZED`, `SSL_CERT_FILE`, `REQUESTS_CA_BUNDLE`, `NODE_EXTRA_CA_CERTS` ngăn chặn hạ cấp xác thực TLS hoặc ép đi qua MITM proxy.
+- **Quét chứng chỉ Root CA giả mạo MITM**: Rà soát cả `LocalMachine\Root` và `CurrentUser\Root` phát hiện chứng chỉ gốc do Fiddler, Charles, mitmproxy, Proxyman, Burp Suite... cài lén.
+- **Giám sát Network Sniffer**: Phát hiện nhanh Wireshark, Fiddler, HTTP Debugger, Process Hacker/System Informer.
+- **Bảo vệ tệp hosts cho AI APIs**: Giám sát và tự động dọn mục chuyển hướng giả mạo trong `hosts` đối với các endpoint AI của Google (`generativelanguage.googleapis.com`, `gemini.google.com`, `aiplatform.googleapis.com`, v.v.).
 
 #### Tích hợp bộ cài đặt Antigravity Desktop Offline
-- **Hoàn toàn độc lập & Offline 100%**: Đi kèm sẵn tệp cài đặt chính thức `AntigravitySetup.exe` (~199.6 MB) trong thư mục `installers\` của cả hai bản build. Bạn có thể mang toàn bộ thư mục sang bất kỳ máy tính mới nào không có kết nối Internet và cài đặt được ngay.
-- **Linh hoạt giữa 2 chế độ**:
-  - *Cài đặt trực quan (Standard Interactive)*: Mở giao diện cài đặt chính thức của Google để theo dõi tiến trình.
-  - *Cài đặt ngầm (Silent Install)*: Tự động phát hiện bộ đóng gói (tương thích cả Inno Setup `/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-` lẫn NSIS `/S`) để cài đặt chạy nền hoàn toàn êm ái.
-- **Nhận diện chính xác**: Phân biệt triệt để Antigravity Desktop (Agentic AI) với bản Antigravity IDE và CLI (`agy`).
-- **Quản trị thông minh**: Hiển thị badge trạng thái động (Đã cài đặt [xanh] / Chưa cài đặt [vàng]), nút "Khởi chạy Antigravity" an toàn (chỉ kích hoạt khi tệp thực thi tồn tại thực tế trên ổ đĩa), và công tắc bật/tắt chế độ Không làm phiền (DND) chặn thông báo sự kiện đặc biệt và âm báo.
+- Kèm sẵn bộ cài `installers\AntigravitySetup.exe` ở cả hai bản build để cài offline 100%.
+- Hỗ trợ **Cài đặt trực quan** và **Cài đặt ngầm (Silent Install)** (tương thích Inno Setup lẫn NSIS).
+- Phân biệt chính xác **Antigravity Desktop** với Antigravity IDE / CLI (`agy`), hiển thị badge trạng thái động, nút khởi chạy an toàn và công tắc tắt thông báo (`MuteAntigravityNotifications`).
 
 #### Cầu nối đăng nhập Antigravity tự động & bảo mật (Antigravity Secure Login Bridge)
-- **Giải quyết triệt để vấn đề đăng nhập AI**: Khi Antigravity Desktop mở luồng đăng nhập tài khoản Google, theo mặc định hệ thống sẽ mở trình duyệt bên ngoài hệ điều hành (vốn không được che chắn chống chụp màn hình). Cầu nối của StreamGuard giúp bắt và đưa toàn bộ luồng đăng nhập vào **Trình duyệt bảo vệ (Protected Browser)** hoàn toàn tự động.
-- **Bắt liên kết đa kênh đồng thời**:
-  - *Kênh Process Watcher (WMI)*: Lắng nghe sự kiện tạo tiến trình `Win32_ProcessStartTrace` của các trình duyệt phổ biến (`chrome.exe`, `msedge.exe`, `brave.exe`, `firefox.exe`, `opera.exe`...). Khi phát hiện tiến trình mang tham số dòng lệnh URL `accounts.google.com`, hệ thống tự động tắt (terminate) trình duyệt ngoài ngay lập tức để ngăn lộ thông tin, đồng thời trích xuất URL đưa vào Trình duyệt bảo vệ.
-  - *Kênh Clipboard Polling*: Tự động rà soát an toàn nội dung khay nhớ tạm với cơ chế chống xung đột khóa clipboard (`0x800401D0` - `CLIPBRD_E_CANT_OPEN`), bắt tức thì liên kết Google OAuth nếu người dùng bấm sao chép link trên Antigravity.
-- **Tự động chuyển hướng & Đồng bộ phiên Loopback**:
-  - Ngay khi bắt được URL, ứng dụng lập tức chuyển sang Tab Trình duyệt bảo vệ và tải trang đăng nhập Google trong môi trường tàng hình (`WDA_EXCLUDEFROMCAPTURE`).
-  - Sau khi đăng nhập thành công, Google điều hướng về cổng Loopback của Antigravity (`http://127.0.0.1:<port>/?code=...` hoặc `http://localhost:<port>/?code=...`). Trình duyệt bảo vệ tự động phát hiện mã xác thực thành công và hiển thị thông báo đồng bộ phiên làm việc.
-- **Cơ chế an toàn & Kiểm tra điều kiện**:
-  - Kiểm tra xem Antigravity đã được cài đặt hay chưa trước khi chờ đăng nhập. Nếu chưa cài đặt, hiển thị cảnh báo `AgyBridge.NotInstalled` hướng dẫn người dùng thay vì chờ đợi vô ích.
-  - Sử dụng biểu thức chính quy khắt khe (chỉ chấp nhận domain Google OAuth chính thống, từ chối URL độc hại hoặc script injection).
-  - Tự động huỷ lắng nghe sau 90 giây timeout để tiết kiệm tài nguyên.
+- Bắt tự động luồng Google OAuth từ Antigravity Desktop qua **WMI Process Watcher** (`Win32_ProcessStartTrace`) và **Clipboard Polling** (chống xung đột `CLIPBRD_E_CANT_OPEN`).
+- Ngắt trình duyệt ngoài không có chống quay màn hình, chuyển URL hợp lệ vào **Trình duyệt bảo vệ (`Protected Chromium Browser`)**, và bắt redirect `localhost` / `127.0.0.1` sau khi xác thực xong (kèm kiểm tra đã cài đặt và tự hủy chờ sau 90 giây).
 
 #### Khóa công cụ quản trị hệ thống (System Tools Lock)
-- Khóa truy cập vào **Task Manager** (`taskmgr.exe`), **Registry Editor** (`regedit.exe`), **Command Prompt** (`cmd.exe`) và **Group Policy Editor** (`gpedit.msc`).
-- Ngăn chặn người khác hoặc phần mềm độc hại đóng Driver Booster hoặc vô hiệu hóa các lớp bảo vệ.
-- Tự động mở khóa an toàn khi ứng dụng thoát bình thường.
+- Khóa truy cập **Task Manager** (`taskmgr.exe`), **Registry Editor** (`regedit.exe`), **Command Prompt** (`cmd.exe`) và **Group Policy Editor** (`gpedit.msc`); tự động mở khóa khi thoát bình thường hoặc qua nút/script cứu hộ.
 
 #### Khiên con trỏ chuột & Tàng hình chuột (Cursor Shield & Cursor Cloak)
-- **Khiên con trỏ chuột (`Cursor Shield`)**: Chuẩn hóa hình dạng con trỏ chuột hệ thống khi bảo vệ ứng dụng, ngăn lộ trạng thái con trỏ khi quay/chụp màn hình.
-- **Tàng hình chuột trên ứng dụng (`In-App Cursor Cloak`)**: Ẩn con trỏ thật bên trong cửa sổ `Driver Booster` (`WM_SETCURSOR` / `Cursors.None`) và hiển thị con trỏ giả lập (`VisualCursorAdorner`) chỉ cho người dùng cục bộ.
-- **Tàng hình chuột trên toàn màn hình (`Global Cursor Cloak` — `Ctrl + Shift + M`)**:
-  - Thay thế toàn bộ con trỏ hệ thống (`SystemCursorIds`) bằng con trỏ trong suốt để ẩn hoàn toàn con trỏ chuột thật khi chia sẻ toàn màn hình (Google Meet, OBS, Zoom...), đồng thời vẽ con trỏ giả lập cục bộ trên `GlobalCursorOverlayWindow` (`WDA_EXCLUDEFROMCAPTURE`, tự giữ `HWND_TOPMOST` trên cửa sổ Fullscreen).
-  - Phối hợp an toàn với `CursorShieldService` (không khôi phục nhầm con trỏ mặc định khi đang bật `Global Cursor Cloak`) và hỗ trợ phím khẩn cấp **`Ctrl + Shift + Esc`** để khôi phục con trỏ Windows ngay lập tức.
+- **Khiên con trỏ chuột (`Cursor Shield`)**: Chuẩn hóa con trỏ hệ thống khi bật bảo vệ.
+- **Tàng hình chuột trên ứng dụng (`In-App Cursor Cloak`)**: Ẩn con trỏ thật trong cửa sổ `Driver Booster` và hiển thị con trỏ giả lập cục bộ.
+- **Tàng hình chuột toàn màn hình (`Global Cursor Cloak` — `Ctrl + Shift + M`)**: Ẩn con trỏ thật toàn hệ thống khi chia sẻ màn hình và vẽ lại con trỏ giả lập cục bộ trên `GlobalCursorOverlayWindow` (`WDA_EXCLUDEFROMCAPTURE`, tối ưu cache `CompositionTarget` ở 60–144Hz); hỗ trợ thoát khẩn cấp bằng `Ctrl + Shift + Esc`.
 
 #### Mở khóa sao chép & dán trang web (Copy & Paste Unlocker)
-- Cung cấp các script mở khóa nhúng sẵn (`BrowserScripts/EnableCopyPaste.js`) để khôi phục thao tác chuột phải, bôi đen văn bản, và tổ hợp phím `Ctrl+C / Ctrl+V / Ctrl+X` trên các trang web có tính năng ngăn chặn.
-- Hỗ trợ 3 phương thức: **Sao chép Script Console F12**, **Sao chép Bookmarklet**, và **Sao chép lệnh hoàn nguyên**.
+- Cung cấp sẵn script (`BrowserScripts/EnableCopyPaste.js`) gồm 3 chế độ sao chép: **Console F12**, **Bookmarklet**, và **Lệnh hoàn nguyên**.
 
-#### Chụp màn hình bảo mật (Secure Snipping Tool)
-- Phím tắt mặc định **`Ctrl + Alt + S`** (hoặc tùy chỉnh trong cài đặt) cho phép khoanh vùng và chụp ảnh màn hình nhanh.
-- Hoạt động an toàn trên **Chrome Fullscreen** có giám sát: `SnippingOverlayWindow` dùng `WS_EX_NOACTIVATE` + `MA_NOACTIVATE` (không làm Chrome mất focus `blur` / `visibilitychange`), `HWND_TOPMOST` phủ trên Fullscreen, `WDA_EXCLUDEFROMCAPTURE` (ẩn lớp phủ khỏi quay/chụp màn hình), và hook bàn phím `WH_KEYBOARD_LL` chặn phím `Escape` để hủy chụp mà không làm Chrome thoát Fullscreen.
-- Tùy chọn tự động sao chép ảnh vào Clipboard hoặc lưu thành tệp hình ảnh vào thư mục cấu hình riêng.
+#### Chụp màn hình bảo mật & Trình chỉnh sửa ảnh tích hợp (Secure Snipping Tool & Editor)
+- Phím tắt mặc định **`Ctrl + Alt + S`** (tùy chỉnh được trong Cài đặt), hoạt động êm ái trên cả **Chrome Fullscreen** mà không làm mất focus (`WS_EX_NOACTIVATE` + `MA_NOACTIVATE`, `WDA_EXCLUDEFROMCAPTURE`, hook `Escape`).
+- **Trình chỉnh sửa ảnh sau khi chụp (`SnippingEditorWindow`)**:
+  - **Cắt ảnh theo vùng (Crop)** bằng kéo thả trực tiếp + `Enter` để cắt, `Esc` để hủy chọn.
+  - **Xoay ảnh trái/phải 90°** và **Lật ngang / Lật dọc**.
+  - **Điều chỉnh kích thước (Resize)** theo pixel nhập tay hoặc nút nhanh **75% / 50%**, có khóa tỷ lệ khung hình (`LockAspect`).
+  - **Làm mờ vùng chọn & Làm mờ toàn ảnh** với 2 chế độ **Mosaic (Ô vuông)** và **Gaussian Box Blur** mượt dùng thuật toán **Sliding-Window $O(W \times H)$** tốc độ cao; trang bị cơ chế **chống spam nút Làm mờ toàn ảnh** (giới hạn tối đa **3 lần** trên mỗi ảnh và cooldown `800ms`).
+  - **Thu / Phóng & Kính lúp**: Phóng to/thu nhỏ từ **25% đến 500%** bằng nút zoom, `Ctrl + Cuộn chuột` hoặc `Ctrl + +/-/0`, kéo chuột phải để pan ảnh, và bật **Kính lúp 2.5x (`ToggleMagnifier`)** soi chi tiết điểm ảnh.
+  - **Lịch sử Undo / Redo** (lưu tối đa 15 bước, tự động `Dispose` bitmap giải phóng RAM), kèm tùy chọn `ScreenshotOpenEditorAfterCapture` và tùy chọn **`AllowSelfScreenCapture`** cho phép tự quay/chụp cửa sổ Driver Booster khi cần demo.
 
 #### An toàn thao tác & Vùng nguy hiểm (Passive Focus, Switch Cooldown & Confirmation)
-- **Passive Focus Mode**: Giữ cửa sổ `Driver Booster` ở chế độ không cướp focus khi người dùng thao tác song song với trình duyệt/Chrome.
-- **Chống bật/tắt liên tục Switch (`SwitchCooldownService`)**: Áp dụng thời gian chờ `1.2 giây` độc lập cho từng switch chức năng (`CheckBox` / `ToggleButton`) khi bấm chuột hoặc nhấn `Space`, kèm thông báo cảnh báo `ToastType.Warning` để tránh xung đột hệ thống.
-- **Xác nhận Vùng nguy hiểm**: Các thao tác đặt lại gốc (*Factory Reset & Wipe Data*) và gỡ cài đặt hoàn toàn (*Complete Clean Uninstall*) đều có hộp thoại xác nhận trước khi thực thi.
+- **Passive Focus Mode**: Giữ cửa sổ ở chế độ không cướp focus khi thao tác song song.
+- **Chống spam công tắc (`SwitchCooldownService`)**: Hạn chế bật/tắt liên tục với độ trễ `1.2 giây` cho mỗi switch kèm Toast cảnh báo.
+- **Xác nhận Vùng nguy hiểm**: Hộp thoại xác nhận trước khi chạy *Factory Reset & Wipe Data* hoặc *Complete Clean Uninstall*.
 
 #### Khiên khóa phím tắt Desktop ảo (Virtual Desktop Hotkeys Shield)
-- Cung cấp công tắc Switch bật/tắt tiện lợi trong cả hai phân hệ **Quyền riêng tư & Cách ly** và **Cài đặt hệ thống** (đồng bộ trạng thái 100%).
-- Ngăn ngừa hoàn toàn nguy cơ vô tình bấm nhầm các tổ hợp phím Desktop ảo của Windows làm xáo trộn màn hình hoặc để lộ cửa sổ bảo mật:
-  - **`Win + Ctrl + D`**: Chặn tạo mới Desktop ảo.
-  - **`Win + Ctrl + F4`**: Chặn đóng Desktop ảo.
-  - **`Win + Ctrl + Mũi tên Trái / Phải`**: Chặn chuyển đổi qua lại giữa các Desktop ảo bằng phím tắt.
-  - **`Win + Tab`**: Chặn mở giao diện tổng quan Task View (ngăn hiển thị thumbnail cửa sổ và danh sách desktop).
-- Sử dụng hook bàn phím mức thấp (`WH_KEYBOARD_LL`) để lọc chuẩn xác ở cấp hệ thống mà không ảnh hưởng đến các phím bình thường như `Win+D` (Hiển thị Desktop), `Alt+Tab` hay `Ctrl+Tab`.
-- Tự động hiển thị thông báo Toast mỗi khi phát hiện và chặn thành công tổ hợp phím desktop ảo.
+- Chặn có chọn lọc các phím Desktop ảo `Win + Ctrl + D`, `Win + Ctrl + F4`, `Win + Ctrl + Trái/Phải` và `Win + Tab` qua `WH_KEYBOARD_LL` (vẫn giữ nguyên `Win + D`, `Alt + Tab`, `Ctrl + Tab`).
 
 ---
 
 ### 5.5 Trung tâm khôi phục (Recovery Center)
-- **Nhật ký khôi phục độc lập**: Toàn bộ trạng thái nguyên bản của cửa sổ trước khi bảo vệ được lưu riêng tại `%APPDATA%\StreamGuard\config.recovery.json`, tách biệt khỏi tệp cấu hình chính.
-- **Bảo toàn khi gặp sự cố đột ngột**: Nếu máy tính bị sập nguồn hoặc tắt app đột ngột, khi mở lại ứng dụng, Trung tâm khôi phục sẽ liệt kê đầy đủ các cửa sổ chưa hoàn tất.
-- **Hỗ trợ thao tác**: Bấm *Thử khôi phục lại* cho từng mục, *Khôi phục tất cả* để đưa mọi cửa sổ về vị trí ban đầu, và *Kiểm tra lại* để xác thực trạng thái thực tế của HWND trên Windows.
+- Lưu nhật ký khôi phục độc lập tại `%APPDATA%\StreamGuard\config.recovery.json`.
+- Nếu máy tắt nguồn đột ngột, khi khởi động lại sẽ liệt kê đầy đủ các cửa sổ chưa khôi phục để người dùng bấm *Thử khôi phục lại*, *Khôi phục tất cả* hoặc *Kiểm tra lại* HWND thực tế.
 
 ---
 
 ### 5.6 Phụ đề trực tiếp & Dịch thời gian thực (Live Captions & Real-time Translation)
-- **Tích hợp sẵn Speech-to-Text**: Nhận dạng giọng nói tiếng Anh theo thời gian thực từ âm thanh phát ra loa hoặc tai nghe (Loopback Audio Capture).
-- **Hoạt động hoàn toàn Offline**: Đã nhúng sẵn mô hình Whisper int8 và runtime Python biệt lập; không cần cài đặt Python hay thư viện ngoài.
-- **Quản lý bộ nhớ MKL tối ưu**: Tự động giới hạn luồng Intel MKL và OpenMP (`MKL_NUM_THREADS = 1`, `OMP_NUM_THREADS = 2`), giúp nhận dạng mượt mà, triệt tiêu nguy cơ tràn bộ nhớ scratchpad trên CPU nhiều luồng.
-- **Dịch Phụ đề Thời gian thực sang Tiếng Việt (Real-time Translation)**:
-  - Tự động dịch các đoạn phụ đề tiếng Anh sang Tiếng Việt với độ trễ cực thấp (<200ms).
-  - **Chế độ Song ngữ (Bilingual)**: Hiển thị dòng trên là câu tiếng Anh gốc (chữ màu xám xanh dịu mắt), dòng dưới là Tiếng Việt dịch chuẩn (chữ màu trắng sáng nổi bật), cực kỳ hữu ích khi nghe họp trực tuyến, hội thảo quốc tế hoặc video tiếng Anh.
-  - **Chế độ Chỉ Tiếng Việt (Vietnamese Only)**: Cho phép chuyển đổi linh hoạt sang hiển thị hoàn toàn bản dịch tiếng Việt.
-  - **Phím tắt nhanh & Nút bấm trên cửa sổ nổi**: Tổ hợp phím toàn cầu **`Ctrl + Alt + T`** hoặc nút bấm **`VI`** ngay trên thanh công cụ của cửa sổ nổi giúp bật/tắt dịch tức thì mọi lúc mọi nơi.
-  - **Bộ đệm thông minh (LRU Cache)**: Bộ nhớ đệm tốc độ cao lưu trữ đến 2,000 cụm từ thường gặp, cho thời gian phản hồi tức thì (0ms) và tiết kiệm lưu lượng.
-  - **Bản chép lời Song ngữ, Định dạng `TOEIC (A-D)` & Ghi tức thời (Real-time AutoFlush)**:
-    - Tự động lưu cả câu gốc tiếng Anh và bản dịch Tiếng Việt vào tệp `.txt` và `.srt` theo mốc thời gian tại `%APPDATA%\StreamGuard\Captions\transcripts\`. Cơ chế streaming I/O `AutoFlush = true` ghi đĩa tức thì (<1ms).
-    - Hỗ trợ 3 chế độ hiển thị trong hộp xem bản chép lời (**`TXT | SRT | TOEIC (A-D)`**): riêng chế độ **`TOEIC (A-D)`** tự động định dạng câu hỏi/ngữ cảnh và tách 4 lựa chọn `(A)`, `(B)`, `(C)`, `(D)` rõ ràng, kèm bản dịch thụt lề ngay dưới từng câu hỏi và đáp án khi bật dịch song ngữ.
-  - **Thao tác nhanh trên Bản chép lời đã lưu (Transcript Quick Actions)**:
-    - **Nút "Sao chép nhanh" (Quick Copy)**: Sao chép nhanh toàn bộ nội dung bản chép lời vào bộ nhớ tạm (Clipboard), hỗ trợ đọc toàn bộ tệp hoàn chỉnh kể cả khi phiên ghi âm dài vượt ngưỡng hiển thị 256 KB, kèm hiệu ứng đổi biểu tượng tích xanh ("Đã sao chép!") tức thì 1.5 giây.
-    - **Nút "Xoá nhanh" (Quick Clear)**: Xoá nhanh toàn bộ nội dung trong khu vực bản chép lời (đối với phiên đã lưu: xoá sạch tệp phiên trên đĩa và làm mới danh sách; đối với phiên đang ghi trực tiếp: làm sạch khung hiển thị và ngắt tự cuộn để tránh rối mắt).
-    - **Nút "Xoá các phiên trước" (Delete Previous Sessions)**: Nút công cụ kèm biểu tượng thùng rác vector cho phép xoá một lượt các phiên chép lời cũ trước đó (giữ lại phiên mới nhất hoặc phiên đang ghi âm), chuyển an toàn vào Thùng rác Windows.
-    - **Nút xoá phiên riêng lẻ**: Biểu tượng thùng rác đặt ngay cạnh danh sách chọn phiên chép lời, hỗ trợ xoá từng phiên cũ một cách thuận tiện.
-    - **Nút "Đóng phần xem" kèm Icon**: Đồng bộ hóa toàn bộ thanh công cụ với biểu tượng đóng vector sắc nét.
-  - **Từ điển từ khóa chuyên ngành & Bảo toàn thuật ngữ (Smart Vocabulary & Jargon Guard)**:
-    - Cho phép người dùng nhập danh sách từ khó, tên riêng, thuật ngữ kỹ thuật IT (cách nhau bởi dấu phẩy) ngay trên giao diện cài đặt phụ đề.
-    - Tự động nắn chỉnh và chuẩn hóa các lỗi nhận diện âm học tương tự của mô hình Whisper (ví dụ: *anti gravity* &rarr; **Antigravity**, *jiminy* &rarr; **Gemini**, *c-sharp* &rarr; **C#**, *dot net* &rarr; **.NET**, *driver booster* &rarr; **Driver Booster**, *stream guard* &rarr; **StreamGuard**).
-    - Bảo toàn thuật ngữ gốc khi dịch sang tiếng Việt, triệt tiêu tình trạng dịch ngô nghê theo nghĩa đen (ví dụ: không dịch *Driver Booster* thành *"bộ tăng áp trình điều khiển"*, không dịch *Antigravity* thành *"chống trọng lực"*).
-- **Cửa sổ phụ đề nổi (Floating Overlay)**:
-  - Chống chụp/quay màn hình (`WDA_EXCLUDEFROMCAPTURE`).
-  - Hỗ trợ nhấp xuyên (Click-through) để không làm cản trở thao tác chơi game hoặc làm việc.
-  - Tùy chỉnh kích thước chữ (`A− / A+`), chế độ hiển thị 1 dòng hoặc 2 dòng gần nhất.
+- **Speech-to-Text Offline**: Tích hợp Whisper `int8` và Python runtime biệt lập qua WASAPI Loopback; tối ưu bộ nhớ MKL (`MKL_NUM_THREADS=1`, `OMP_NUM_THREADS=2`).
+- **Dịch thời gian thực sang Tiếng Việt (<200ms)**:
+  - Hỗ trợ chế độ **Song ngữ (Bilingual)** và **Chỉ Tiếng Việt (`VietnameseOnly`)**, phím tắt **`Ctrl + Alt + T`** hoặc nút **`VI`** trên cửa sổ phụ đề nổi, kèm **LRU Cache** (2,000 cụm từ).
+- **Bản chép lời Song ngữ, Định dạng `TOEIC (A-D)` & Thao tác nhanh**:
+  - Lưu đồng thời `.txt` và `.srt` theo thời gian thực (`AutoFlush = true`) tại `%APPDATA%\StreamGuard\Captions\transcripts\`.
+  - Hỗ trợ xem **`TXT | SRT | TOEIC (A-D)`**, tìm kiếm trong bản chép lời, **Sao chép nhanh** (kể cả tệp > 256 KB), **Xoá nhanh**, **Xoá phiên cũ / Xoá từng phiên** vào Thùng rác Windows.
+- **Từ điển từ khóa chuyên ngành (`Smart Vocabulary & Jargon Guard`)**:
+  - Nút **Lưu từ điển** tích hợp kiểm tra hợp lệ chặt chẽ: không cho phép lưu khi trống, yêu cầu mỗi từ khóa dài 2–64 ký tự (chứa chữ hoặc số), tối đa 100 từ khóa / 2,000 ký tự, không chứa ký tự điều khiển.
+  - Chuẩn hóa lỗi nhận diện âm học Whisper (ví dụ *anti gravity* → **Antigravity**, *jiminy* → **Gemini**, *c-sharp* → **C#**, *dot net* → **.NET**, *driver booster* → **Driver Booster**) và bảo toàn thuật ngữ khi dịch.
+- **Cửa sổ nổi chống chụp (`CaptionOverlayWindow`)**: Hỗ trợ `WDA_EXCLUDEFROMCAPTURE`, nhấp xuyên (Click-through), chỉnh cỡ chữ (`A− / A+`) và 1 hoặc 2 dòng.
 
 ---
 
 ### 5.7 Trình duyệt bảo vệ (Protected Chromium Browser - Local Sandbox)
-Phân hệ trình duyệt bảo mật được tích hợp trực tiếp thành một Tab riêng trên thanh bên:
-- **Chạy hoàn toàn độc lập - KHÔNG cần cài Google Chrome**:
-  - Sử dụng nhân **Microsoft Edge WebView2** (dựa trên nền tảng Chromium).
-  - Tích hợp sẵn mặc định trên Windows 11 và hầu hết bản cài Windows 10 hiện đại.
-  - Người dùng có thể lướt web, tra cứu tài liệu và đăng nhập tài khoản an toàn ngay cả khi máy tính hoàn toàn không cài đặt Google Chrome.
-- **Kháng ghi hình toàn diện (Anti-Screen-Capture)**:
-  - Cửa sổ trình duyệt nằm trọn trong kiến trúc bảo vệ tàng hình (`WDA_EXCLUDEFROMCAPTURE`), hoàn toàn vô hình trước các phần mềm quay màn hình hay chụp trộm (OBS, Discord, Zoom, Teams, RAIA...).
-- **Hộp cát dữ liệu riêng biệt (Isolated Sandbox Profile)**:
-  - Toàn bộ Cookie, lịch sử duyệt web, bộ nhớ đệm (Cache) và phiên đăng nhập được lưu trữ độc lập tại:  
-    `%LOCALAPPDATA%\StreamGuard\BrowserProfile`
-  - Hoàn toàn tách biệt, không dùng chung và không đọc trộm dữ liệu từ Google Chrome hoặc Microsoft Edge bên ngoài hệ thống.
-- **Omnibox tìm kiếm thông minh**: Thanh địa chỉ tự động nhận diện URL hoặc từ khóa tìm kiếm để truy vấn trực tiếp qua Google Search (`https://www.google.com`), hỗ trợ phím `Enter` để điều hướng và `Esc` để hủy.
-- **Điều khiển điều hướng hoàn chỉnh**: Các nút Quay lại (Back), Đi tiếp (Forward), Tải lại (Refresh), Trang chủ (Home), và nút mở DevTools (F12).
-- **Bộ công cụ tăng cường tích hợp sẵn**:
-  - **Mở khóa Copy / Paste tự động**: Gỡ bỏ giới hạn bôi đen văn bản, chuột phải và tổ hợp phím sao chép trên các trang web có tính năng ngăn chặn.
-  - **Cơ chế Chống mờ / Khóa tiêu điểm & Fullscreen (Anti-Blur & F11 Fullscreen Lock)**: Ghi đè `document.hidden = false`, `document.visibilityState = 'visible'`, `document.hasFocus() = true`, đồng thời khóa các sự kiện `blur`, `visibilitychange`, `fullscreenchange` và `exitFullscreen()` để ngăn trang web phát hiện chuyển tab hoặc thoát fullscreen; hỗ trợ nút **Khóa Focus Chrome** sao chép nhanh script Console/Bookmarklet cho Chrome ngoài.
-  - **Phím tắt F12 DevTools**: Bật/tắt giao diện nhà phát triển để soi mã nguồn, phân tích mạng và gỡ lỗi web.
-  - **Nút "⚡ Đăng nhập Antigravity (Tự động)"**: Tự động kích hoạt Antigravity và đón bắt liên kết đăng nhập Google để xác thực an toàn ngay trong tab.
-  - **Nút "Mở bằng Chrome ngoài"**: Nếu người dùng muốn chuyển trang web ra ngoài, ứng dụng tự tìm `chrome.exe` để mở; nếu máy không có Chrome, ứng dụng tự động mở bằng trình duyệt mặc định sẵn có của hệ thống kèm thông báo hướng dẫn.
+- Sử dụng **Microsoft Edge WebView2** chạy độc lập trong hồ sơ hộp cát riêng `%LOCALAPPDATA%\StreamGuard\BrowserProfile`, đồng bộ `PreferredColorScheme` (Dark/Light) theo giao diện ứng dụng, được bảo vệ bởi `WDA_EXCLUDEFROMCAPTURE`.
+- Tích hợp Omnibox thông minh, Back/Forward/Refresh/Home, DevTools (`F12`), công cụ tiêm script mở khóa **Copy/Paste**, **Anti-Blur / F11 Fullscreen Lock**, nút **Đăng nhập Antigravity (Tự động)** và nút mở bằng trình duyệt ngoài.
+
+---
+
+### 5.8 Chẩn đoán Hệ thống & Ma trận Đánh giá Tính năng Cốt lõi (Diagnostics)
+Phân hệ **Chẩn đoán (`ViewDiagnostics`)** phân tích toàn diện phần cứng và khả năng tương thích của máy tính:
+- **Kiểm tra thông số phần cứng & môi trường**: CPU (tên, số nhân/luồng, AVX, AVX2), RAM khả dụng & tỷ lệ tải, GPU & VRAM, Ổ đĩa trống, Hệ điều hành (Build, 64-bit, quyền Administrator), Thiết bị Audio/Loopback, và phiên bản **WebView2 Runtime**.
+- **Ma trận đánh giá tính năng cốt lõi (Tiếng Việt / English đầy đủ)**: Đánh giá mức độ sẵn sàng từng lớp bảo vệ (Anti-Capture WDA, Live Captions AVX2, Virtual Desktop COM, AI Traffic Shield Admin, Protected Browser WebView2) và xếp hạng tổng thể (**Optimal / Good / Warning / Insufficient**) kèm khuyến nghị cụ thể và nút sao chép báo cáo chẩn đoán.
+
+---
+
+### 5.9 Cài đặt Hệ thống, Giao diện, Khay hệ thống & Sao lưu (Settings)
+- **Tự kích hoạt khiên khi mở (`AutoStartShield`)**: Đồng bộ hai chiều giữa tab *Bảng bảo vệ* và tab *Cài đặt*.
+- **Quản lý Giao diện (`ThemeMode`) & Biểu tượng khay (`EnableSystemTrayIcon`)**: Chọn Chế độ Sáng/Tối và bật/tắt System Tray lưu bền vững.
+- **Sao lưu & Khôi phục JSON (`Backup & Restore`)**: Xuất toàn bộ `config.json` (ứng dụng, phím tắt, giao diện, system tray, AI shield, cài đặt phụ đề) ra tệp JSON độc lập để mang sang máy khác và nhập lại an toàn.
+- **Vùng nguy hiểm (`Danger Zone`)**: Cung cấp nút *Đặt lại mặc định & Dọn dữ liệu* (Factory Reset) và *Gỡ cài đặt sạch hoàn toàn* (Clean Wipe) có hộp thoại xác nhận trước khi thực thi.
 
 ---
 
@@ -258,13 +219,14 @@ Phân hệ trình duyệt bảo mật được tích hợp trực tiếp thành 
 | :--- | :--- | :--- |
 | **`Ctrl + Shift + G`** hoặc **`Shift + S + G`** | Hiện hoặc ẩn cửa sổ Driver Booster | Toàn cầu (Global) |
 | **`Ctrl + Shift + Alt + H`** | **Panic Restore**: Khôi phục khẩn cấp toàn bộ cửa sổ về Desktop 1 | Toàn cầu (Global) |
-| **`Ctrl + Shift + Alt + C`** | Gỡ hoặc tạm dừng Rèm che bảo vệ (Privacy Curtain) | Toàn cầu (Global) |
+| **`Ctrl + Shift + Alt + C`** | Gỡ hoặc tạm dừng Rèm che bảo vệ (`Privacy Curtain`) | Toàn cầu (Global) |
 | **`Ctrl + Shift + M`** | Bật hoặc tắt **Tàng hình chuột trên toàn màn hình** (`Global Cursor Cloak`) | Toàn cầu (Global) |
 | **`Ctrl + Shift + Esc`** | Khôi phục khẩn cấp con trỏ chuột Windows mặc định | Toàn cầu (Global) |
 | **`Ctrl + Alt + S`** (hoặc cấu hình) | Kích hoạt công cụ Chụp ảnh màn hình bảo mật | Toàn cầu (Global) |
 | **`Ctrl + Alt + T`** | Bật hoặc tắt Dịch phụ đề thời gian thực sang Tiếng Việt | Toàn cầu (Global) |
 | **`F4`** | Mở bộ chọn ngôn ngữ hiển thị (Tiếng Việt / English) | Trong ứng dụng |
 | **`F12`** | Mở công cụ Developer Tools trong Trình duyệt bảo vệ | Trong Tab Browser |
+| **`Ctrl + Z / Y / S / C`** & **`Ctrl + +/-/0`** | Hoàn tác/Làm lại/Lưu/Sao chép & Thu phóng ảnh trong Snipping Editor | Trong Snipping Editor |
 | **`Win + Ctrl + Mũi tên Trái/Phải`** | Chuyển đổi giữa Desktop 1 (stream) và Desktop 2 (bảo vệ) *(Có thể khóa qua Khiên Desktop ảo)* | Windows OS |
 | **`Win + Ctrl + D` / `Win + Ctrl + F4` / `Win + Tab`** | Tạo/đóng/mở desktop ảo của Windows *(Có thể khóa qua Khiên Desktop ảo)* | Windows OS |
 
@@ -275,27 +237,29 @@ Phân hệ trình duyệt bảo mật được tích hợp trực tiếp thành 
 Nhằm đảm bảo người dùng không bao giờ bị khóa ngoài hệ thống trong trường hợp máy tính bị tắt đột ngột hoặc xảy ra sự cố ngoại cảnh:
 
 1. **Công cụ cứu hộ khẩn cấp (`Emergency_Restore_Tools.bat`)**:
-   - Được đặt sẵn trong thư mục chạy của cả hai bản build.
-   - Khi chạy tệp này với quyền Administrator, script sẽ ngay lập tức:
+   - Được tạo/đặt sẵn cạnh tệp chạy. Khi chạy với quyền Administrator, script lập tức:
      - Mở khóa Task Manager, Registry Editor, Command Prompt và Group Policy Editor.
-     - Khôi phục con trỏ chuột và thiết lập proxy hệ thống về trạng thái mặc định.
-     - Dọn sạch các cờ hạn chế tạm thời của Windows.
+     - Khôi phục con trỏ chuột, dọn chính sách khóa tạm thời và thiết lập proxy hệ thống về mặc định.
 2. **Nút bấm Cứu hộ trên giao diện**:
-   - Trong tab *Riêng tư & Bảo mật*, nút `⚡ Cứu hộ khẩn cấp` cho phép mở khóa toàn bộ công cụ hệ thống chỉ với một cú nhấp chuột.
-3. **Tự động hoàn nguyên khi thoát**:
-   - Khi bạn đóng ứng dụng bình thường, Driver Booster tự động đưa tất cả các cửa sổ trở lại màn hình chính, gỡ bỏ chính sách khóa công cụ hệ thống và khôi phục cài đặt chuột.
+   - Nút cứu hộ trong tab *Riêng tư & Bảo mật* cho phép mở khóa công cụ hệ thống và khôi phục con trỏ Windows chỉ bằng một lần bấm.
+3. **Tự động hoàn nguyên khi thoát & Startup Self-Healing**:
+   - Khi khởi động (`App.OnStartup`) hoặc thoát bình thường (`CleanupAndExit`), ứng dụng tự động hoàn nguyên khóa hệ thống/con trỏ còn sót từ phiên trước, hủy đăng ký các hook/timer và giải phóng hoàn toàn icon System Tray.
 
 ---
 
 ## 8. Cấu trúc thư mục dữ liệu & Cấu hình
 
-Toàn bộ cấu hình và dữ liệu của người dùng được phân tách rõ ràng và bảo toàn vĩnh viễn:
+Toàn bộ cấu hình và dữ liệu người dùng được tách biệt an toàn ngoài thư mục cài đặt:
 
 ```text
 %APPDATA%\StreamGuard\
-├── config.json                  # Cấu hình chính (ngôn ngữ, phím tắt, bảo vệ, rèm che, khiên chuột)
-├── config.recovery.json         # Nhật ký trạng thái khôi phục cửa sổ
-├── config.captions.json         # Tùy chọn hiển thị phụ đề trực tiếp
+├── config.json                  # Cấu hình chính (Apps, Language, ThemeMode, EnableSystemTrayIcon,
+│                                #   SnippingHotkey, Screenshot*, EnableAiTrafficShield,
+│                                #   AllowSelfScreenCapture, AutoStartShield, Hotkeys...)
+├── config.json.bak              # Bản sao lưu an toàn tự động trước mỗi lần ghi config
+├── config.recovery.json         # Nhật ký trạng thái khôi phục cửa sổ độc lập
+├── config.captions.json         # Tùy chọn hiển thị phụ đề & từ điển từ khóa
+├── crash.log                    # Nhật ký sự cố (nếu có lỗi nghiêm trọng khi khởi chạy/chạy nền)
 └── Captions\
     └── transcripts\             # Tệp lưu bản ghi phụ đề thời gian thực (.txt và .srt)
 
@@ -305,7 +269,7 @@ Toàn bộ cấu hình và dữ liệu của người dùng được phân tách
 ```
 
 > [!NOTE]
-> Khi nâng cấp ứng dụng hoặc cập nhật bản build mới, toàn bộ thư mục dữ liệu trên được giữ nguyên vẹn 100%, không bị mất cấu hình hay lịch sử làm việc của bạn.
+> Khi cập nhật bản build mới tại `release` hoặc `bin\Release\net8.0-windows`, toàn bộ `%APPDATA%\StreamGuard` của người dùng được giữ nguyên vẹn 100%.
 
 ---
 
@@ -313,41 +277,40 @@ Toàn bộ cấu hình và dữ liệu của người dùng được phân tách
 
 ### Chuẩn bị môi trường
 - Cài đặt **.NET 8 SDK** (phiên bản `8.0.400` trở lên): [Tải .NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
-- Cài đặt **Git LFS** và chạy `git lfs pull` sau khi clone để tải đầy đủ `Captions/Runtime.zip` (`230.44 MB`).
+- Cài đặt **Git LFS** và chạy `git lfs pull` sau khi clone để tải đầy đủ `Captions/Runtime.zip` (~230 MB).
 
 ### Cách 1: Biên dịch bản Unpacked (`net8.0-windows`)
 ```powershell
-dotnet restore
-dotnet build -c Release StreamGuard.csproj
+dotnet build StreamGuard.csproj -c Release -m:1
 ```
-Kết quả xuất ra tại: `bin\Release\net8.0-windows\`
+Kết quả xuất ra tại: `bin\Release\net8.0-windows\` (`Driver Booster.exe`, `Driver Booster.dll`, `Driver Booster.deps.json`, `Driver Booster.runtimeconfig.json`, `WebView2Loader.dll`).
 
 ### Cách 2: Xuất bản độc lập Single-File (`release`)
 ```powershell
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o "..\release" StreamGuard.csproj
+dotnet publish StreamGuard.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -m:1 -o "..\release"
 ```
-Kết quả xuất ra tại: `..\release\Driver Booster.exe` (đi kèm các DLL native và `WebView2Loader.dll`).
+Kết quả xuất ra tại: `..\release\Driver Booster.exe`.
+
+*(Ghi chú: Tham số `-m:1` giúp MSBuild biên dịch ổn định, tránh quá tải RAM khi đóng gói đồng thời `Runtime.zip` cỡ lớn.)*
 
 ---
 
 ## 10. Kiểm thử tự động (Automated Test Suite)
 
-Dự án sở hữu bộ kiểm thử tự động toàn diện với **6,012 test checks**, bao phủ:
-- Kiểm tra hiển thị giao diện WPF và ràng buộc Data Binding ngoài màn hình.
-- Rà soát tính toàn vẹn song ngữ (`vi-VN` và `en-US`), thông số định dạng chuỗi.
-- Kiểm tra an toàn tiến trình hệ thống, bộ lọc danh sách trắng/đen.
-- Kiểm thử cơ chế bảo vệ lưu lượng AI, phát hiện và xóa proxy loopback, quét chứng chỉ MITM.
-- Kiểm thử logic phân biệt bộ cài Antigravity Desktop với IDE/CLI và định dạng tham số Silent Install.
-- Kiểm thử toàn diện Antigravity Secure Login Bridge (bắt link, timeout, clipboard retry, process inspection).
-- Kiểm thử hệ thống Dịch Phụ đề Thời gian thực, định dạng `TOEIC (A-D)` & Từ điển từ khóa chuyên ngành (`CaptionTranslationService`, `CaptionVocabularyService`, `TranscriptToeicFormatter`, bộ nhớ đệm LRU Cache, bảo toàn thuật ngữ kỹ thuật, ghi file TXT/SRT song ngữ).
-- Kiểm thử cơ chế chống chụp cửa sổ (`WDA_EXCLUDEFROMCAPTURE`), tàng hình chuột (`InApp` & `GlobalCursorCloak` phối hợp cùng `CursorShieldService`), chụp màn hình trên Chrome Fullscreen (chặn `Escape` / không cướp focus), chống bật/tắt liên tục switch (`SwitchCooldownService`) và hệ thống Toast thông báo.
-- Kiểm thử trung tâm khôi phục, độ tương thích DPI và xử lý ngoại lệ.
+Dự án sở hữu bộ kiểm thử tự động toàn diện với **`6,993` checks** (`0 Warning(s), 0 Error(s)`), bao phủ:
+- **`ThemeChecks.cs`**: Kiểm tra đầy đủ resource keys ở `DarkTheme.xaml` & `LightTheme.xaml`, độ tương phản WCAG (`>= 10:1` chữ chính, `>= 4.5:1` nhãn phụ/trạng thái), lưu `ThemeMode` & `EnableSystemTrayIcon`, chuyển giao diện + System Tray ngay trên `MainWindow` thật và kiểm tra overlay chuyển cảnh (`ThemeTransitionOverlay`).
+- **`SnippingChecks.cs`**: Kiểm tra trình chỉnh sửa ảnh sau khi chụp (Crop, Rotate, Flip, Resize, Mosaic/BoxBlur, giới hạn chống spam Blur tối đa 3 lần + cooldown, Zoom 25%–500%, Undo/Redo, phím tắt Chrome Fullscreen).
+- **`OptimizationAuditChecks.cs`**: Kiểm tra truy vấn đường dẫn tiến trình nhanh (`TryGetExecutablePathFast`), snapshot dùng chung `WindowEnumerator`, độ chính xác & hiệu năng thuật toán làm mờ Sliding-Window $O(W \times H)$ ở độ phân giải 1080p bán kính 32, và `ToastCard` freeze brush.
+- **`AiTrafficChecks.cs` & `CaptureGuardChecks.cs`**: Bảo vệ lưu lượng AI (WinInet Proxy, WinHTTP Proxy, Environment Proxy/TLS Bypass, MITM Root CA, Hosts), Adaptive Polling, WDA Capture Exclusion.
+- **`DiagnosticsChecks.cs`, `BackupChecks.cs`, `CleanWipeChecks.cs`**: Ma trận đánh giá chẩn đoán phần cứng song ngữ, Export/Import cấu hình JSON và dọn dữ liệu an toàn.
+- **`CaptionTranslationChecks.cs`, `CaptionVocabularyChecks.cs`, `TranscriptChecks.cs`, `BrowserChecks.cs`, `RecoveryChecks.cs`, `StealthFocusChecks.cs`, `CursorCaptureProtectionChecks.cs`, `ToastNotificationChecks.cs`, `SwitchCooldownChecks.cs`, `AuditChecks.cs`**: Toàn bộ song ngữ `vi-VN`/`en-US`, Whisper/Dịch/TOEIC/Từ điển validate, WebView2 Sandbox, khôi phục cửa sổ, tàng hình chuột, Switch Cooldown và binding WPF không lỗi.
 
 Chạy kiểm thử bằng lệnh:
 ```powershell
-dotnet run --project tests/StreamGuard.Localization.Tests.csproj -c Release
+dotnet build tests\StreamGuard.Localization.Tests.csproj -c Release -m:1
+.\tests\bin\Release\net8.0-windows\StreamGuard.Localization.Tests.exe
 ```
-Kết quả xác nhận: **`PASS: 6012 checks.`**
+Kết quả xác nhận gần nhất: **`PASS: 6993 checks.`**
 
 ---
 
@@ -355,4 +318,4 @@ Kết quả xác nhận: **`PASS: 6012 checks.`**
 
 - Mã nguồn và tài liệu thuộc dự án **StreamGuard (Driver Booster)**.
 - Chi tiết giấy phép phần mềm xem tại [`LICENSE.txt`](LICENSE.txt).
-- Thông báo về các thư viện mã nguồn mở bên thứ ba (Newtonsoft.Json, WebView2, CommunityToolkit.Mvvm...) xem tại [`THIRD-PARTY-NOTICES.txt`](THIRD-PARTY-NOTICES.txt).
+- Thông báo về các thư viện mã nguồn mở bên thứ ba (Newtonsoft.Json, Microsoft.Web.WebView2, CommunityToolkit.Mvvm, System.Management...) xem tại [`THIRD-PARTY-NOTICES.txt`](THIRD-PARTY-NOTICES.txt).
